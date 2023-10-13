@@ -3,6 +3,11 @@
  */
 import path from 'node:path';
 import { defineConfig } from '@playwright/test';
+import dotenv from 'dotenv';
+import dotenvExpand from 'dotenv-expand';
+
+// To ensure env vars like WP_BASE_URL are defined before loading the base config.
+dotenvExpand.expand( dotenv.config() );
 
 /**
  * WordPress dependencies
@@ -14,14 +19,12 @@ process.env.STORAGE_STATE_PATH ??= path.join(
 	process.env.WP_ARTIFACTS_PATH,
 	'storage-states/admin.json'
 );
-process.env.TEST_RUNS ??= '20';
+process.env.TEST_RUNS ??= '30';
 
 const config = defineConfig( {
 	...baseConfig,
 	globalSetup: require.resolve( './config/global-setup.js' ),
-	reporter: process.env.CI
-		? './config/performance-reporter.js'
-		: [ [ 'list' ], [ './config/performance-reporter.js' ] ],
+	reporter: [ [ './config/performance-reporter.js' ] ],
 	forbidOnly: !! process.env.CI,
 	workers: 1,
 	retries: 0,
@@ -30,10 +33,13 @@ const config = defineConfig( {
 	reportSlowTests: null,
 	webServer: {
 		...baseConfig.webServer,
+		port: undefined,
+		url: process.env.WP_BASE_URL,
 		command: 'npm run env:start',
 	},
 	use: {
 		...baseConfig.use,
+		baseURL: process.env.WP_BASE_URL,
 		video: 'off',
 	},
 } );

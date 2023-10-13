@@ -12,7 +12,7 @@ services:
       - wpdevnet
 
     ports:
-      - ${LOCAL_PORT-8889}:80
+      - "80:80"
 
     environment:
       LOCAL_DIR: ${LOCAL_DIR-src}
@@ -129,11 +129,27 @@ services:
       - wpdevnet
 
     ports:
-      - 11211:11211
+      - "11211:11211"
 
     depends_on:
       php:
         condition: service_started
+
+  playwright:
+    build:
+      context: .
+      dockerfile: ./tools/local-env/playwright/Dockerfile
+
+    networks:
+      - wpdevnet
+
+    environment:
+      # GitHub sets CI to true automatically
+      # https://docs.github.com/en/actions/learn-github-actions/variables#default-environment-variables
+      - CI
+
+    ports:
+      - "3000:3000"
 
 volumes:
   # So that sites aren't wiped every time containers are restarted, MySQL uses a persistent volume.

@@ -30,6 +30,14 @@ test.describe( 'Front End - Twenty Twenty One', () => {
 		} );
 	} );
 
+	test.beforeEach( async ( { browser } ) => {
+		const page = await browser.newPage();
+		// Clear caches.
+		await page.goto( '/?reset_helper' );
+		// Warm caches.
+		await page.goto( '/' );
+	} );
+
 	const iterations = Number( process.env.TEST_RUNS );
 	for ( let i = 1; i <= iterations; i++ ) {
 		test( `Measure load time metrics (${ i } of ${ iterations })`, async ( {

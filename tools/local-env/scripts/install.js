@@ -34,10 +34,10 @@ const testConfig = readFileSync( 'wp-tests-config-sample.php', 'utf8' )
 writeFileSync( 'wp-tests-config.php', testConfig );
 
 // Once the site is available, install WordPress!
-wait_on( { resources: [ `tcp:localhost:${process.env.LOCAL_PORT}`] } )
+wait_on( { resources: [ `http://wordpress-develop`] } )
 	.then( () => {
 		wp_cli( 'db reset --yes' );
-		wp_cli( `core install --title="WordPress Develop" --admin_user=admin --admin_password=password --admin_email=test@test.com --skip-email --url=http://localhost:${process.env.LOCAL_PORT}` );
+		wp_cli( `core install --title="WordPress Develop" --admin_user=admin --admin_password=password --admin_email=test@test.com --skip-email --url=http://wordpress-develop` );
 	} );
 
 /**

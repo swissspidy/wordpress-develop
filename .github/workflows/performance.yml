@@ -12,10 +12,6 @@ on:
       - '![45].[0-9].[0-9]+'
       - '!6.[01].[0-9]+'
   pull_request:
-    branches:
-      - trunk
-      - '6.[2-9]'
-      - '[7-9].[0-9]'
   workflow_dispatch:
 
 # Cancels all previous workflow runs for pull requests that have not completed.
@@ -32,9 +28,14 @@ permissions: {}
 env:
   # Performance testing should be performed in an environment reflecting a standard production environment.
   LOCAL_WP_DEBUG: false
+  LOCAL_WP_DEBUG_LOG: false
+  LOCAL_WP_DEBUG_DISPLAY: false
   LOCAL_SCRIPT_DEBUG: false
   LOCAL_SAVEQUERIES: false
   LOCAL_WP_DEVELOPMENT_MODE: "''"
+  LOCAL_WP_PLAYWRIGHT: true
+  PW_TEST_CONNECT_WS_ENDPOINT: "ws://127.0.0.1:3000/"
+  WP_BASE_URL: http://wordpress-develop
 
   # This workflow takes two sets of measurements — one for the current commit,
   # and another against a consistent version that is used as a baseline measurement.
@@ -58,6 +59,7 @@ jobs:
   # - Install npm dependencies.
   # - Install Playwright browsers.
   # - Build WordPress.
+  # - Add hosts to /etc/hosts.
   # - Start Docker environment.
   # - Log running Docker containers.
   # - Docker debug information.
@@ -65,7 +67,9 @@ jobs:
   # - Install WordPress Importer plugin.
   # - Import mock data.
   # - Update permalink structure.
-  # - Install MU plugin.
+  # - Disable external HTTP requests.
+  # - List defined constants.
+  # - Install MU plugins.
   # - Run performance tests (current commit).
   # - Print performance tests results.
   # - Check out target commit (target branch or previous commit).
@@ -127,6 +131,10 @@ jobs:
       - name: Build WordPress
         run: npm run build
 
+      - name: Add hosts to /etc/hosts
+        run: |
+          sudo echo "127.0.0.1 wordpress-develop" | sudo tee -a /etc/hosts
+
       - name: Start Docker environment
         run: |
           npm run env:start
@@ -160,16 +168,49 @@ jobs:
         run: |
           npm run env:cli -- rewrite structure '/%year%/%monthnum%/%postname%/' --path=/var/www/${{ env.LOCAL_DIR }}
 
-      - name: Install MU plugin
+      - name: Disable external HTTP requests
+        run: |
+          npm run env:cli -- config set WP_HTTP_BLOCK_EXTERNAL true --raw --type=constant
+
+      - name: List defined constants
+        run: |
+          npm run env:cli -- config list --path=/var/www/${{ env.LOCAL_DIR }}
+
+      - name: Install MU plugins
         run: |
           mkdir ./${{ env.LOCAL_DIR }}/wp-content/mu-plugins
           cp ./tests/performance/wp-content/mu-plugins/server-timing.php ./${{ env.LOCAL_DIR }}/wp-content/mu-plugins/server-timing.php
+          cp ./tests/performance/wp-content/mu-plugins/reset-helper.php ./${{ env.LOCAL_DIR }}/wp-content/mu-plugins/reset-helper.php
 
       - name: Run performance tests (current commit)
-        run: npm run test:performance
+        run: |
+          TEST_RUNS=10 npm run test:performance
+          node ./tests/performance/results.js
+          TEST_RUNS=20 npm run test:performance
+          node ./tests/performance/results.js
+          TEST_RUNS=30 npm run test:performance
+          node ./tests/performance/results.js
+          TEST_RUNS=40 npm run test:performance
+          node ./tests/performance/results.js
+          TEST_RUNS=50 npm run test:performance
+          node ./tests/performance/results.js
 
       - name: Print performance tests results
         run: node ./tests/performance/results.js
+
+      - name: Run Server-Timing bash script
+        run: |
+          TEST_RUNS=10 bash tests/performance/servertiming.sh
+          TEST_RUNS=20 bash tests/performance/servertiming.sh
+          TEST_RUNS=30 bash tests/performance/servertiming.sh
+          TEST_RUNS=40 bash tests/performance/servertiming.sh
+          TEST_RUNS=50 bash tests/performance/servertiming.sh
+
+          TEST_RUNS=10 bash tests/performance/servertiming.sh block-theme
+          TEST_RUNS=20 bash tests/performance/servertiming.sh block-theme
+          TEST_RUNS=30 bash tests/performance/servertiming.sh block-theme
+          TEST_RUNS=40 bash tests/performance/servertiming.sh block-theme
+          TEST_RUNS=50 bash tests/performance/servertiming.sh block-theme
 
       - name: Check out target commit (target branch or previous commit)
         run: |
