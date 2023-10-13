@@ -66,6 +66,7 @@ jobs:
   # - Install WordPress.
   # - Install WordPress Importer plugin.
   # - Import mock data.
+  # - Deactivate WordPress Importer plugin.
   # - Update permalink structure.
   # - Disable external HTTP requests.
   # - List defined constants.
@@ -163,6 +164,9 @@ jobs:
           curl -O https://raw.githubusercontent.com/WordPress/theme-test-data/b9752e0533a5acbb876951a8cbb5bcc69a56474c/themeunittestdata.wordpress.xml
           npm run env:cli -- import themeunittestdata.wordpress.xml --authors=create --path=/var/www/${{ env.LOCAL_DIR }}
           rm themeunittestdata.wordpress.xml
+
+      - name: Deactivate WordPress Importer plugin
+        run: npm run env:cli -- plugin deactivate wordpress-importer --path=/var/www/${{ env.LOCAL_DIR }}
 
       - name: Update permalink structure
         run: |
