@@ -24,7 +24,7 @@ process.env.TEST_RUNS ??= '30';
 const config = defineConfig( {
 	...baseConfig,
 	globalSetup: require.resolve( './config/global-setup.js' ),
-	reporter: [ [ './config/performance-reporter.js' ] ],
+	reporter: [ [ 'list' ], [ './config/performance-reporter.js' ] ],
 	forbidOnly: !! process.env.CI,
 	workers: 1,
 	retries: 0,
