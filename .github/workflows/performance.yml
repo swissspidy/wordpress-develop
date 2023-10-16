@@ -69,6 +69,7 @@ jobs:
   # - Deactivate WordPress Importer plugin.
   # - Update permalink structure.
   # - Disable external HTTP requests.
+  # - Disable cron.
   # - List defined constants.
   # - Install MU plugins.
   # - Run performance tests (current commit).
@@ -175,6 +176,10 @@ jobs:
       - name: Disable external HTTP requests
         run: |
           npm run env:cli -- config set WP_HTTP_BLOCK_EXTERNAL true --raw --type=constant
+
+      - name: Disable cron
+        run: |
+          npm run env:cli -- config set DISABLE_WP_CRON true --raw --type=constant
 
       - name: List defined constants
         run: |
