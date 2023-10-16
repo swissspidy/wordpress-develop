@@ -43,7 +43,7 @@ test.describe( 'Front End - Twenty Twenty One', () => {
 		test( `Measure load time metrics (${ i } of ${ iterations })`, async ( {
 			page,
 			metrics,
-			lighthouse,
+			// lighthouse,
 		} ) => {
 			await page.goto( '/' );
 
@@ -61,11 +61,11 @@ test.describe( 'Front End - Twenty Twenty One', () => {
 			results.timeToFirstByte.push( ttfb );
 			results.lcpMinusTtfb.push( lcp - ttfb );
 
-			const report = await lighthouse.getReport();
-			for (const [key, value] of Object.entries( report ) ) {
-				results[ camelCaseDashes( key ) ] ??= [];
-				results[ camelCaseDashes( key ) ].push( value );
-			}
+			// const report = await lighthouse.getReport();
+			// for (const [key, value] of Object.entries( report ) ) {
+			// 	results[ camelCaseDashes( key ) ] ??= [];
+			// 	results[ camelCaseDashes( key ) ].push( value );
+			// }
 		} );
 	}
 } );
