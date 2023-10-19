@@ -14,6 +14,22 @@ const results = {
 	lcpMinusTtfb: [],
 };
 
+// Source: https://github.com/microsoft/playwright/issues/6038#issuecomment-812521882
+// See also https://github.com/microsoft/playwright/issues/8622#issuecomment-910526420
+// and https://github.com/microsoft/playwright/issues/8622#issuecomment-910344247
+const networkConditions = {
+	SLOW_3G: {
+		download: ((500 * 1000) / 8) * 0.8,
+		upload: ((500 * 1000) / 8) * 0.8,
+		latency: 400 * 5,
+	},
+	FAST_3G: {
+		download: ((1.6 * 1000 * 1000) / 8) * 0.9,
+		upload: ((750 * 1000) / 8) * 0.9,
+		latency: 150 * 3.75,
+	},
+};
+
 test.describe( 'Front End - Twenty Twenty One', () => {
 	test.use( {
 		storageState: {}, // User will be logged out.
@@ -45,6 +61,15 @@ test.describe( 'Front End - Twenty Twenty One', () => {
 			metrics,
 			// lighthouse,
 		} ) => {
+			const client = await page.context().newCDPSession(page);
+			await client.send('Network.enable');
+			await client.send('Network.emulateNetworkConditions', {
+				downloadThroughput: networkConditions.FAST_3G.download,
+				uploadThroughput: networkConditions.FAST_3G.upload,
+				latency: networkConditions.FAST_3G.latency,
+				offline: false
+			});
+
 			await page.goto( '/' );
 
 			const serverTiming = await metrics.getServerTiming();
