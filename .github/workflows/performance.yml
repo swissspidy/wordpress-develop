@@ -26,6 +26,8 @@ concurrency:
 permissions: {}
 
 env:
+  PUPPETEER_SKIP_DOWNLOAD: ${{ true }}
+
   # Performance testing should be performed in an environment reflecting a standard production environment.
   LOCAL_WP_DEBUG: false
   LOCAL_WP_DEBUG_LOG: false
@@ -96,7 +98,7 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: read
-    if: ${{ github.repository == 'WordPress/wordpress-develop' || github.event_name == 'pull_request' }}
+    if: ${{ ( github.repository == 'WordPress/wordpress-develop' || github.event_name == 'pull_request' ) && ! contains( '00000000', github.event.before ) }}
 
     steps:
       - name: Configure environment variables
