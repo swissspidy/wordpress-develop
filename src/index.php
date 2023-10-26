@@ -11,6 +11,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 	define( 'ABSPATH', __DIR__ . '/' );
 }
 
+// Test.
+
 /*
  * Load the actual index.php file if the assets were already built.
  * Note: WPINC is not defined yet, it is defined later in wp-settings.php.
