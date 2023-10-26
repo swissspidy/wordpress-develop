@@ -5,7 +5,7 @@
  */
 const fs = require( 'node:fs' );
 const { join } = require( 'node:path' );
-const { median, getResultsFilename } = require( './utils' );
+const { median, getResultsFilename, standardDeviation, medianAbsoluteDeviation } = require( './utils' );
 
 const testSuites = [
     'home-classic-theme',
@@ -17,6 +17,11 @@ console.log( '\n>> 🎉 Results 🎉 \n' );
 for ( const testSuite of testSuites ) {
     const resultsFileName = getResultsFilename( testSuite + '.test' );
     const resultsPath = join( __dirname, '/specs/', resultsFileName );
+
+	if ( ! fs.existsSync( resultsPath ) ) {
+		continue;
+	}
+
     fs.readFile( resultsPath, "utf8", ( err, data ) => {
         if ( err ) {
             console.log( "File read failed:", err );
@@ -29,8 +34,14 @@ for ( const testSuite of testSuites ) {
         const rawResults = [];
 
         for ( var key in tableData ) {
-            if ( tableData.hasOwnProperty( key ) ) {
-                rawResults[ key ] = median( tableData[ key ] );
+			if ( tableData.hasOwnProperty( key ) && tableData[ key ].length > 0 ) {
+				rawResults.push( {
+					key,
+					iterations: tableData[ key ].length,
+					median: median( tableData[ key ] ),
+					'STD':  standardDeviation( tableData[ key ] ),
+					'MAD':  medianAbsoluteDeviation( tableData[ key ] ),
+				} );
             }
         }
         console.table( rawResults );

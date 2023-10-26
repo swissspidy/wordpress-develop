@@ -14,6 +14,22 @@ const results = {
 	lcpMinusTtfb: [],
 };
 
+// Source: https://github.com/microsoft/playwright/issues/6038#issuecomment-812521882
+// See also https://github.com/microsoft/playwright/issues/8622#issuecomment-910526420
+// and https://github.com/microsoft/playwright/issues/8622#issuecomment-910344247
+const networkConditions = {
+	SLOW_3G: {
+		download: ((500 * 1000) / 8) * 0.8,
+		upload: ((500 * 1000) / 8) * 0.8,
+		latency: 400 * 5,
+	},
+	FAST_3G: {
+		download: ((1.6 * 1000 * 1000) / 8) * 0.9,
+		upload: ((750 * 1000) / 8) * 0.9,
+		latency: 150 * 3.75,
+	},
+};
+
 test.describe( 'Front End - Twenty Twenty One', () => {
 	test.use( {
 		storageState: {}, // User will be logged out.
@@ -30,12 +46,30 @@ test.describe( 'Front End - Twenty Twenty One', () => {
 		} );
 	} );
 
+	test.beforeEach( async ( { browser } ) => {
+		const page = await browser.newPage();
+		// Clear caches.
+		await page.goto( '/?reset_helper' );
+		// Warm caches.
+		await page.goto( '/' );
+	} );
+
 	const iterations = Number( process.env.TEST_RUNS );
 	for ( let i = 1; i <= iterations; i++ ) {
 		test( `Measure load time metrics (${ i } of ${ iterations })`, async ( {
 			page,
 			metrics,
+			// lighthouse,
 		} ) => {
+			const client = await page.context().newCDPSession(page);
+			await client.send('Network.enable');
+			await client.send('Network.emulateNetworkConditions', {
+				downloadThroughput: networkConditions.FAST_3G.download,
+				uploadThroughput: networkConditions.FAST_3G.upload,
+				latency: networkConditions.FAST_3G.latency,
+				offline: false
+			});
+
 			await page.goto( '/' );
 
 			const serverTiming = await metrics.getServerTiming();
@@ -51,6 +85,12 @@ test.describe( 'Front End - Twenty Twenty One', () => {
 			results.largestContentfulPaint.push( lcp );
 			results.timeToFirstByte.push( ttfb );
 			results.lcpMinusTtfb.push( lcp - ttfb );
+
+			// const report = await lighthouse.getReport();
+			// for (const [key, value] of Object.entries( report ) ) {
+			// 	results[ camelCaseDashes( key ) ] ??= [];
+			// 	results[ camelCaseDashes( key ) ].push( value );
+			// }
 		} );
 	}
 } );
