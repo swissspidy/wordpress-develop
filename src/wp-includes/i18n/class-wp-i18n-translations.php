@@ -125,7 +125,7 @@ class WP_I18n_Translations {
 			return $singular;
 		}
 
-		$translation = WP_I18n_Translation_Controller::instance()->translate_plural( array( $singular, $plural ), (int) $count, (string) $context, $this->textdomain );
+		$translation = $this->controller->translate_plural( array( $singular, $plural ), (int) $count, (string) $context, $this->textdomain );
 		if ( false !== $translation ) {
 			return $translation;
 		}
@@ -148,7 +148,7 @@ class WP_I18n_Translations {
 			return null;
 		}
 
-		$translation = WP_I18n_Translation_Controller::instance()->translate( $singular, (string) $context, $this->textdomain );
+		$translation = $this->controller->translate( $singular, (string) $context, $this->textdomain );
 		if ( false !== $translation ) {
 			return $translation;
 		}
