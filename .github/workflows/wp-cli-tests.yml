@@ -1,0 +1,205 @@
+# Runs the WP-CLI functional test suites against a WordPress build from this repository.
+#
+# WP-CLI is another official WordPress project, and a change to WordPress can break its test suites.
+# Today those breakages surface up to a day later, when WP-CLI runs its own tests against the nightly
+# build, and WP-CLI maintainers then have to work out whether the cause is a regression in WordPress
+# or a test of theirs that needs hardening.
+#
+# This workflow shortens that loop. It is dispatched manually, so it adds nothing to the checks that
+# run on a pull request, and is meant to answer a single question: does this WordPress build break
+# WP-CLI?
+#
+# The test suites themselves are not defined here. They come from https://github.com/wp-cli/automated-tests,
+# which already knows how to run the functional tests of every bundled WP-CLI package, so that the list
+# of packages stays owned by WP-CLI rather than duplicated in this repository.
+name: WP-CLI Tests
+
+on:
+  workflow_dispatch:
+    inputs:
+      run-id:
+        description: 'The ID of a "Test Build Processes" run whose WordPress build should be tested. Leave empty to build the selected branch instead.'
+        type: string
+      php-version:
+        description: 'The version of PHP to test with.'
+        type: string
+        default: '8.3'
+      packages:
+        description: 'A comma separated list of the WP-CLI packages to test.'
+        type: string
+        default: 'wp-cli-bundle,config-command,core-command,cron-command,db-command,entity-command,export-command,extension-command,import-command,media-command,rewrite-command,role-command,search-replace-command,site-health-command'
+
+# Cancels all previous workflow runs that have not completed.
+concurrency:
+  group: ${{ github.workflow }}-${{ inputs.run-id || github.ref }}
+  cancel-in-progress: true
+
+# Disable permissions for all available scopes by default.
+# Any needed permissions should be configured at the job level.
+permissions: {}
+
+jobs:
+  # Builds and packages WordPress from the selected branch.
+  #
+  # Skipped when a run ID is given, as that run already produced a build to test.
+  build:
+    name: Build
+    uses: ./.github/workflows/reusable-build-package.yml
+    permissions:
+      contents: read
+    if: ${{ inputs.run-id == '' }}
+
+  # Turns the list of packages into a matrix.
+  prepare-matrix:
+    name: Prepare package matrix
+    runs-on: ubuntu-24.04
+    permissions: {}
+    timeout-minutes: 5
+    outputs:
+      packages: ${{ steps.packages.outputs.packages }}
+
+    steps:
+      - name: Build the list of packages to test
+        id: packages
+        env:
+          PACKAGES: ${{ inputs.packages }}
+        run: |
+          PACKAGE_JSON="$( jq -Rc 'split(",") | map(sub("^\\s+";"") | sub("\\s+$";"")) | map(select(length > 0))' <<< "${PACKAGES}" )"
+
+          if [ "${PACKAGE_JSON}" = '[]' ]; then
+            echo "::error::No packages to test."
+            exit 1
+          fi
+
+          echo "packages=${PACKAGE_JSON}" >> "${GITHUB_OUTPUT}"
+
+  # Runs the functional tests of a single WP-CLI package against the WordPress build.
+  #
+  # Performs the following steps:
+  # - Checks out the WP-CLI test suites.
+  # - Sets up PHP and the extensions the test suites need.
+  # - Installs the test suites.
+  # - Sets up a MySQL server and prepares the test database.
+  # - Downloads the WordPress build to test.
+  # - Runs the functional tests of the package against that build.
+  test:
+    name: ${{ matrix.package }}
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: read
+      # Downloading the build of another workflow run requires reading that run.
+      actions: read
+    # The larger suites, such as those of `entity-command` and `wp-cli-bundle`, are slow.
+    timeout-minutes: 45
+    needs: [ build, prepare-matrix ]
+    if: |
+      always() &&
+      needs.prepare-matrix.result == 'success' &&
+      ( needs.build.result == 'success' || needs.build.result == 'skipped' )
+
+    strategy:
+      fail-fast: false
+      matrix:
+        package: ${{ fromJSON( needs.prepare-matrix.outputs.packages ) }}
+
+    env:
+      WP_CLI_TEST_DBROOTUSER: root
+      WP_CLI_TEST_DBROOTPASS: root
+      WP_CLI_TEST_DBNAME: wp_cli_test
+      WP_CLI_TEST_DBUSER: wp_cli_test
+      WP_CLI_TEST_DBPASS: password1
+      WP_CLI_TEST_DBHOST: 127.0.0.1:3306
+
+    steps:
+      - name: Check out the WP-CLI test suites
+        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+        with:
+          repository: wp-cli/automated-tests
+          ref: main
+          show-progress: ${{ runner.debug == '1' && 'true' || 'false' }}
+          persist-credentials: false
+
+      - name: Set up PHP ${{ inputs.php-version }}
+        uses: shivammathur/setup-php@f3e473d116dcccaddc5834248c87452386958240 # 2.37.2
+        with:
+          php-version: '${{ inputs.php-version }}'
+          extensions: gd, imagick, mysql, zip, pdo_sqlite, exif, fileinfo
+          coverage: none
+          tools: composer
+
+      - name: Install Ghostscript
+        run: |
+          sudo apt-get update
+          sudo apt-get install ghostscript -y
+
+      - name: Change ImageMagick policy to allow pdf->png conversion
+        run: sudo sed -i 's/^.*policy.*coder.*none.*PDF.*//' /etc/ImageMagick-6/policy.xml
+
+      # Installing `wp-cli/wp-cli-tests` from its main branch pulls in `WP_CLI_TEST_CORE_ZIP`, which
+      # is what lets the test suites install WordPress from the build instead of from WordPress.org.
+      #
+      # TODO: Drop the constraint once wp-cli/wp-cli-tests 5.2.3 is released.
+      - name: Install the WP-CLI test suites
+        env:
+          COMPOSER_ROOT_VERSION: dev-main
+        run: composer require --no-interaction --no-progress "wp-cli/wp-cli-tests:dev-main"
+
+      - name: Set up MySQL
+        id: setup-mysql
+        uses: shogo82148/actions-setup-mysql@3dcedf762c5e82d781a9e414462785b30208e79c # v1
+        with:
+          mysql-version: '8.0'
+          auto-start: true
+          root-password: ${{ env.WP_CLI_TEST_DBROOTPASS }}
+          user: ${{ env.WP_CLI_TEST_DBUSER }}
+          password: ${{ env.WP_CLI_TEST_DBPASS }}
+          my-cnf: |
+            default_authentication_plugin=mysql_native_password
+
+      - name: Prepare the test database
+        run: composer prepare-tests
+
+      # Without a run ID this is the ZIP built by the `build` job, which wraps WordPress in a
+      # `wordpress/` folder. With one it is the ZIP built for WordPress Playground, which wraps it in
+      # a `build/` folder instead. The test suites handle both.
+      - name: Download the WordPress build
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        with:
+          pattern: ${{ inputs.run-id != '' && 'wordpress-build-*' || 'wordpress-develop' }}
+          merge-multiple: true
+          path: ${{ runner.temp }}/wordpress-build
+          run-id: ${{ inputs.run-id || github.run_id }}
+          github-token: ${{ github.token }}
+
+      - name: Locate the WordPress build
+        id: build
+        run: |
+          ARCHIVE="$( find "${RUNNER_TEMP}/wordpress-build" -maxdepth 1 -name '*.zip' | head -n 1 )"
+
+          if [ -z "${ARCHIVE}" ]; then
+            echo "::error::No WordPress archive found in the downloaded artifact."
+            exit 1
+          fi
+
+          echo "archive=${ARCHIVE}" >> "${GITHUB_OUTPUT}"
+
+      - name: Check the test environment
+        env:
+          TEST_PACKAGE: 'wp-cli/${{ matrix.package }}'
+          WP_VERSION: trunk
+          WP_CLI_TEST_CORE_ZIP: ${{ steps.build.outputs.archive }}
+          WP_CLI_TEST_DBSOCKET: '${{ steps.setup-mysql.outputs.base-dir }}/tmp/mysql.sock'
+          WP_CLI_TEST_DEBUG_BEHAT_ENV: 1
+        run: composer behat
+
+      # `WP_VERSION` still decides which version specific tags, such as `@require-wp-6.9`, are
+      # filtered out. A development build cannot be compared against those, so it is reported as
+      # `trunk`, which runs every scenario. Leaving it unset would resolve it to the current release
+      # and silently skip the scenarios that only apply to newer versions of WordPress.
+      - name: Run the ${{ matrix.package }} tests
+        env:
+          TEST_PACKAGE: 'wp-cli/${{ matrix.package }}'
+          WP_VERSION: trunk
+          WP_CLI_TEST_CORE_ZIP: ${{ steps.build.outputs.archive }}
+          WP_CLI_TEST_DBSOCKET: '${{ steps.setup-mysql.outputs.base-dir }}/tmp/mysql.sock'
+        run: composer test
