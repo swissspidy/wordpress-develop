@@ -28,6 +28,12 @@ on:
         description: 'A comma separated list of the WP-CLI packages to test.'
         type: string
         default: 'wp-cli-bundle,config-command,core-command,cron-command,db-command,entity-command,export-command,extension-command,import-command,media-command,rewrite-command,role-command,search-replace-command,site-health-command'
+  push:
+    branches:
+      - trunk
+  pull_request:
+    branches:
+      - trunk
 
 # Cancels all previous workflow runs that have not completed.
 concurrency:
