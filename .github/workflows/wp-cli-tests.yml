@@ -85,7 +85,7 @@ jobs:
   # - Checks out the WP-CLI test suites.
   # - Sets up PHP and the extensions the test suites need.
   # - Installs the test suites.
-  # - Sets up a MySQL server and prepares the test database.
+  # - Prepares the test database on the MySQL service container.
   # - Downloads the WordPress build to test.
   # - Runs the functional tests of the package against that build.
   test:
@@ -116,7 +116,27 @@ jobs:
       WP_CLI_TEST_DBPASS: password1
       WP_CLI_TEST_DBHOST: 127.0.0.1:3306
 
+    services:
+      # Unlike the other workflows in this repository, the port is published on a fixed number rather
+      # than a random one, because the test framework reads the host and port from a single
+      # `WP_CLI_TEST_DBHOST` environment variable that several of its scripts consume.
+      database:
+        image: mysql:8.0
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="mysqladmin ping"
+          --health-interval="30s"
+          --health-timeout="10s"
+          --health-retries="5"
+          -e MYSQL_ROOT_PASSWORD="root"
+
     steps:
+      # This checkout replaces the contents of the workspace, so every `composer` invocation below
+      # runs against wp-cli/automated-tests rather than against this repository. None of the files of
+      # this repository are needed here: the WordPress being tested arrives as the build downloaded
+      # further down. The `behat`, `prepare-tests` and `test` scripts used below are the ones defined
+      # by that repository.
       - name: Check out the WP-CLI test suites
         uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
         with:
@@ -133,10 +153,13 @@ jobs:
           coverage: none
           tools: composer
 
-      - name: Install Ghostscript
+      # Ghostscript is needed by the tests of `media-command`, and the MySQL client by the test
+      # framework itself, which shells out to it to create the test database and to detect the
+      # version of the database server.
+      - name: Install Ghostscript and the MySQL client
         run: |
           sudo apt-get update
-          sudo apt-get install ghostscript -y
+          sudo apt-get install ghostscript mysql-client -y
 
       - name: Change ImageMagick policy to allow pdf->png conversion
         run: sudo sed -i 's/^.*policy.*coder.*none.*PDF.*//' /etc/ImageMagick-6/policy.xml
@@ -149,18 +172,6 @@ jobs:
         env:
           COMPOSER_ROOT_VERSION: dev-main
         run: composer require --no-interaction --no-progress "wp-cli/wp-cli-tests:dev-main"
-
-      - name: Set up MySQL
-        id: setup-mysql
-        uses: shogo82148/actions-setup-mysql@3dcedf762c5e82d781a9e414462785b30208e79c # v1
-        with:
-          mysql-version: '8.0'
-          auto-start: true
-          root-password: ${{ env.WP_CLI_TEST_DBROOTPASS }}
-          user: ${{ env.WP_CLI_TEST_DBUSER }}
-          password: ${{ env.WP_CLI_TEST_DBPASS }}
-          my-cnf: |
-            default_authentication_plugin=mysql_native_password
 
       - name: Prepare the test database
         run: composer prepare-tests
@@ -194,7 +205,6 @@ jobs:
           TEST_PACKAGE: 'wp-cli/${{ matrix.package }}'
           WP_VERSION: trunk
           WP_CLI_TEST_CORE_ZIP: ${{ steps.build.outputs.archive }}
-          WP_CLI_TEST_DBSOCKET: '${{ steps.setup-mysql.outputs.base-dir }}/tmp/mysql.sock'
           WP_CLI_TEST_DEBUG_BEHAT_ENV: 1
         run: composer behat
 
@@ -207,5 +217,4 @@ jobs:
           TEST_PACKAGE: 'wp-cli/${{ matrix.package }}'
           WP_VERSION: trunk
           WP_CLI_TEST_CORE_ZIP: ${{ steps.build.outputs.archive }}
-          WP_CLI_TEST_DBSOCKET: '${{ steps.setup-mysql.outputs.base-dir }}/tmp/mysql.sock'
         run: composer test
