@@ -23,7 +23,7 @@ on:
       php-version:
         description: 'The version of PHP to test with.'
         type: string
-        default: '8.3'
+        default: '8.5'
       packages:
         description: 'A comma separated list of the WP-CLI packages to test.'
         type: string
@@ -68,7 +68,7 @@ jobs:
       - name: Build the list of packages to test
         id: packages
         env:
-          PACKAGES: ${{ inputs.packages }}
+          PACKAGES: ${{ inputs.packages || 'wp-cli-bundle,config-command,core-command,cron-command,db-command,entity-command,export-command,extension-command,import-command,media-command,rewrite-command,role-command,search-replace-command,site-health-command' }}
         run: |
           PACKAGE_JSON="$( jq -Rc 'split(",") | map(sub("^\\s+";"") | sub("\\s+$";"")) | map(select(length > 0))' <<< "${PACKAGES}" )"
 
