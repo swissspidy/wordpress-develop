@@ -1145,6 +1145,54 @@ class Tests_Admin_IncludesPost extends WP_UnitTestCase {
 	}
 
 	/**
+	 * Transforms let the editor and PHP work from the same definition, so the
+	 * editor has to receive the ones a block registered on the server declares.
+	 *
+	 * @ticket 63838
+	 *
+	 * @covers ::get_block_editor_server_block_settings
+	 */
+	public function test_get_block_editor_server_block_settings_includes_transforms() {
+		$name       = 'core/test-transforms';
+		$transforms = array(
+			'from' => array(
+				array(
+					'name'     => 'from-raw',
+					'type'     => 'raw',
+					'selector' => 'aside',
+				),
+			),
+		);
+
+		register_block_type( $name, array( 'transforms' => $transforms ) );
+
+		$blocks = get_block_editor_server_block_settings();
+
+		unregister_block_type( $name );
+
+		$this->assertArrayHasKey( $name, $blocks );
+		$this->assertSame( $transforms, $blocks[ $name ]['transforms'] );
+	}
+
+	/**
+	 * @ticket 63838
+	 *
+	 * @covers ::get_block_editor_server_block_settings
+	 */
+	public function test_get_block_editor_server_block_settings_omits_absent_transforms() {
+		$name = 'core/test-no-transforms';
+
+		register_block_type( $name, array() );
+
+		$blocks = get_block_editor_server_block_settings();
+
+		unregister_block_type( $name );
+
+		$this->assertArrayHasKey( $name, $blocks );
+		$this->assertArrayNotHasKey( 'transforms', $blocks[ $name ] );
+	}
+
+	/**
 	 * @ticket 43559
 	 *
 	 * @covers ::add_meta

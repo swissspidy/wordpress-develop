@@ -2327,6 +2327,7 @@ function get_block_editor_server_block_settings() {
 		'example'          => 'example',
 		'variations'       => 'variations',
 		'allowed_blocks'   => 'allowedBlocks',
+		'transforms'       => 'transforms',
 	);
 
 	foreach ( $block_registry->get_all_registered() as $block_name => $block_type ) {

@@ -594,6 +594,7 @@ function register_block_type_from_metadata( $file_or_folder, $args = array() ) {
 		'variations'      => 'variations',
 		'example'         => 'example',
 		'allowedBlocks'   => 'allowed_blocks',
+		'transforms'      => 'transforms',
 	);
 	$textdomain        = ! empty( $metadata['textdomain'] ) ? $metadata['textdomain'] : null;
 	$i18n_schema       = get_block_metadata_i18n_schema();

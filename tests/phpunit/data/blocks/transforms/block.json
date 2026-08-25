@@ -1,0 +1,24 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "tests/transforms",
+	"title": "Transforms",
+	"category": "common",
+	"transforms": {
+		"from": [
+			{
+				"name": "from-raw",
+				"type": "raw",
+				"selector": "aside"
+			}
+		],
+		"to": [
+			{
+				"name": "to-notice",
+				"type": "block",
+				"blocks": [ "tests/notice" ],
+				"attributes": "all"
+			}
+		]
+	}
+}

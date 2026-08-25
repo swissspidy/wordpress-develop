@@ -259,6 +259,17 @@ class WP_Block_Type {
 	public $view_style_handles = array();
 
 	/**
+	 * Transforms describing how the block converts to and from other content.
+	 *
+	 * Read from the `transforms` field of `block.json`, so that PHP and the
+	 * block editor work from the same definition.
+	 *
+	 * @since 7.2.0
+	 * @var array|null
+	 */
+	public $transforms = null;
+
+	/**
 	 * Deprecated block type properties for script and style handles.
 	 *
 	 * @since 6.1.0
@@ -303,6 +314,7 @@ class WP_Block_Type {
 	 * @since 6.3.0 Added the `selectors` property.
 	 * @since 6.4.0 Added the `block_hooks` property.
 	 * @since 6.5.0 Added the `allowed_blocks`, `variation_callback`, and `view_style_handles` properties.
+	 * @since 7.2.0 Added the `transforms` property.
 	 *
 	 * @see register_block_type()
 	 *
@@ -327,6 +339,8 @@ class WP_Block_Type {
 	 *     @type string|null   $textdomain               The translation textdomain.
 	 *     @type array[]       $styles                   Alternative block styles.
 	 *     @type array[]       $variations               Block variations.
+	 *     @type array|null    $transforms               Transforms describing how the block converts
+	 *                                                   to and from other content.
 	 *     @type array         $selectors                Custom CSS selectors for theme.json style generation.
 	 *     @type array|null    $supports                 Supported features.
 	 *     @type array|null    $example                  Structured data for the block preview.

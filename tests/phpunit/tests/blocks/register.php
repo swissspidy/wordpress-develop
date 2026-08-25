@@ -1041,6 +1041,50 @@ class Tests_Blocks_Register extends WP_UnitTestCase {
 	}
 
 	/**
+	 * @ticket 63838
+	 *
+	 * @covers ::register_block_type_from_metadata
+	 */
+	public function test_block_registers_with_transforms_from_metadata() {
+		$result = register_block_type_from_metadata( DIR_TESTDATA . '/blocks/transforms' );
+
+		$this->assertInstanceOf( 'WP_Block_Type', $result, 'The block was not registered' );
+		$this->assertSame(
+			array(
+				'from' => array(
+					array(
+						'name'     => 'from-raw',
+						'type'     => 'raw',
+						'selector' => 'aside',
+					),
+				),
+				'to'   => array(
+					array(
+						'name'       => 'to-notice',
+						'type'       => 'block',
+						'blocks'     => array( 'tests/notice' ),
+						'attributes' => 'all',
+					),
+				),
+			),
+			$result->transforms,
+			'The transforms were not read from the block metadata'
+		);
+	}
+
+	/**
+	 * @ticket 63838
+	 *
+	 * @covers ::register_block_type
+	 */
+	public function test_block_registers_without_transforms() {
+		$result = register_block_type( 'tests/no-transforms', array() );
+
+		$this->assertInstanceOf( 'WP_Block_Type', $result, 'The block was not registered' );
+		$this->assertNull( $result->transforms, 'A block declaring no transforms should have none' );
+	}
+
+	/**
 	 * Tests that when the `name` is missing, `register_block_type_from_metadata()`
 	 * will return `false`.
 	 *
