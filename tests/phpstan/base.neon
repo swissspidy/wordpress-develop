@@ -217,3 +217,24 @@ parameters:
 			- ../../src/wp-includes/pomo
 			- ../../src/wp-includes/rss.php
 			- ../../src/wp-includes/sodium_compat
+	typeAliases:
+		# A post status object, as built by register_post_status(). Intersected with stdClass
+		# because that function keeps whatever else it was passed, so a status can carry any
+		# number of properties beyond the documented ones.
+		Post_Status: '''
+			stdClass&object{
+				name: string,
+				label: string,
+				label_count: array,
+				exclude_from_search: bool,
+				_builtin: bool,
+				public: bool,
+				internal: bool,
+				protected: bool,
+				private: bool,
+				publicly_queryable: bool,
+				show_in_admin_status_list: bool,
+				show_in_admin_all_list: bool,
+				date_floating: bool,
+			}
+		'''
