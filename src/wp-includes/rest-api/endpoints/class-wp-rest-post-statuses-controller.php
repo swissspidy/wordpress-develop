@@ -215,7 +215,7 @@ class WP_REST_Post_Statuses_Controller extends WP_REST_Controller {
 	 * @since 4.7.0
 	 * @since 5.9.0 Renamed `$status` to `$item` to match parent class for PHP 8 named parameter support.
 	 *
-	 * @param stdClass        $item    Post status data.
+	 * @param Post_Status     $item    Post status data.
 	 * @param WP_REST_Request $request Full details about the request.
 	 * @return WP_REST_Response Post status data.
 	 */

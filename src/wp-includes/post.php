@@ -1416,7 +1416,7 @@ function _wp_privacy_statuses() {
  *
  * @since 3.0.0
  *
- * @global stdClass[] $wp_post_statuses Inserts new post status object into the list
+ * @global Post_Status[] $wp_post_statuses Inserts new post status object into the list
  *
  * @param string       $post_status Name of the post status.
  * @param array|string $args {
@@ -1544,10 +1544,10 @@ function register_post_status( $post_status, $args = array() ) {
  *
  * @see register_post_status()
  *
- * @global stdClass[] $wp_post_statuses List of post statuses.
+ * @global Post_Status[] $wp_post_statuses List of post statuses.
  *
  * @param string $post_status The name of a registered post status.
- * @return stdClass|null A post status object.
+ * @return Post_Status|null A post status object.
  */
 function get_post_status_object( $post_status ) {
 	global $wp_post_statuses;
@@ -1566,7 +1566,7 @@ function get_post_status_object( $post_status ) {
  *
  * @see register_post_status()
  *
- * @global stdClass[] $wp_post_statuses List of post statuses.
+ * @global Post_Status[] $wp_post_statuses List of post statuses.
  *
  * @param array|string $args     Optional. Array or string of post status arguments to compare against
  *                               properties of the global `$wp_post_statuses objects`. Default empty array.
@@ -1574,7 +1574,7 @@ function get_post_status_object( $post_status ) {
  * @param string       $operator Optional. The logical operation to perform. 'or' means only one element
  *                               from the array needs to match; 'and' means all elements must match.
  *                               Default 'and'.
- * @return string[]|stdClass[] A list of post status names or objects.
+ * @return string[]|Post_Status[] A list of post status names or objects.
  */
 function get_post_stati( $args = array(), $output = 'names', $operator = 'and' ) {
 	global $wp_post_statuses;
@@ -2485,7 +2485,7 @@ function is_post_type_viewable( $post_type ) {
  * @since 5.7.0
  * @since 5.9.0 Added `is_post_status_viewable` hook to filter the result.
  *
- * @param string|stdClass $post_status Post status name or object.
+ * @param string|Post_Status $post_status Post status name or object.
  * @return bool Whether the post status should be considered viewable.
  */
 function is_post_status_viewable( $post_status ) {
@@ -2522,8 +2522,8 @@ function is_post_status_viewable( $post_status ) {
 	 *
 	 * @since 5.9.0
 	 *
-	 * @param bool     $is_viewable Whether the post status is "viewable" (strict type).
-	 * @param stdClass $post_status Post status object.
+	 * @param bool        $is_viewable Whether the post status is "viewable" (strict type).
+	 * @param Post_Status $post_status Post status object.
 	 */
 	return true === apply_filters( 'is_post_status_viewable', $is_viewable, $post_status );
 }
