@@ -186,9 +186,16 @@ class WP_Translation_File_MO extends WP_Translation_File {
 	 * @return string Translation file contents.
 	 */
 	public function export(): string {
+		// PHP translation files use 'translation-revision-date' instead of 'po-revision-date'.
+		$headers = $this->headers;
+		if ( isset( $headers['translation-revision-date'] ) ) {
+			$headers['po-revision-date'] = $headers['translation-revision-date'];
+			unset( $headers['translation-revision-date'] );
+		}
+
 		// Prefix the headers as the first key.
 		$headers_string = '';
-		foreach ( $this->headers as $header => $value ) {
+		foreach ( $headers as $header => $value ) {
 			$headers_string .= "{$header}: $value\n";
 		}
 		$entries     = array_merge( array( '' => $headers_string ), $this->entries );

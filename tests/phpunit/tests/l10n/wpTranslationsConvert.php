@@ -511,6 +511,12 @@ class WP_Translation_Controller_Convert_Tests extends WP_UnitTestCase {
 		$source_headers      = $source->headers();
 		$destination_headers = $destination_read->headers();
 
+		// PHP translation files use 'translation-revision-date' instead of 'po-revision-date'.
+		if ( 'php' === $destination_format && isset( $source_headers['po-revision-date'] ) ) {
+			$source_headers['translation-revision-date'] = $source_headers['po-revision-date'];
+			unset( $source_headers['po-revision-date'] );
+		}
+
 		$this->assertSame( $source_headers, $destination_headers );
 
 		foreach ( $source->entries() as $original => $translation ) {
@@ -535,6 +541,50 @@ class WP_Translation_Controller_Convert_Tests extends WP_UnitTestCase {
 		}
 
 		return $matrix;
+	}
+
+	/**
+	 * @ticket 65809
+	 *
+	 * @covers WP_Translation_File::transform
+	 * @covers WP_Translation_File_PHP::export
+	 */
+	public function test_transform_mo_to_php_uses_translation_revision_date_header() {
+		$source_file = DIR_TESTDATA . '/l10n/example-simple.mo';
+
+		$contents = WP_Translation_File::transform( $source_file, 'php' );
+		$this->assertIsString( $contents );
+
+		$destination_file = $this->temp_filename();
+		$this->assertNotFalse( $destination_file );
+		file_put_contents( $destination_file, $contents );
+
+		$data = include $destination_file;
+
+		$this->assertSame( '2016-01-05 18:45:32+1000', $data['translation-revision-date'] );
+		$this->assertArrayNotHasKey( 'po-revision-date', $data );
+
+		$this->assertSame( '2016-01-05 18:45:32+1000', wp_get_l10n_php_file_data( $destination_file )['PO-Revision-Date'] );
+	}
+
+	/**
+	 * @ticket 65809
+	 *
+	 * @covers WP_Translation_File::transform
+	 * @covers WP_Translation_File_MO::export
+	 */
+	public function test_transform_php_to_mo_uses_po_revision_date_header() {
+		$contents = WP_Translation_File::transform( DIR_TESTDATA . '/languages/de_CH.l10n.php', 'mo' );
+		$this->assertIsString( $contents );
+
+		$destination_file = $this->temp_filename();
+		$this->assertNotFalse( $destination_file );
+		file_put_contents( $destination_file, $contents );
+
+		$headers = WP_Translation_File::create( $destination_file, 'mo' )->headers();
+
+		$this->assertSame( '2024-01-31 19:08:22+0000', $headers['po-revision-date'] );
+		$this->assertArrayNotHasKey( 'translation-revision-date', $headers );
 	}
 
 	/**
