@@ -1,0 +1,72 @@
+# Runs the WP-CLI functional test suites against a WordPress build from this repository.
+#
+# WP-CLI is another official WordPress project, and a change to WordPress can break its test suites.
+# Today those breakages surface up to a day later, when WP-CLI runs its own tests against the nightly
+# build, and WP-CLI maintainers then have to work out whether the cause is a regression in WordPress
+# or a test of theirs that needs hardening.
+#
+# This workflow shortens that loop. It is dispatched manually, so it adds nothing to the checks that
+# run on a pull request, and is meant to answer a single question: does this WordPress build break
+# WP-CLI?
+#
+# Some scenarios fail against any development build, for reasons that have nothing to do with the
+# change being tested: the build does not ship the plugins a release does, and WordPress.org knows
+# no checksums for its version. So when the tests fail, they are run again against a build of trunk,
+# and only the scenarios that fail against the build being tested but not against trunk count.
+#
+# The test suites themselves are not defined here. They come from https://github.com/wp-cli/automated-tests,
+# which already knows how to run the functional tests of every bundled WP-CLI package, so that how to
+# install and run them stays owned by WP-CLI rather than duplicated in this repository. Which of those
+# packages are tested by default is a convenience list kept in reusable-wp-cli-tests-v1.yml, and can be
+# overridden through the `packages` input.
+#
+# The jobs themselves live in reusable-wp-cli-tests-v1.yml, called by the single job below, so that
+# the run view shows them nested under one entry rather than as a flat list.
+name: WP-CLI Tests
+
+on:
+  workflow_dispatch:
+    inputs:
+      run-id:
+        description: 'The ID of a "Test Build Processes" run whose WordPress build should be tested. Leave empty to build the selected branch instead.'
+        type: string
+      baseline-ref:
+        description: 'The branch of WordPress/wordpress-develop to compare the results against.'
+        type: string
+        default: 'trunk'
+      php-version:
+        description: 'The version of PHP to test with.'
+        type: string
+        default: '8.5'
+      packages:
+        description: 'A comma separated list of the WP-CLI packages to test. Leave empty to test the default ones.'
+        type: string
+  push:
+    branches:
+      - trunk
+  pull_request:
+    branches:
+      - trunk
+
+# Cancels all previous workflow runs that have not completed.
+concurrency:
+  group: ${{ github.workflow }}-${{ inputs.run-id || github.ref }}
+  cancel-in-progress: true
+
+# Disable permissions for all available scopes by default.
+# Any needed permissions should be configured at the job level.
+permissions: {}
+
+jobs:
+  wp-cli-tests:
+    name: WP-CLI tests
+    uses: ./.github/workflows/reusable-wp-cli-tests-v1.yml
+    permissions:
+      contents: read
+      # Downloading the build of another workflow run requires reading that run.
+      actions: read
+    with:
+      run-id: ${{ inputs.run-id || '' }}
+      baseline-ref: ${{ inputs.baseline-ref || '' }}
+      php-version: ${{ inputs.php-version || '' }}
+      packages: ${{ inputs.packages || '' }}
