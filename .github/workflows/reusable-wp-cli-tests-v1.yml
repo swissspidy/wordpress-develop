@@ -152,6 +152,10 @@ jobs:
       WP_CLI_TEST_DBUSER: wp_cli_test
       WP_CLI_TEST_DBPASS: password1
       WP_CLI_TEST_DBHOST: 127.0.0.1:3306
+      # wp-cli-tests fills the {MYSQL_HOST} and {MYSQL_PORT} placeholders from these, for
+      # scenarios that call the mysql client directly. Unset, the client falls back to a local socket.
+      MYSQL_HOST: 127.0.0.1
+      MYSQL_TCP_PORT: 3306
 
     services:
       # Unlike the other workflows in this repository, the port is published on a fixed number rather
