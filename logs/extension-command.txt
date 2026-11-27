@@ -1,0 +1,3447 @@
+WP-CLI tests, run 46007121960, package extension-command
+Raw job log excerpts; ANSI color codes and timestamp prefixes stripped.
+
+################ Step: Run the extension-command tests ################
+##[group]Run composer test
+composer test
+shell: /usr/bin/bash -e {0}
+env:
+  DEFAULT_PACKAGES: wp-cli-bundle,ability-command,ai-command,config-command,core-command,cron-command,db-command,entity-command,export-command,extension-command,import-command,media-command,rewrite-command,role-command,search-replace-command,site-health-command
+  DEFAULT_PHP_VERSION: 8.5
+  WP_CLI_TEST_DBROOTUSER: root
+  WP_CLI_TEST_DBROOTPASS: root
+  WP_CLI_TEST_DBNAME: wp_cli_test
+  WP_CLI_TEST_DBUSER: wp_cli_test
+  WP_CLI_TEST_DBPASS: password1
+  WP_CLI_TEST_DBHOST: 127.0.0.1:3306
+  COMPOSER_PROCESS_TIMEOUT: 0
+  COMPOSER_NO_INTERACTION: 1
+  COMPOSER_NO_AUDIT: 1
+  TEST_PACKAGE: wp-cli/extension-command
+  WP_VERSION: trunk
+  WP_CLI_TEST_CORE_ZIP: /home/runner/work/_temp/wordpress-build/develop.zip
+  WP_CLI_TEST_JUNIT_DIR: /home/runner/work/_temp/junit/build
+##[endgroup]
+Running source package tests...
+Writing JUnit reports to /home/runner/work/_temp/junit/build
+Testing package wp-cli/extension-command...
+Not running 8 of 301 scenarios:
+  Not part of this configuration:
+    @less-than-wp-6.5, as WordPress trunk is used: vendor/wp-cli/extension-command/features/plugin-dependencies.feature:7, vendor/wp-cli/extension-command/features/plugin-dependencies.feature:45
+    @github-api, as GITHUB_TOKEN is not set: vendor/wp-cli/extension-command/features/plugin-install-github-latest.feature:4, vendor/wp-cli/extension-command/features/plugin-install.feature:390, vendor/wp-cli/extension-command/features/upgradables.feature:217
+    @less-than-php-7.4, as PHP 8.5.13 is used: vendor/wp-cli/extension-command/features/plugin-install.feature:310, vendor/wp-cli/extension-command/features/theme-install.feature:148
+    @less-than-wp-5.3, as WordPress trunk is used: vendor/wp-cli/extension-command/features/plugin-list-wporg-status.feature:269
+...................................................................... 70
+........F--.....F--....F--..........................F-................ 140
+............................................F......................... 210
+........................F.....................................F-----.. 280
+..F----------....F---...F------....................................... 350
+........F---..F--------..F---..F---------..F----..F----..F-----..F--.. 420
+.F-----.....................F--------.........................F-----.. 490
+...................................................................... 560
+.....................................F-----.........................F- 630
+---................................................................... 700
+..............................................................F---.F-- 770
+---....F----------..F----------.......F-----..............F-------.... 840
+................................................................F---.. 910
+F------..F----..F----...............F-----..F-----........F-------...F 980
+---------..................................................F-------... 1050
+...................................................................... 1120
+.......F----------................................F-------............ 1190
+...................................................................... 1260
+...................................................................F-- 1330
+----------------------...................F--------------..F----------- 1400
+....F--........................F--------------........................ 1470
+...................................................................... 1540
+...................................................................... 1610
+...................................................................... 1680
+...................................................................... 1750
+...................................................................... 1820
+...................................................................... 1890
+..............F----................................................... 1960
+...................................................................... 2030
+...................................................................... 2100
+...................................................................... 2170
+...................................................................... 2240
+...................................................................... 2310
+...................................................................... 2380
+...................................................................... 2450
+...................................................................... 2520
+...................................................................... 2590
+...F------------------------------------------------------------------ 2660
+--------------------..F----------------------------------------------- 2730
+---------------------------------------
+
+--- Failed steps:
+
+001 Scenario: Activate a plugin that's already installed # vendor/wp-cli/extension-command/features/plugin-activate.feature:6
+      When I run `wp plugin activate akismet`            # vendor/wp-cli/extension-command/features/plugin-activate.feature:7
+        $ wp plugin activate akismet
+        
+        Warning: The 'akismet' plugin could not be found.
+        Error: No plugins activated.
+        cwd: /tmp/wp-cli-test-run-plugin-activate.feature.6-6b0985c9cc8fd4.36313891/
+        run time: 0.38348889350891
+        exit status: 1
+        
+        The command unexpectedly exited with status 1. If you expect a non-zero exit status, use `When I try [...]`. Else, this may be a bug in your code or test. (RuntimeException)
+
+002 Scenario: Attempt to activate a plugin that's not installed # vendor/wp-cli/extension-command/features/plugin-activate.feature:15
+      Then STDERR should be:                                    # vendor/wp-cli/extension-command/features/plugin-activate.feature:25
+        $ wp plugin activate akismet debug-bar
+        
+        Warning: The 'akismet' plugin could not be found.
+        Warning: The 'debug-bar' plugin could not be found.
+        Error: No plugins activated.
+        cwd: /tmp/wp-cli-test-run-plugin-activate.feature.15-6b0985caa71398.24128862/
+        run time: 0.25206398963928
+        exit status: 1
+        
+        Output does not exactly match expected string:
+        Warning: The 'debug-bar' plugin could not be found.
+        Error: Only activated 1 of 2 plugins.
+        
+        --- Expected
+        +++ Actual
+        @@ @@
+        +Warning: The 'akismet' plugin could not be found.
+         Warning: The 'debug-bar' plugin could not be found.
+        -Error: Only activated 1 of 2 plugins.
+        +Error: No plugins activated.
+         (Exception)
+
+003 Scenario: Activate all when one plugin is hidden by "all_plugins" filter # vendor/wp-cli/extension-command/features/plugin-activate.feature:36
+      Then STDOUT should contain:                                            # vendor/wp-cli/extension-command/features/plugin-activate.feature:56
+        $ wp plugin activate --all
+        Plugin 'hello' activated.
+        Plugin 'sample-plugin' activated.
+        Success: Activated 2 of 2 plugins.
+        
+        cwd: /tmp/wp-cli-test-run-plugin-activate.feature.36-6b0985cbbe63d3.12554566/
+        run time: 0.27947092056274
+        exit status: 0
+        
+        Output does not contain expected string:
+        Plugin 'akismet' activated.
+        
+        --- Expected
+        +++ Actual
+        @@ @@
+        -Plugin 'akismet' activated.
+        +Plugin 'hello' activated.
+        +Plugin 'sample-plugin' activated.
+        +Success: Activated 2 of 2 plugins.
+         (Exception)
+
+004 Scenario: Adding --exclude with plugin activate --all should exclude the plugins specified via --exclude # vendor/wp-cli/extension-command/features/plugin-activate.feature:139
+      Then STDOUT should be:                                                                                 # vendor/wp-cli/extension-command/features/plugin-activate.feature:141
+        $ wp plugin activate --all --exclude=hello,hello-dolly
+        Success: No plugins activated.
+        
+        cwd: /tmp/wp-cli-test-run-plugin-activate.feature.139-6b0985d162da40.60887763/
+        run time: 0.38050508499146
+        exit status: 0
+        
+        Output does not exactly match expected string:
+        Plugin 'akismet' activated.
+        Success: Activated 1 of 1 plugins.
+        
+        --- Expected
+        +++ Actual
+        @@ @@
+        -Plugin 'akismet' activated.
+        -Success: Activated 1 of 1 plugins.
+        +Success: No plugins activated.
+         (Exception)
+
+005 Scenario: Disable auto-updates for already disabled plugins # vendor/wp-cli/extension-command/features/plugin-auto-updates-disable.feature:48
+      And STDERR should contain:                                # vendor/wp-cli/extension-command/features/plugin-auto-updates-disable.feature:55
+        $ wp plugin auto-updates disable --all
+        
+        Warning: Auto-updates already disabled for plugin sample-plugin.
+        Error: Only disabled 2 of 3 plugin auto-updates.
+        cwd: /tmp/wp-cli-test-run-plugin-auto-updates-disable.feature.48-6b0985de2a7111.24785397/
+        run time: 0.25160312652588
+        exit status: 1
+        
+        Output does not contain expected string:
+        Error: Only disabled 3 of 4 plugin auto-updates.
+        
+        --- Expected
+        +++ Actual
+        @@ @@
+        -Error: Only disabled 3 of 4 plugin auto-updates.
+        +Warning: Auto-updates already disabled for plugin sample-plugin.
+        +Error: Only disabled 2 of 3 plugin auto-updates.
+         (Exception)
+
+006 Scenario: Enable auto-updates for already enabled plugins # vendor/wp-cli/extension-command/features/plugin-auto-updates-enable.feature:47
+      And STDERR should contain:                              # vendor/wp-cli/extension-command/features/plugin-auto-updates-enable.feature:54
+        $ wp plugin auto-updates enable --all
+        
+        Warning: Auto-updates already enabled for plugin sample-plugin.
+        Error: Only enabled 2 of 3 plugin auto-updates.
+        cwd: /tmp/wp-cli-test-run-plugin-auto-updates-enable.feature.47-6b0985ee7abd10.41797757/
+        run time: 0.24658203125
+        exit status: 1
+        
+        Output does not contain expected string:
+        Error: Only enabled 3 of 4 plugin auto-updates.
+        
+        --- Expected
+        +++ Actual
+        @@ @@
+        -Error: Only enabled 3 of 4 plugin auto-updates.
+        +Warning: Auto-updates already enabled for plugin sample-plugin.
+        +Error: Only enabled 2 of 3 plugin auto-updates.
+         (Exception)
+
+007 Scenario: Show the status of auto-updates all installed plugins # vendor/wp-cli/extension-command/features/plugin-auto-updates-status.feature:34
+      Then STDOUT should be a table containing rows:                # vendor/wp-cli/extension-command/features/plugin-auto-updates-status.feature:36
+        name	status
+        debug-bar	disabled
+        hello	disabled
+        sample-plugin	disabled
+        
+        
+        --- Expected
+        +++ Actual
+        @@ @@
+        -akismet	disabled
+         debug-bar	disabled
+        +hello	disabled
+         sample-plugin	disabled
+         (Exception)
+
+008 Scenario: The status can be filtered to only show enabled or disabled plugins # vendor/wp-cli/extension-command/features/plugin-auto-updates-status.feature:53
+      Then STDOUT should be a table containing rows:                              # vendor/wp-cli/extension-command/features/plugin-auto-updates-status.feature:57
+        name	status
+        debug-bar	disabled
+        hello	disabled
+        sample-plugin	enabled
+        
+        
+        --- Expected
+        +++ Actual
+        @@ @@
+        -akismet	disabled
+         debug-bar	disabled
+        +hello	disabled
+         sample-plugin	enabled
+         (Exception)
+
+009 Scenario: The fields can be shown individually # vendor/wp-cli/extension-command/features/plugin-auto-updates-status.feature:85
+      Then STDOUT should contain:                  # vendor/wp-cli/extension-command/features/plugin-auto-updates-status.feature:89
+        $ wp plugin auto-updates status --all --disabled-only --field=name
+        debug-bar
+        hello
+        
+        cwd: /tmp/wp-cli-test-run-plugin-auto-updates-status.feature.85-6b098600a6a246.17169277/
+        run time: 0.25102806091309
+        exit status: 0
+        
+        Output does not contain expected string:
+        akismet
+        
+        --- Expected
+        +++ Actual
+        @@ @@
+        -akismet
+        +debug-bar
+        +hello
+         (Exception)
+
+010 Scenario: Formatting options work # vendor/wp-cli/extension-command/features/plugin-auto-updates-status.feature:105
+      Then STDOUT should contain:     # vendor/wp-cli/extension-command/features/plugin-auto-updates-status.feature:107
+        $ wp plugin auto-updates status --all --format=json
+        [{"name":"debug-bar","status":"disabled"},{"name":"hello","status":"disabled"},{"name":"sample-plugin","status":"disabled"}]
+        cwd: /tmp/wp-cli-test-run-plugin-auto-updates-status.feature.105-6b098602a51362.11369005/
+        run time: 0.28043389320374
+        exit status: 0
+        
+        Output does not contain expected string:
+        {"name":"akismet","status":"disabled"}
+        
+        --- Expected
+        +++ Actual
+        @@ @@
+        -{"name":"akismet","status":"disabled"}
+        +[{"name":"debug-bar","status":"disabled"},{"name":"hello","status":"disabled"},{"name":"sample-plugin","status":"disabled"}]
+         (Exception)
+
+011 Scenario: Deactivate a plugin that's already activated # vendor/wp-cli/extension-command/features/plugin-deactivate.feature:8
+      And I run `wp plugin activate akismet sample-plugin` # vendor/wp-cli/extension-command/features/plugin-deactivate.feature:6
+        $ wp plugin activate akismet sample-plugin
+        Plugin 'sample-plugin' activated.
+        
+        Warning: The 'akismet' plugin could not be found.
+        Error: Only activated 1 of 2 plugins.
+        cwd: /tmp/wp-cli-test-run-plugin-deactivate.feature.8-6b09861121a297.13316174/
+        run time: 0.27811694145203
+        exit status: 1
+        
+        The command unexpectedly exited with status 1. If you expect a non-zero exit status, use `When I try [...]`. Else, this may be a bug in your code or test. (RuntimeException)
+
+012 Scenario: Attempt to deactivate a plugin that's not installed # vendor/wp-cli/extension-command/features/plugin-deactivate.feature:17
+      And I run `wp plugin activate akismet sample-plugin`        # vendor/wp-cli/extension-command/features/plugin-deactivate.feature:6
+        $ wp plugin activate akismet sample-plugin
+        Plugin 'sample-plugin' activated.
+        
+        Warning: The 'akismet' plugin could not be found.
+        Error: Only activated 1 of 2 plugins.
+        cwd: /tmp/wp-cli-test-run-plugin-deactivate.feature.17-6b0986129784f8.57201731/
+        run time: 0.27372789382935
+        exit status: 1
+        
+        The command unexpectedly exited with status 1. If you expect a non-zero exit status, use `When I try [...]`. Else, this may be a bug in your code or test. (RuntimeException)
+
+013 Scenario: Deactivate all when a previously active plugin is hidden by "all_plugins" filter # vendor/wp-cli/extension-command/features/plugin-deactivate.feature:40
+      And I run `wp plugin activate akismet sample-plugin`                                     # vendor/wp-cli/extension-command/features/plugin-deactivate.feature:6
+        $ wp plugin activate akismet sample-plugin
+        Plugin 'sample-plugin' activated.
+        
+        Warning: The 'akismet' plugin could not be found.
+        Error: Only activated 1 of 2 plugins.
+        cwd: /tmp/wp-cli-test-run-plugin-deactivate.feature.40-6b0986141126b6.43776072/
+        run time: 0.27829790115356
+        exit status: 1
+        
+        The command unexpectedly exited with status 1. If you expect a non-zero exit status, use `When I try [...]`. Else, this may be a bug in your code or test. (RuntimeException)
+
+014 Scenario: Not giving a slug on deactivate should throw an error unless --all given # vendor/wp-cli/extension-command/features/plugin-deactivate.feature:64
+      And I run `wp plugin activate akismet sample-plugin`                             # vendor/wp-cli/extension-command/features/plugin-deactivate.feature:6
+        $ wp plugin activate akismet sample-plugin
+        Plugin 'sample-plugin' activated.
+        
+        Warning: The 'akismet' plugin could not be found.
+        Error: Only activated 1 of 2 plugins.
+        cwd: /tmp/wp-cli-test-run-plugin-deactivate.feature.64-6b098615815855.88919237/
+        run time: 0.29074287414551
+        exit status: 1
+        
+        The command unexpectedly exited with status 1. If you expect a non-zero exit status, use `When I try [...]`. Else, this may be a bug in your code or test. (RuntimeException)
+
+015 Scenario: Adding --exclude with plugin deactivate --all should exclude the plugins specified via --exclude # vendor/wp-cli/extension-command/features/plugin-deactivate.feature:83
+      And I run `wp plugin activate akismet sample-plugin`                                                     # vendor/wp-cli/extension-command/features/plugin-deactivate.feature:6
+        $ wp plugin activate akismet sample-plugin
+        Plugin 'sample-plugin' activated.
+        
+        Warning: The 'akismet' plugin could not be found.
+        Error: Only activated 1 of 2 plugins.
+        cwd: /tmp/wp-cli-test-run-plugin-deactivate.feature.83-6b098616f333f6.05490900/
+        run time: 0.27958393096924
+        exit status: 1
+        
+        The command unexpectedly exited with status 1. If you expect a non-zero exit status, use `When I try [...]`. Else, this may be a bug in your code or test. (RuntimeException)
+
+016 Scenario: Adding --exclude with plugin deactivate should throw an error unless --all given # vendor/wp-cli/extension-command/features/plugin-deactivate.feature:95
+      And I run `wp plugin activate akismet sample-plugin`                                     # vendor/wp-cli/extension-command/features/plugin-deactivate.feature:6
+        $ wp plugin activate akismet sample-plugin
+        Plugin 'sample-plugin' activated.
+        
+        Warning: The 'akismet' plugin could not be found.
+        Error: Only activated 1 of 2 plugins.
+        cwd: /tmp/wp-cli-test-run-plugin-deactivate.feature.95-6b0986186f91a9.13591273/
+        run time: 0.27616000175476
+        exit status: 1
+        
+        The command unexpectedly exited with status 1. If you expect a non-zero exit status, use `When I try [...]`. Else, this may be a bug in your code or test. (RuntimeException)
+
+017 Scenario: Excluding a missing plugin should not throw an error # vendor/wp-cli/extension-command/features/plugin-deactivate.feature:104
+      And I run `wp plugin activate akismet sample-plugin`         # vendor/wp-cli/extension-command/features/plugin-deactivate.feature:6
+        $ wp plugin activate akismet sample-plugin
+        Plugin 'sample-plugin' activated.
+        
+        Warning: The 'akismet' plugin could not be found.
+        Error: Only activated 1 of 2 plugins.
+        cwd: /tmp/wp-cli-test-run-plugin-deactivate.feature.104-6b098619dce2e8.00990744/
+        run time: 0.27753901481628
+        exit status: 1
+        
+        The command unexpectedly exited with status 1. If you expect a non-zero exit status, use `When I try [...]`. Else, this may be a bug in your code or test. (RuntimeException)
+
+018 Scenario: Delete an installed plugin    # vendor/wp-cli/extension-command/features/plugin-delete.feature:7
+      When I run `wp plugin delete akismet` # vendor/wp-cli/extension-command/features/plugin-delete.feature:8
+        $ wp plugin delete akismet
+        Success: Plugin already deleted.
+        
+        Warning: The 'akismet' plugin could not be found.
+        cwd: /tmp/wp-cli-test-run-plugin-delete.feature.7-6b09861b5c7e20.78535439/
+        run time: 0.27530097961426
+        exit status: 0
+        
+        The command unexpectedly produced STDERR output. If you expect a non-zero exit status or STDERR output, use `When I try [...]`. Else, this may be a bug in your code or test. (RuntimeException)
+
+019 Scenario: Delete all installed plugins # vendor/wp-cli/extension-command/features/plugin-delete.feature:16
+      Then STDOUT should contain:          # vendor/wp-cli/extension-command/features/plugin-delete.feature:18
+        $ wp plugin delete --all
+        Deleted 'hello' plugin.
+        Deleted 'sample-plugin' plugin.
+        Success: Deleted 2 of 2 plugins.
+        
+        cwd: /tmp/wp-cli-test-run-plugin-delete.feature.16-6b09861ccd5412.86892907/
+        run time: 0.28306293487549
+        exit status: 0
+        
+        Output does not contain expected string:
+        Deleted 'akismet' plugin.
+        
+        --- Expected
+        +++ Actual
+        @@ @@
+        -Deleted 'akismet' plugin.
+        +Deleted 'hello' plugin.
+        +Deleted 'sample-plugin' plugin.
+        +Success: Deleted 2 of 2 plugins.
+         (Exception)
+
+020 Scenario: Reports a failure for a plugin that can't be deleted # vendor/wp-cli/extension-command/features/plugin-delete.feature:69
+      When I run `chmod -w wp-content/plugins/akismet`             # vendor/wp-cli/extension-command/features/plugin-delete.feature:72
+        $ chmod -w wp-content/plugins/akismet
+        
+        chmod: cannot access 'wp-content/plugins/akismet': No such file or directory
+        cwd: /tmp/wp-cli-test-run-plugin-delete.feature.69-6b0986236ca477.73613739/
+        run time: 0.0014150142669678
+        exit status: 1
+        
+        The command unexpectedly exited with status 1. If you expect a non-zero exit status, use `When I try [...]`. Else, this may be a bug in your code or test. (RuntimeException)
+
+021 Scenario: Install dependencies with activation # vendor/wp-cli/extension-command/features/plugin-dependencies.feature:91
+      And STDOUT should contain:                   # vendor/wp-cli/extension-command/features/plugin-dependencies.feature:113
+        $ wp plugin install-dependencies test-plugin --activate
+        Installing 2 dependencies for 'test-plugin'...
+        Installing Akismet Anti-spam: Spam Protection (5.7.2)
+        Downloading installation package from https://downloads.wordpress.org/plugin/akismet.5.7.2.zip...
+        Unpacking the package...
+        Installing the plugin...
+        Plugin installed successfully.
+        Activating 'akismet'...
+        Plugin 'akismet' activated.
+        Installing BuddyPress (14.5.7)
+        Downloading installation package from https://downloads.wordpress.org/plugin/buddypress.14.5.7.zip...
+        Unpacking the package...
+        Installing the plugin...
+        Plugin installed successfully.
+        Activating 'buddypress'...
+        Plugin 'buddypress' activated.
+        Success: Installed 2 of 2 plugins.
+        
+        cwd: /tmp/wp-cli-test-run-plugin-dependencies.feature.91-6b098629ecc9c5.56597147/
+        run time: 1.1967899799347
+        exit status: 0
+        
+        Output does not contain expected string:
+        Success: Installed 1 of 2 plugins.
+        
+        --- Expected
+        +++ Actual
+        @@ @@
+        -Success: Installed 1 of 2 plugins.
+        +Installing 2 dependencies for 'test-plugin'...
+        +Installing Akismet Anti-spam: Spam Protection (5.7.2)
+        +Downloading installation package from https://downloads.wordpress.org/plugin/akismet.5.7.2.zip...
+        +Unpacking the package...
+        +Installing the plugin...
+        +Plugin installed successfully.
+        +Activating 'akismet'...
+        +Plugin 'akismet' activated.
+        +Installing BuddyPress (14.5.7)
+        +Downloading installation package from https://downloads.wordpress.org/plugin/buddypress.14.5.7.zip...
+        +Unpacking the package...
+        +Installing the plugin...
+        +Plugin installed successfully.
+        +Activating 'buddypress'...
+        +Plugin 'buddypress' activated.
+        +Success: Installed 2 of 2 plugins.
+         (Exception)
+
+022 Scenario: Paths aren't backslashed when destination folder already exists # vendor/wp-cli/extension-command/features/plugin-install.feature:215
+      When I run `rm wp-content/plugins/akismet/akismet.php`                  # vendor/wp-cli/extension-command/features/plugin-install.feature:221
+        $ rm wp-content/plugins/akismet/akismet.php
+        
+        rm: cannot remove 'wp-content/plugins/akismet/akismet.php': No such file or directory
+        cwd: /tmp/wp-cli-test-run-plugin-install.feature.215-6b09863e60c4f2.30702944/
+        run time: 0.0013918876647949
+        exit status: 1
+        
+        The command unexpectedly exited with status 1. If you expect a non-zero exit status, use `When I try [...]`. Else, this may be a bug in your code or test. (RuntimeException)
+
+023 Scenario: Can't install plugin that requires a newer version of WordPress # vendor/wp-cli/extension-command/features/plugin-install.feature:292
+      When I run `wp core download --version=6.4 --force`                     # vendor/wp-cli/extension-command/features/plugin-install.feature:295
+        $ wp core download --version=6.4 --force
+        Downloading WordPress 6.4 (en_US)...
+        md5 hash verified: 8d78482a300204da2a921b150f663bff
+        Cleaning up files...
+        No old files were removed.
+        Success: WordPress downloaded.
+        
+        Warning: Could not retrieve WordPress core checksums; skipping checksum-based cleanup. Files listed in $_old_files were still cleaned up.
+        cwd: /tmp/wp-cli-test-run-plugin-install.feature.292-6b0986431688d9.76809953/
+        run time: 1.057492017746
+        exit status: 0
+        
+        The command unexpectedly produced STDERR output. If you expect a non-zero exit status or STDERR output, use `When I try [...]`. Else, this may be a bug in your code or test. (RuntimeException)
+
+024 Scenario: Check if an active plugin is active # vendor/wp-cli/extension-command/features/plugin-is-active.feature:6
+      When I run `wp plugin activate akismet`     # vendor/wp-cli/extension-command/features/plugin-is-active.feature:7
+        $ wp plugin activate akismet
+        
+        Warning: The 'akismet' plugin could not be found.
+        Error: No plugins activated.
+        cwd: /tmp/wp-cli-test-run-plugin-is-active.feature.6-6b0986568a6b65.65249839/
+        run time: 0.38779091835022
+        exit status: 1
+        
+        The command unexpectedly exited with status 1. If you expect a non-zero exit status, use `When I try [...]`. Else, this may be a bug in your code or test. (RuntimeException)
+
+025 Scenario: Check if an inactive plugin is not active # vendor/wp-cli/extension-command/features/plugin-is-active.feature:16
+      When I run `wp plugin activate akismet`           # vendor/wp-cli/extension-command/features/plugin-is-active.feature:17
+        $ wp plugin activate akismet
+        
+        Warning: The 'akismet' plugin could not be found.
+        Error: No plugins activated.
+        cwd: /tmp/wp-cli-test-run-plugin-is-active.feature.16-6b0986576a6c30.29944805/
+        run time: 0.38551497459412
+        exit status: 1
+        
+        The command unexpectedly exited with status 1. If you expect a non-zero exit status, use `When I try [...]`. Else, this may be a bug in your code or test. (RuntimeException)
+
+026 Scenario: Warn when plugin is in active_plugins but file does not exist # vendor/wp-cli/extension-command/features/plugin-is-active.feature:36
+      When I run `wp plugin activate akismet`                               # vendor/wp-cli/extension-command/features/plugin-is-active.feature:37
+        $ wp plugin activate akismet
+        
+        Warning: The 'akismet' plugin could not be found.
+        Error: No plugins activated.
+        cwd: /tmp/wp-cli-test-run-plugin-is-active.feature.36-6b0986592aa6f3.65006719/
+        run time: 0.38738894462585
+        exit status: 1
+        
+        The command unexpectedly exited with status 1. If you expect a non-zero exit status, use `When I try [...]`. Else, this may be a bug in your code or test. (RuntimeException)
+
+027 Scenario: Warn when network-activated plugin is in active_sitewide_plugins but file does not exist # vendor/wp-cli/extension-command/features/plugin-is-active.feature:61
+      When I run `wp plugin activate akismet --network`                                                # vendor/wp-cli/extension-command/features/plugin-is-active.feature:64
+        $ wp plugin activate akismet --network
+        
+        Warning: The 'akismet' plugin could not be found.
+        Error: No plugins network activated.
+        cwd: /tmp/wp-cli-test-run-plugin-is-active.feature.61-6b09865a0a7d99.84028993/
+        run time: 0.37225604057312
+        exit status: 1
+        
+        The command unexpectedly exited with status 1. If you expect a non-zero exit status, use `When I try [...]`. Else, this may be a bug in your code or test. (RuntimeException)
+
+028 Scenario: Verify plugin installation, activation, deactivation and confirm listing recently active plugins list is correct # vendor/wp-cli/extension-command/features/plugin-list-recently-active.feature:3
+      When I run `wp plugin activate akismet`                                                                                  # vendor/wp-cli/extension-command/features/plugin-list-recently-active.feature:26
+        $ wp plugin activate akismet
+        
+        Warning: The 'akismet' plugin could not be found.
+        Error: No plugins activated.
+        cwd: /tmp/wp-cli-test-run-plugin-list-recently-active.feature.3-6b09865bbdb377.36958978/
+        run time: 0.25816702842712
+        exit status: 1
+        
+        The command unexpectedly exited with status 1. If you expect a non-zero exit status, use `When I try [...]`. Else, this may be a bug in your code or test. (RuntimeException)
+
+029 Scenario: For a MU site, verify plugin installation, activation, deactivation and confirm listing recently active plugins list is correct # vendor/wp-cli/extension-command/features/plugin-list-recently-active.feature:78
+      When I run `wp plugin activate akismet --network`                                                                                       # vendor/wp-cli/extension-command/features/plugin-list-recently-active.feature:95
+        $ wp plugin activate akismet --network
+        
+        Warning: The 'akismet' plugin could not be found.
+        Error: No plugins network activated.
+        cwd: /tmp/wp-cli-test-run-plugin-list-recently-active.feature.78-6b098660d2cd55.56072479/
+        run time: 0.28211712837219
+        exit status: 1
+        
+        The command unexpectedly exited with status 1. If you expect a non-zero exit status, use `When I try [...]`. Else, this may be a bug in your code or test. (RuntimeException)
+
+030 Scenario: Toggle the status of a plugin # vendor/wp-cli/extension-command/features/plugin-toggle.feature:6
+      When I run `wp plugin toggle akismet` # vendor/wp-cli/extension-command/features/plugin-toggle.feature:7
+        $ wp plugin toggle akismet
+        
+        Warning: The 'akismet' plugin could not be found.
+        Error: No plugins toggled.
+        cwd: /tmp/wp-cli-test-run-plugin-toggle.feature.6-6b098670c1cd77.03995382/
+        run time: 0.37876987457275
+        exit status: 1
+        
+        The command unexpectedly exited with status 1. If you expect a non-zero exit status, use `When I try [...]`. Else, this may be a bug in your code or test. (RuntimeException)
+
+031 Scenario: Toggling the status of a plugin that doesn't exist # vendor/wp-cli/extension-command/features/plugin-toggle.feature:21
+      Then STDERR should be:                                     # vendor/wp-cli/extension-command/features/plugin-toggle.feature:23
+        $ wp plugin toggle akismet debug-bar
+        
+        Warning: The 'akismet' plugin could not be found.
+        Warning: The 'debug-bar' plugin could not be found.
+        Error: No plugins toggled.
+        cwd: /tmp/wp-cli-test-run-plugin-toggle.feature.21-6b0986719cada7.29027077/
+        run time: 0.37858200073242
+        exit status: 1
+        
+        Output does not exactly match expected string:
+        Warning: The 'debug-bar' plugin could not be found.
+        Error: Only toggled 1 of 2 plugins.
+        
+        --- Expected
+        +++ Actual
+        @@ @@
+        +Warning: The 'akismet' plugin could not be found.
+         Warning: The 'debug-bar' plugin could not be found.
+        -Error: Only toggled 1 of 2 plugins.
+        +Error: No plugins toggled.
+         (Exception)
+
+032 Scenario: Uninstall an installed plugin should uninstall, delete files # vendor/wp-cli/extension-command/features/plugin-uninstall.feature:7
+      When I run `wp plugin uninstall akismet`                             # vendor/wp-cli/extension-command/features/plugin-uninstall.feature:8
+        $ wp plugin uninstall akismet
+        
+        Warning: The 'akismet' plugin could not be found.
+        Error: No plugins uninstalled.
+        cwd: /tmp/wp-cli-test-run-plugin-uninstall.feature.7-6b098672789d83.97655281/
+        run time: 0.28247809410095
+        exit status: 1
+        
+        The command unexpectedly exited with status 1. If you expect a non-zero exit status, use `When I try [...]`. Else, this may be a bug in your code or test. (RuntimeException)
+
+033 Scenario: Uninstall an installed plugin but do not delete its files # vendor/wp-cli/extension-command/features/plugin-uninstall.feature:18
+      When I run `wp plugin uninstall akismet --skip-delete`            # vendor/wp-cli/extension-command/features/plugin-uninstall.feature:19
+        $ wp plugin uninstall akismet --skip-delete
+        
+        Warning: The 'akismet' plugin could not be found.
+        Error: No plugins uninstalled.
+        cwd: /tmp/wp-cli-test-run-plugin-uninstall.feature.18-6b09867415dee1.06989617/
+        run time: 0.28005003929138
+        exit status: 1
+        
+        The command unexpectedly exited with status 1. If you expect a non-zero exit status, use `When I try [...]`. Else, this may be a bug in your code or test. (RuntimeException)
+
+034 Scenario: Attempting to uninstall a plugin that's activated # vendor/wp-cli/extension-command/features/plugin-uninstall.feature:49
+      When I run `wp plugin activate akismet`                   # vendor/wp-cli/extension-command/features/plugin-uninstall.feature:50
+        $ wp plugin activate akismet
+        
+        Warning: The 'akismet' plugin could not be found.
+        Error: No plugins activated.
+        cwd: /tmp/wp-cli-test-run-plugin-uninstall.feature.49-6b098678705310.18580468/
+        run time: 0.27735304832458
+        exit status: 1
+        
+        The command unexpectedly exited with status 1. If you expect a non-zero exit status, use `When I try [...]`. Else, this may be a bug in your code or test. (RuntimeException)
+
+035 Scenario: Attempting to uninstall a plugin that's activated (using --deactivate) # vendor/wp-cli/extension-command/features/plugin-uninstall.feature:62
+      When I run `wp plugin activate akismet`                                        # vendor/wp-cli/extension-command/features/plugin-uninstall.feature:63
+        $ wp plugin activate akismet
+        
+        Warning: The 'akismet' plugin could not be found.
+        Error: No plugins activated.
+        cwd: /tmp/wp-cli-test-run-plugin-uninstall.feature.62-6b09867a046d76.59919897/
+        run time: 0.28238105773926
+        exit status: 1
+        
+        The command unexpectedly exited with status 1. If you expect a non-zero exit status, use `When I try [...]`. Else, this may be a bug in your code or test. (RuntimeException)
+
+036 Scenario: Uninstall all installed plugins # vendor/wp-cli/extension-command/features/plugin-uninstall.feature:86
+      Then STDOUT should contain:             # vendor/wp-cli/extension-command/features/plugin-uninstall.feature:88
+        $ wp plugin uninstall --all
+        Uninstalled and deleted 'hello' plugin.
+        Uninstalled and deleted 'sample-plugin' plugin.
+        Success: Uninstalled 2 of 2 plugins.
+        
+        cwd: /tmp/wp-cli-test-run-plugin-uninstall.feature.86-6b09867cdb36d2.90029850/
+        run time: 0.2840428352356
+        exit status: 0
+        
+        Output does not contain expected string:
+        Uninstalled and deleted 'akismet' plugin.
+        
+        --- Expected
+        +++ Actual
+        @@ @@
+        -Uninstalled and deleted 'akismet' plugin.
+        +Uninstalled and deleted 'hello' plugin.
+        +Uninstalled and deleted 'sample-plugin' plugin.
+        +Success: Uninstalled 2 of 2 plugins.
+         (Exception)
+
+037 Scenario: Uninstall all installed plugins when one or more activated # vendor/wp-cli/extension-command/features/plugin-uninstall.feature:110
+      Then STDOUT should contain:                                        # vendor/wp-cli/extension-command/features/plugin-uninstall.feature:112
+        $ wp plugin activate --all
+        Plugin 'hello' activated.
+        Plugin 'sample-plugin' activated.
+        Success: Activated 2 of 2 plugins.
+        
+        cwd: /tmp/wp-cli-test-run-plugin-uninstall.feature.110-6b09867e551491.51724556/
+        run time: 0.28463006019592
+        exit status: 0
+        
+        Output does not contain expected string:
+        Success: Activated 3 of 3 plugins.
+        
+        --- Expected
+        +++ Actual
+        @@ @@
+        -Success: Activated 3 of 3 plugins.
+        +Plugin 'hello' activated.
+        +Plugin 'sample-plugin' activated.
+        +Success: Activated 2 of 2 plugins.
+         (Exception)
+
+038 Scenario: Updating plugin with invalid version shouldn't remove the old version # vendor/wp-cli/extension-command/features/plugin-update.feature:4
+      Then STDERR should be:                                                        # vendor/wp-cli/extension-command/features/plugin-update.feature:20
+        $ wp plugin update akismet --version=0.5.3
+        
+        Warning: The 'akismet' plugin could not be found.
+        cwd: /tmp/wp-cli-test-run-plugin-update.feature.4-6b09868bb111b1.41738189/
+        run time: 0.25233006477356
+        exit status: 0
+        
+        Output does not exactly match expected string:
+        Error: Can't find the requested plugin's version 0.5.3 in the WordPress.org plugin repository (HTTP code 404).
+        
+        --- Expected
+        +++ Actual
+        @@ @@
+        -Error: Can't find the requested plugin's version 0.5.3 in the WordPress.org plugin repository (HTTP code 404).
+        +Warning: The 'akismet' plugin could not be found.
+         (Exception)
+
+039 Scenario: Updating all plugins ignores an older no-update version # vendor/wp-cli/extension-command/features/plugin-update.feature:296
+      And I run `wp plugin delete akismet`                            # vendor/wp-cli/extension-command/features/plugin-update.feature:298
+        $ wp plugin delete akismet
+        Success: Plugin already deleted.
+        
+        Warning: The 'akismet' plugin could not be found.
+        cwd: /tmp/wp-cli-test-run-plugin-update.feature.296-6b0986a234f414.12258366/
+        run time: 0.38307499885559
+        exit status: 0
+        
+        The command unexpectedly produced STDERR output. If you expect a non-zero exit status or STDERR output, use `When I try [...]`. Else, this may be a bug in your code or test. (RuntimeException)
+
+040 Scenario: Updating all plugins should show the name of each plugin as it is updated # vendor/wp-cli/extension-command/features/plugin-update.feature:406
+      And I run `wp plugin delete akismet`                                              # vendor/wp-cli/extension-command/features/plugin-update.feature:408
+        $ wp plugin delete akismet
+        Success: Plugin already deleted.
+        
+        Warning: The 'akismet' plugin could not be found.
+        cwd: /tmp/wp-cli-test-run-plugin-update.feature.406-6b0986aaf18260.14072984/
+        run time: 0.38179397583008
+        exit status: 0
+        
+        The command unexpectedly produced STDERR output. If you expect a non-zero exit status or STDERR output, use `When I try [...]`. Else, this may be a bug in your code or test. (RuntimeException)
+
+041 Scenario: Network activate a plugin       # vendor/wp-cli/extension-command/features/plugin.feature:227
+      When I run `wp plugin activate akismet` # vendor/wp-cli/extension-command/features/plugin.feature:230
+        $ wp plugin activate akismet
+        
+        Warning: The 'akismet' plugin could not be found.
+        Error: No plugins activated.
+        cwd: /tmp/wp-cli-test-run-plugin.feature.227-6b0986c02afe48.87329640/
+        run time: 0.36607098579407
+        exit status: 1
+        
+        The command unexpectedly exited with status 1. If you expect a non-zero exit status, use `When I try [...]`. Else, this may be a bug in your code or test. (RuntimeException)
+
+042 Scenario: List plugins                           # vendor/wp-cli/extension-command/features/plugin.feature:340
+      Then STDOUT should be a table containing rows: # vendor/wp-cli/extension-command/features/plugin.feature:350
+        name	status	file
+        hello	active	hello.php
+        
+        
+        --- Expected
+        +++ Actual
+        @@ @@
+        -akismet	active	akismet/akismet.php
+        +hello	active	hello.php
+         (Exception)
+
+043 Scenario: List plugin by multiple statuses # vendor/wp-cli/extension-command/features/plugin.feature:383
+      When I run `wp plugin activate akismet`  # vendor/wp-cli/extension-command/features/plugin.feature:392
+        $ wp plugin activate akismet
+        
+        Warning: The 'akismet' plugin could not be found.
+        Error: No plugins activated.
+        cwd: /tmp/wp-cli-test-run-plugin.feature.383-6b0986c5dd23e9.38943217/
+        run time: 0.41326093673706
+        exit status: 1
+        
+        The command unexpectedly exited with status 1. If you expect a non-zero exit status, use `When I try [...]`. Else, this may be a bug in your code or test. (RuntimeException)
+
+044 Scenario: Filter plugin list by multiple names   # vendor/wp-cli/extension-command/features/plugin.feature:419
+      Then STDOUT should be a table containing rows: # vendor/wp-cli/extension-command/features/plugin.feature:426
+        name	status
+        wordpress-importer	inactive
+        
+        
+        --- Expected
+        +++ Actual
+        @@ @@
+        -akismet	inactive
+         wordpress-importer	inactive
+         (Exception)
+
+045 Scenario: Enable and disable all plugins # vendor/wp-cli/extension-command/features/plugin.feature:495
+      Then STDOUT should contain:            # vendor/wp-cli/extension-command/features/plugin.feature:500
+        $ wp plugin activate --all
+        Plugin 'hello' activated.
+        Plugin 'sample-plugin' activated.
+        Success: Activated 2 of 2 plugins.
+        
+        cwd: /tmp/wp-cli-test-run-plugin.feature.495-6b0986cd8afa18.25775072/
+        run time: 0.28314805030823
+        exit status: 0
+        
+        Output does not contain expected string:
+        Plugin 'akismet' activated.
+        
+        --- Expected
+        +++ Actual
+        @@ @@
+        -Plugin 'akismet' activated.
+        +Plugin 'hello' activated.
+        +Plugin 'sample-plugin' activated.
+        +Success: Activated 2 of 2 plugins.
+         (Exception)
+
+046 Scenario: Can't install theme that requires a newer version of WordPress # vendor/wp-cli/extension-command/features/theme-install.feature:130
+      When I run `wp core download --version=6.4 --force`                    # vendor/wp-cli/extension-command/features/theme-install.feature:133
+        $ wp core download --version=6.4 --force
+        Downloading WordPress 6.4 (en_US)...
+        md5 hash verified: 8d78482a300204da2a921b150f663bff
+        Cleaning up files...
+        No old files were removed.
+        Success: WordPress downloaded.
+        
+        Warning: Could not retrieve WordPress core checksums; skipping checksum-based cleanup. Files listed in $_old_files were still cleaned up.
+        cwd: /tmp/wp-cli-test-run-theme-install.feature.130-6b098728a2aec0.79171077/
+        run time: 0.83487820625305
+        exit status: 0
+        
+        The command unexpectedly produced STDERR output. If you expect a non-zero exit status or STDERR output, use `When I try [...]`. Else, this may be a bug in your code or test. (RuntimeException)
+
+047 Example: | theme  | Theme     | storefront              | Storefront              | 1.0.0   | https://wordpress.org/themes/download/storefront.1.0.0.zip             | {CONTENT_DIR}/storefront/style.css                                | # vendor/wp-cli/extension-command/features/upgradables.feature:213
+      And I run `wp plugin delete akismet`                                                                                                                                                                                                     # vendor/wp-cli/extension-command/features/upgradables.feature:10
+        $ wp plugin delete akismet
+        Success: Plugin already deleted.
+        
+        Warning: The 'akismet' plugin could not be found.
+        cwd: /tmp/wp-cli-test-run-upgradables.feature.213-6b0987a79eda87.38890035/
+        run time: 0.3622190952301
+        exit status: 0
+        
+        The command unexpectedly produced STDERR output. If you expect a non-zero exit status or STDERR output, use `When I try [...]`. Else, this may be a bug in your code or test. (RuntimeException)
+
+048 Example: | plugin | Plugin    | category-checklist-tree | Category Checklist Tree | 1.2     | https://downloads.wordpress.org/plugin/category-checklist-tree.1.2.zip | {CONTENT_DIR}/category-checklist-tree/category-checklist-tree.php | # vendor/wp-cli/extension-command/features/upgradables.feature:214
+      And I run `wp plugin delete akismet`                                                                                                                                                                                                     # vendor/wp-cli/extension-command/features/upgradables.feature:10
+        $ wp plugin delete akismet
+        Success: Plugin already deleted.
+        
+        Warning: The 'akismet' plugin could not be found.
+        cwd: /tmp/wp-cli-test-run-upgradables.feature.214-6b0987a8714fa5.66506300/
+        run time: 0.36340999603271
+        exit status: 0
+        
+        The command unexpectedly produced STDERR output. If you expect a non-zero exit status or STDERR output, use `When I try [...]`. Else, this may be a bug in your code or test. (RuntimeException)
+
+297 scenarios (249 passed, 48 failed)
+2769 steps (2277 passed, 48 failed, 444 skipped)
+8m6.54s (16.63Mb)
+Not running 8 of 301 scenarios:
+  Not part of this configuration:
+    @less-than-wp-6.5, as WordPress trunk is used: vendor/wp-cli/extension-command/features/plugin-dependencies.feature:7, vendor/wp-cli/extension-command/features/plugin-dependencies.feature:45
+    @github-api, as GITHUB_TOKEN is not set: vendor/wp-cli/extension-command/features/plugin-install-github-latest.feature:4, vendor/wp-cli/extension-command/features/plugin-install.feature:390, vendor/wp-cli/extension-command/features/upgradables.feature:217
+    @less-than-php-7.4, as PHP 8.5.13 is used: vendor/wp-cli/extension-command/features/plugin-install.feature:310, vendor/wp-cli/extension-command/features/theme-install.feature:148
+    @less-than-wp-5.3, as WordPress trunk is used: vendor/wp-cli/extension-command/features/plugin-list-wporg-status.feature:269
+.F--.....F--....F--..F-......F.....F...F-----....F----------....F---.. 70
+.F------..F---..F--------..F---..F---------..F----..F----..F-----..F-- 140
+...F-----...F--------......F-----....F-----..F----.F---.F-----.F------ 210
+----..F----------.......F-----.....F-------.F---..F------..F----..F--- 280
+-..F-----..F-----...F-------...F---------.........F-------.F---------- 350
+.F-------.F------------------------......F--------------..F----------- 420
+....F--...F--------------...F----..F---------------------------------- 490
+----------------------------------------------------..F--------------- 560
+---------------------------------------------------------------------- 630
+-
+
+--- Failed steps:
+
+001 Scenario: Activate a plugin that's already installed # vendor/wp-cli/extension-command/features/plugin-activate.feature:6
+      When I run `wp plugin activate akismet`            # vendor/wp-cli/extension-command/features/plugin-activate.feature:7
+        $ wp plugin activate akismet
+        
+        Warning: The 'akismet' plugin could not be found.
+        Error: No plugins activated.
+        cwd: /tmp/wp-cli-test-run-plugin-activate.feature.6-6b0987a99b5eb8.44458722/
+        run time: 0.36283016204834
+        exit status: 1
+        
+        The command unexpectedly exited with status 1. If you expect a non-zero exit status, use `When I try [...]`. Else, this may be a bug in your code or test. (RuntimeException)
+
+002 Scenario: Attempt to activate a plugin that's not installed # vendor/wp-cli/extension-command/features/plugin-activate.feature:15
+      Then STDERR should be:                                    # vendor/wp-cli/extension-command/features/plugin-activate.feature:25
+        $ wp plugin activate akismet debug-bar
+        
+        Warning: The 'akismet' plugin could not be found.
+        Warning: The 'debug-bar' plugin could not be found.
+        Error: No plugins activated.
+        cwd: /tmp/wp-cli-test-run-plugin-activate.feature.15-6b0987ab4b1063.76021328/
+        run time: 0.23584794998169
+        exit status: 1
+        
+        Output does not exactly match expected string:
+        Warning: The 'debug-bar' plugin could not be found.
+        Error: Only activated 1 of 2 plugins.
+        
+        --- Expected
+        +++ Actual
+        @@ @@
+        +Warning: The 'akismet' plugin could not be found.
+         Warning: The 'debug-bar' plugin could not be found.
+        -Error: Only activated 1 of 2 plugins.
+        +Error: No plugins activated.
+         (Exception)
+
+003 Scenario: Activate all when one plugin is hidden by "all_plugins" filter # vendor/wp-cli/extension-command/features/plugin-activate.feature:36
+      Then STDOUT should contain:                                            # vendor/wp-cli/extension-command/features/plugin-activate.feature:56
+        $ wp plugin activate --all
+        Plugin 'hello' activated.
+        Plugin 'sample-plugin' activated.
+        Success: Activated 2 of 2 plugins.
+        
+        cwd: /tmp/wp-cli-test-run-plugin-activate.feature.36-6b0987ac5734d2.24297321/
+        run time: 0.27021312713623
+        exit status: 0
+        
+        Output does not contain expected string:
+        Plugin 'akismet' activated.
+        
+        --- Expected
+        +++ Actual
+        @@ @@
+        -Plugin 'akismet' activated.
+        +Plugin 'hello' activated.
+        +Plugin 'sample-plugin' activated.
+        +Success: Activated 2 of 2 plugins.
+         (Exception)
+
+004 Scenario: Adding --exclude with plugin activate --all should exclude the plugins specified via --exclude # vendor/wp-cli/extension-command/features/plugin-activate.feature:139
+      Then STDOUT should be:                                                                                 # vendor/wp-cli/extension-command/features/plugin-activate.feature:141
+        $ wp plugin activate --all --exclude=hello,hello-dolly
+        Success: No plugins activated.
+        
+        cwd: /tmp/wp-cli-test-run-plugin-activate.feature.139-6b0987ae293e74.94264294/
+        run time: 0.36739993095398
+        exit status: 0
+        
+        Output does not exactly match expected string:
+        Plugin 'akismet' activated.
+        Success: Activated 1 of 1 plugins.
+        
+        --- Expected
+        +++ Actual
+        @@ @@
+        -Plugin 'akismet' activated.
+        -Success: Activated 1 of 1 plugins.
+        +Success: No plugins activated.
+         (Exception)
+
+005 Scenario: Disable auto-updates for already disabled plugins # vendor/wp-cli/extension-command/features/plugin-auto-updates-disable.feature:48
+      And STDERR should contain:                                # vendor/wp-cli/extension-command/features/plugin-auto-updates-disable.feature:55
+        $ wp plugin auto-updates disable --all
+        
+        Warning: Auto-updates already disabled for plugin sample-plugin.
+        Error: Only disabled 2 of 3 plugin auto-updates.
+        cwd: /tmp/wp-cli-test-run-plugin-auto-updates-disable.feature.48-6b0987aef09619.10595343/
+        run time: 0.24684906005859
+        exit status: 1
+        
+        Output does not contain expected string:
+        Error: Only disabled 3 of 4 plugin auto-updates.
+        
+        --- Expected
+        +++ Actual
+        @@ @@
+        -Error: Only disabled 3 of 4 plugin auto-updates.
+        +Warning: Auto-updates already disabled for plugin sample-plugin.
+        +Error: Only disabled 2 of 3 plugin auto-updates.
+         (Exception)
+
+006 Scenario: Enable auto-updates for already enabled plugins # vendor/wp-cli/extension-command/features/plugin-auto-updates-enable.feature:47
+      And STDERR should contain:                              # vendor/wp-cli/extension-command/features/plugin-auto-updates-enable.feature:54
+        $ wp plugin auto-updates enable --all
+        
+        Warning: Auto-updates already enabled for plugin sample-plugin.
+        Error: Only enabled 2 of 3 plugin auto-updates.
+        cwd: /tmp/wp-cli-test-run-plugin-auto-updates-enable.feature.47-6b0987b1273774.68636897/
+        run time: 0.24333810806274
+        exit status: 1
+        
+        Output does not contain expected string:
+        Error: Only enabled 3 of 4 plugin auto-updates.
+        
+        --- Expected
+        +++ Actual
+        @@ @@
+        -Error: Only enabled 3 of 4 plugin auto-updates.
+        +Warning: Auto-updates already enabled for plugin sample-plugin.
+        +Error: Only enabled 2 of 3 plugin auto-updates.
+         (Exception)
+
+007 Scenario: Show the status of auto-updates all installed plugins # vendor/wp-cli/extension-command/features/plugin-auto-updates-status.feature:34
+      Then STDOUT should be a table containing rows:                # vendor/wp-cli/extension-command/features/plugin-auto-updates-status.feature:36
+        name	status
+        debug-bar	disabled
+        hello	disabled
+        sample-plugin	disabled
+        
+        
+        --- Expected
+        +++ Actual
+        @@ @@
+        -akismet	disabled
+         debug-bar	disabled
+        +hello	disabled
+         sample-plugin	disabled
+         (Exception)
+
+008 Scenario: The status can be filtered to only show enabled or disabled plugins # vendor/wp-cli/extension-command/features/plugin-auto-updates-status.feature:53
+      Then STDOUT should be a table containing rows:                              # vendor/wp-cli/extension-command/features/plugin-auto-updates-status.feature:57
+        name	status
+        debug-bar	disabled
+        hello	disabled
+        sample-plugin	enabled
+        
+        
+        --- Expected
+        +++ Actual
+        @@ @@
+        -akismet	disabled
+         debug-bar	disabled
+        +hello	disabled
+         sample-plugin	enabled
+         (Exception)
+
+009 Scenario: The fields can be shown individually # vendor/wp-cli/extension-command/features/plugin-auto-updates-status.feature:85
+      Then STDOUT should contain:                  # vendor/wp-cli/extension-command/features/plugin-auto-updates-status.feature:89
+        $ wp plugin auto-updates status --all --disabled-only --field=name
+        debug-bar
+        hello
+        
+        cwd: /tmp/wp-cli-test-run-plugin-auto-updates-status.feature.85-6b0987b6a606a7.57843115/
+        run time: 0.24336385726929
+        exit status: 0
+        
+        Output does not contain expected string:
+        akismet
+        
+        --- Expected
+        +++ Actual
+        @@ @@
+        -akismet
+        +debug-bar
+        +hello
+         (Exception)
+
+010 Scenario: Formatting options work # vendor/wp-cli/extension-command/features/plugin-auto-updates-status.feature:105
+      Then STDOUT should contain:     # vendor/wp-cli/extension-command/features/plugin-auto-updates-status.feature:107
+        $ wp plugin auto-updates status --all --format=json
+        [{"name":"debug-bar","status":"disabled"},{"name":"hello","status":"disabled"},{"name":"sample-plugin","status":"disabled"}]
+        cwd: /tmp/wp-cli-test-run-plugin-auto-updates-status.feature.105-6b0987b891ce66.72625987/
+        run time: 0.27080702781677
+        exit status: 0
+        
+        Output does not contain expected string:
+        {"name":"akismet","status":"disabled"}
+        
+        --- Expected
+        +++ Actual
+        @@ @@
+        -{"name":"akismet","status":"disabled"}
+        +[{"name":"debug-bar","status":"disabled"},{"name":"hello","status":"disabled"},{"name":"sample-plugin","status":"disabled"}]
+         (Exception)
+
+011 Scenario: Deactivate a plugin that's already activated # vendor/wp-cli/extension-command/features/plugin-deactivate.feature:8
+      And I run `wp plugin activate akismet sample-plugin` # vendor/wp-cli/extension-command/features/plugin-deactivate.feature:6
+        $ wp plugin activate akismet sample-plugin
+        Plugin 'sample-plugin' activated.
+        
+        Warning: The 'akismet' plugin could not be found.
+        Error: Only activated 1 of 2 plugins.
+        cwd: /tmp/wp-cli-test-run-plugin-deactivate.feature.8-6b0987ba3f8961.15660911/
+        run time: 0.27264022827148
+        exit status: 1
+        
+        The command unexpectedly exited with status 1. If you expect a non-zero exit status, use `When I try [...]`. Else, this may be a bug in your code or test. (RuntimeException)
+
+012 Scenario: Attempt to deactivate a plugin that's not installed # vendor/wp-cli/extension-command/features/plugin-deactivate.feature:17
+      And I run `wp plugin activate akismet sample-plugin`        # vendor/wp-cli/extension-command/features/plugin-deactivate.feature:6
+        $ wp plugin activate akismet sample-plugin
+        Plugin 'sample-plugin' activated.
+        
+        Warning: The 'akismet' plugin could not be found.
+        Error: Only activated 1 of 2 plugins.
+        cwd: /tmp/wp-cli-test-run-plugin-deactivate.feature.17-6b0987bba09775.84575101/
+        run time: 0.26832294464111
+        exit status: 1
+        
+        The command unexpectedly exited with status 1. If you expect a non-zero exit status, use `When I try [...]`. Else, this may be a bug in your code or test. (RuntimeException)
+
+013 Scenario: Deactivate all when a previously active plugin is hidden by "all_plugins" filter # vendor/wp-cli/extension-command/features/plugin-deactivate.feature:40
+      And I run `wp plugin activate akismet sample-plugin`                                     # vendor/wp-cli/extension-command/features/plugin-deactivate.feature:6
+        $ wp plugin activate akismet sample-plugin
+        Plugin 'sample-plugin' activated.
+        
+        Warning: The 'akismet' plugin could not be found.
+        Error: Only activated 1 of 2 plugins.
+        cwd: /tmp/wp-cli-test-run-plugin-deactivate.feature.40-6b0987bd0dd649.06474988/
+        run time: 0.26618981361389
+        exit status: 1
+        
+        The command unexpectedly exited with status 1. If you expect a non-zero exit status, use `When I try [...]`. Else, this may be a bug in your code or test. (RuntimeException)
+
+014 Scenario: Not giving a slug on deactivate should throw an error unless --all given # vendor/wp-cli/extension-command/features/plugin-deactivate.feature:64
+      And I run `wp plugin activate akismet sample-plugin`                             # vendor/wp-cli/extension-command/features/plugin-deactivate.feature:6
+        $ wp plugin activate akismet sample-plugin
+        Plugin 'sample-plugin' activated.
+        
+        Warning: The 'akismet' plugin could not be found.
+        Error: Only activated 1 of 2 plugins.
+        cwd: /tmp/wp-cli-test-run-plugin-deactivate.feature.64-6b0987be6bed03.69888175/
+        run time: 0.26507687568665
+        exit status: 1
+        
+        The command unexpectedly exited with status 1. If you expect a non-zero exit status, use `When I try [...]`. Else, this may be a bug in your code or test. (RuntimeException)
+
+015 Scenario: Adding --exclude with plugin deactivate --all should exclude the plugins specified via --exclude # vendor/wp-cli/extension-command/features/plugin-deactivate.feature:83
+      And I run `wp plugin activate akismet sample-plugin`                                                     # vendor/wp-cli/extension-command/features/plugin-deactivate.feature:6
+        $ wp plugin activate akismet sample-plugin
+        Plugin 'sample-plugin' activated.
+        
+        Warning: The 'akismet' plugin could not be found.
+        Error: Only activated 1 of 2 plugins.
+        cwd: /tmp/wp-cli-test-run-plugin-deactivate.feature.83-6b0987bfc9f311.77837162/
+        run time: 0.26547193527222
+        exit status: 1
+        
+        The command unexpectedly exited with status 1. If you expect a non-zero exit status, use `When I try [...]`. Else, this may be a bug in your code or test. (RuntimeException)
+
+016 Scenario: Adding --exclude with plugin deactivate should throw an error unless --all given # vendor/wp-cli/extension-command/features/plugin-deactivate.feature:95
+      And I run `wp plugin activate akismet sample-plugin`                                     # vendor/wp-cli/extension-command/features/plugin-deactivate.feature:6
+        $ wp plugin activate akismet sample-plugin
+        Plugin 'sample-plugin' activated.
+        
+        Warning: The 'akismet' plugin could not be found.
+        Error: Only activated 1 of 2 plugins.
+        cwd: /tmp/wp-cli-test-run-plugin-deactivate.feature.95-6b0987c1366b96.31820286/
+        run time: 0.26635503768921
+        exit status: 1
+        
+        The command unexpectedly exited with status 1. If you expect a non-zero exit status, use `When I try [...]`. Else, this may be a bug in your code or test. (RuntimeException)
+
+017 Scenario: Excluding a missing plugin should not throw an error # vendor/wp-cli/extension-command/features/plugin-deactivate.feature:104
+      And I run `wp plugin activate akismet sample-plugin`         # vendor/wp-cli/extension-command/features/plugin-deactivate.feature:6
+        $ wp plugin activate akismet sample-plugin
+        Plugin 'sample-plugin' activated.
+        
+        Warning: The 'akismet' plugin could not be found.
+        Error: Only activated 1 of 2 plugins.
+        cwd: /tmp/wp-cli-test-run-plugin-deactivate.feature.104-6b0987c293c731.38539586/
+        run time: 0.26566505432129
+        exit status: 1
+        
+        The command unexpectedly exited with status 1. If you expect a non-zero exit status, use `When I try [...]`. Else, this may be a bug in your code or test. (RuntimeException)
+
+018 Scenario: Delete an installed plugin    # vendor/wp-cli/extension-command/features/plugin-delete.feature:7
+      When I run `wp plugin delete akismet` # vendor/wp-cli/extension-command/features/plugin-delete.feature:8
+        $ wp plugin delete akismet
+        Success: Plugin already deleted.
+        
+        Warning: The 'akismet' plugin could not be found.
+        cwd: /tmp/wp-cli-test-run-plugin-delete.feature.7-6b0987c3f0b842.62972111/
+        run time: 0.26792597770691
+        exit status: 0
+        
+        The command unexpectedly produced STDERR output. If you expect a non-zero exit status or STDERR output, use `When I try [...]`. Else, this may be a bug in your code or test. (RuntimeException)
+
+019 Scenario: Delete all installed plugins # vendor/wp-cli/extension-command/features/plugin-delete.feature:16
+      Then STDOUT should contain:          # vendor/wp-cli/extension-command/features/plugin-delete.feature:18
+        $ wp plugin delete --all
+        Deleted 'hello' plugin.
+        Deleted 'sample-plugin' plugin.
+        Success: Deleted 2 of 2 plugins.
+        
+        cwd: /tmp/wp-cli-test-run-plugin-delete.feature.16-6b0987c55f6c98.09613467/
+        run time: 0.26740288734436
+        exit status: 0
+        
+        Output does not contain expected string:
+        Deleted 'akismet' plugin.
+        
+        --- Expected
+        +++ Actual
+        @@ @@
+        -Deleted 'akismet' plugin.
+        +Deleted 'hello' plugin.
+        +Deleted 'sample-plugin' plugin.
+        +Success: Deleted 2 of 2 plugins.
+         (Exception)
+
+020 Scenario: Reports a failure for a plugin that can't be deleted # vendor/wp-cli/extension-command/features/plugin-delete.feature:69
+      When I run `chmod -w wp-content/plugins/akismet`             # vendor/wp-cli/extension-command/features/plugin-delete.feature:72
+        $ chmod -w wp-content/plugins/akismet
+        
+        chmod: cannot access 'wp-content/plugins/akismet': No such file or directory
+        cwd: /tmp/wp-cli-test-run-plugin-delete.feature.69-6b0987c6bc0804.03328400/
+        run time: 0.0011930465698242
+        exit status: 1
+        
+        The command unexpectedly exited with status 1. If you expect a non-zero exit status, use `When I try [...]`. Else, this may be a bug in your code or test. (RuntimeException)
+
+021 Scenario: Install dependencies with activation # vendor/wp-cli/extension-command/features/plugin-dependencies.feature:91
+      And STDOUT should contain:                   # vendor/wp-cli/extension-command/features/plugin-dependencies.feature:113
+        $ wp plugin install-dependencies test-plugin --activate
+        Installing 2 dependencies for 'test-plugin'...
+        Installing Akismet Anti-spam: Spam Protection (5.7.2)
+        Downloading installation package from https://downloads.wordpress.org/plugin/akismet.5.7.2.zip...
+        Unpacking the package...
+        Installing the plugin...
+        Plugin installed successfully.
+        Activating 'akismet'...
+        Plugin 'akismet' activated.
+        Installing BuddyPress (14.5.7)
+        Downloading installation package from https://downloads.wordpress.org/plugin/buddypress.14.5.7.zip...
+        Unpacking the package...
+        Installing the plugin...
+        Plugin installed successfully.
+        Activating 'buddypress'...
+        Plugin 'buddypress' activated.
+        Success: Installed 2 of 2 plugins.
+        
+        cwd: /tmp/wp-cli-test-run-plugin-dependencies.feature.91-6b0987c8649821.42175336/
+        run time: 1.1719977855682
+        exit status: 0
+        
+        Output does not contain expected string:
+        Success: Installed 1 of 2 plugins.
+        
+        --- Expected
+        +++ Actual
+        @@ @@
+        -Success: Installed 1 of 2 plugins.
+        +Installing 2 dependencies for 'test-plugin'...
+        +Installing Akismet Anti-spam: Spam Protection (5.7.2)
+        +Downloading installation package from https://downloads.wordpress.org/plugin/akismet.5.7.2.zip...
+        +Unpacking the package...
+        +Installing the plugin...
+        +Plugin installed successfully.
+        +Activating 'akismet'...
+        +Plugin 'akismet' activated.
+        +Installing BuddyPress (14.5.7)
+        +Downloading installation package from https://downloads.wordpress.org/plugin/buddypress.14.5.7.zip...
+        +Unpacking the package...
+        +Installing the plugin...
+        +Plugin installed successfully.
+        +Activating 'buddypress'...
+        +Plugin 'buddypress' activated.
+        +Success: Installed 2 of 2 plugins.
+         (Exception)
+
+022 Scenario: Paths aren't backslashed when destination folder already exists # vendor/wp-cli/extension-command/features/plugin-install.feature:215
+      When I run `rm wp-content/plugins/akismet/akismet.php`                  # vendor/wp-cli/extension-command/features/plugin-install.feature:221
+        $ rm wp-content/plugins/akismet/akismet.php
+        
+        rm: cannot remove 'wp-content/plugins/akismet/akismet.php': No such file or directory
+        cwd: /tmp/wp-cli-test-run-plugin-install.feature.215-6b0987ca0d2090.68832465/
+        run time: 0.0012319087982178
+        exit status: 1
+        
+        The command unexpectedly exited with status 1. If you expect a non-zero exit status, use `When I try [...]`. Else, this may be a bug in your code or test. (RuntimeException)
+
+023 Scenario: Can't install plugin that requires a newer version of WordPress # vendor/wp-cli/extension-command/features/plugin-install.feature:292
+      When I run `wp core download --version=6.4 --force`                     # vendor/wp-cli/extension-command/features/plugin-install.feature:295
+        $ wp core download --version=6.4 --force
+        Downloading WordPress 6.4 (en_US)...
+        md5 hash verified: 8d78482a300204da2a921b150f663bff
+        Cleaning up files...
+        No old files were removed.
+        Success: WordPress downloaded.
+        
+        Warning: Could not retrieve WordPress core checksums; skipping checksum-based cleanup. Files listed in $_old_files were still cleaned up.
+        cwd: /tmp/wp-cli-test-run-plugin-install.feature.292-6b0987cabea0e0.56326023/
+        run time: 0.86549711227417
+        exit status: 0
+        
+        The command unexpectedly produced STDERR output. If you expect a non-zero exit status or STDERR output, use `When I try [...]`. Else, this may be a bug in your code or test. (RuntimeException)
+
+024 Scenario: Check if an active plugin is active # vendor/wp-cli/extension-command/features/plugin-is-active.feature:6
+      When I run `wp plugin activate akismet`     # vendor/wp-cli/extension-command/features/plugin-is-active.feature:7
+        $ wp plugin activate akismet
+        
+        Warning: The 'akismet' plugin could not be found.
+        Error: No plugins activated.
+        cwd: /tmp/wp-cli-test-run-plugin-is-active.feature.6-6b0987cc1d9969.61419420/
+        run time: 0.36900281906128
+        exit status: 1
+        
+        The command unexpectedly exited with status 1. If you expect a non-zero exit status, use `When I try [...]`. Else, this may be a bug in your code or test. (RuntimeException)
+
+025 Scenario: Check if an inactive plugin is not active # vendor/wp-cli/extension-command/features/plugin-is-active.feature:16
+      When I run `wp plugin activate akismet`           # vendor/wp-cli/extension-command/features/plugin-is-active.feature:17
+        $ wp plugin activate akismet
+        
+        Warning: The 'akismet' plugin could not be found.
+        Error: No plugins activated.
+        cwd: /tmp/wp-cli-test-run-plugin-is-active.feature.16-6b0987cced3b33.94349243/
+        run time: 0.36940693855286
+        exit status: 1
+        
+        The command unexpectedly exited with status 1. If you expect a non-zero exit status, use `When I try [...]`. Else, this may be a bug in your code or test. (RuntimeException)
+
+026 Scenario: Warn when plugin is in active_plugins but file does not exist # vendor/wp-cli/extension-command/features/plugin-is-active.feature:36
+      When I run `wp plugin activate akismet`                               # vendor/wp-cli/extension-command/features/plugin-is-active.feature:37
+        $ wp plugin activate akismet
+        
+        Warning: The 'akismet' plugin could not be found.
+        Error: No plugins activated.
+        cwd: /tmp/wp-cli-test-run-plugin-is-active.feature.36-6b0987cdc85d96.06164444/
+        run time: 0.37446689605713
+        exit status: 1
+        
+        The command unexpectedly exited with status 1. If you expect a non-zero exit status, use `When I try [...]`. Else, this may be a bug in your code or test. (RuntimeException)
+
+027 Scenario: Warn when network-activated plugin is in active_sitewide_plugins but file does not exist # vendor/wp-cli/extension-command/features/plugin-is-active.feature:61
+      When I run `wp plugin activate akismet --network`                                                # vendor/wp-cli/extension-command/features/plugin-is-active.feature:64
+        $ wp plugin activate akismet --network
+        
+        Warning: The 'akismet' plugin could not be found.
+        Error: No plugins network activated.
+        cwd: /tmp/wp-cli-test-run-plugin-is-active.feature.61-6b0987cea4afd0.10643170/
+        run time: 0.36415004730225
+        exit status: 1
+        
+        The command unexpectedly exited with status 1. If you expect a non-zero exit status, use `When I try [...]`. Else, this may be a bug in your code or test. (RuntimeException)
+
+028 Scenario: Verify plugin installation, activation, deactivation and confirm listing recently active plugins list is correct # vendor/wp-cli/extension-command/features/plugin-list-recently-active.feature:3
+      When I run `wp plugin activate akismet`                                                                                  # vendor/wp-cli/extension-command/features/plugin-list-recently-active.feature:26
+        $ wp plugin activate akismet
+        
+        Warning: The 'akismet' plugin could not be found.
+        Error: No plugins activated.
+        cwd: /tmp/wp-cli-test-run-plugin-list-recently-active.feature.3-6b0987d060d986.09558677/
+        run time: 0.24007296562195
+        exit status: 1
+        
+        The command unexpectedly exited with status 1. If you expect a non-zero exit status, use `When I try [...]`. Else, this may be a bug in your code or test. (RuntimeException)
+
+029 Scenario: For a MU site, verify plugin installation, activation, deactivation and confirm listing recently active plugins list is correct # vendor/wp-cli/extension-command/features/plugin-list-recently-active.feature:78
+      When I run `wp plugin activate akismet --network`                                                                                       # vendor/wp-cli/extension-command/features/plugin-list-recently-active.feature:95
+        $ wp plugin activate akismet --network
+        
+        Warning: The 'akismet' plugin could not be found.
+        Error: No plugins network activated.
+        cwd: /tmp/wp-cli-test-run-plugin-list-recently-active.feature.78-6b0987d2a14692.18249123/
+        run time: 0.27669787406921
+        exit status: 1
+        
+        The command unexpectedly exited with status 1. If you expect a non-zero exit status, use `When I try [...]`. Else, this may be a bug in your code or test. (RuntimeException)
+
+030 Scenario: Toggle the status of a plugin # vendor/wp-cli/extension-command/features/plugin-toggle.feature:6
+      When I run `wp plugin toggle akismet` # vendor/wp-cli/extension-command/features/plugin-toggle.feature:7
+        $ wp plugin toggle akismet
+        
+        Warning: The 'akismet' plugin could not be found.
+        Error: No plugins toggled.
+        cwd: /tmp/wp-cli-test-run-plugin-toggle.feature.6-6b0987d4e899b0.40669402/
+        run time: 0.36590194702148
+        exit status: 1
+        
+        The command unexpectedly exited with status 1. If you expect a non-zero exit status, use `When I try [...]`. Else, this may be a bug in your code or test. (RuntimeException)
+
+031 Scenario: Toggling the status of a plugin that doesn't exist # vendor/wp-cli/extension-command/features/plugin-toggle.feature:21
+      Then STDERR should be:                                     # vendor/wp-cli/extension-command/features/plugin-toggle.feature:23
+        $ wp plugin toggle akismet debug-bar
+        
+        Warning: The 'akismet' plugin could not be found.
+        Warning: The 'debug-bar' plugin could not be found.
+        Error: No plugins toggled.
+        cwd: /tmp/wp-cli-test-run-plugin-toggle.feature.21-6b0987d5c38199.14778661/
+        run time: 0.36816811561584
+        exit status: 1
+        
+        Output does not exactly match expected string:
+        Warning: The 'debug-bar' plugin could not be found.
+        Error: Only toggled 1 of 2 plugins.
+        
+        --- Expected
+        +++ Actual
+        @@ @@
+        +Warning: The 'akismet' plugin could not be found.
+         Warning: The 'debug-bar' plugin could not be found.
+        -Error: Only toggled 1 of 2 plugins.
+        +Error: No plugins toggled.
+         (Exception)
+
+032 Scenario: Uninstall an installed plugin should uninstall, delete files # vendor/wp-cli/extension-command/features/plugin-uninstall.feature:7
+      When I run `wp plugin uninstall akismet`                             # vendor/wp-cli/extension-command/features/plugin-uninstall.feature:8
+        $ wp plugin uninstall akismet
+        
+        Warning: The 'akismet' plugin could not be found.
+        Error: No plugins uninstalled.
+        cwd: /tmp/wp-cli-test-run-plugin-uninstall.feature.7-6b0987d6a019a4.96766363/
+        run time: 0.26630783081055
+        exit status: 1
+        
+        The command unexpectedly exited with status 1. If you expect a non-zero exit status, use `When I try [...]`. Else, this may be a bug in your code or test. (RuntimeException)
+
+033 Scenario: Uninstall an installed plugin but do not delete its files # vendor/wp-cli/extension-command/features/plugin-uninstall.feature:18
+      When I run `wp plugin uninstall akismet --skip-delete`            # vendor/wp-cli/extension-command/features/plugin-uninstall.feature:19
+        $ wp plugin uninstall akismet --skip-delete
+        
+        Warning: The 'akismet' plugin could not be found.
+        Error: No plugins uninstalled.
+        cwd: /tmp/wp-cli-test-run-plugin-uninstall.feature.18-6b0987d811bf93.37413555/
+        run time: 0.27977585792542
+        exit status: 1
+        
+        The command unexpectedly exited with status 1. If you expect a non-zero exit status, use `When I try [...]`. Else, this may be a bug in your code or test. (RuntimeException)
+
+034 Scenario: Attempting to uninstall a plugin that's activated # vendor/wp-cli/extension-command/features/plugin-uninstall.feature:49
+      When I run `wp plugin activate akismet`                   # vendor/wp-cli/extension-command/features/plugin-uninstall.feature:50
+        $ wp plugin activate akismet
+        
+        Warning: The 'akismet' plugin could not be found.
+        Error: No plugins activated.
+        cwd: /tmp/wp-cli-test-run-plugin-uninstall.feature.49-6b0987da80c1e5.50562743/
+        run time: 0.27645492553711
+        exit status: 1
+        
+        The command unexpectedly exited with status 1. If you expect a non-zero exit status, use `When I try [...]`. Else, this may be a bug in your code or test. (RuntimeException)
+
+035 Scenario: Attempting to uninstall a plugin that's activated (using --deactivate) # vendor/wp-cli/extension-command/features/plugin-uninstall.feature:62
+      When I run `wp plugin activate akismet`                                        # vendor/wp-cli/extension-command/features/plugin-uninstall.feature:63
+        $ wp plugin activate akismet
+        
+        Warning: The 'akismet' plugin could not be found.
+        Error: No plugins activated.
+        cwd: /tmp/wp-cli-test-run-plugin-uninstall.feature.62-6b0987dbebe3c7.69655847/
+        run time: 0.26956510543823
+        exit status: 1
+        
+        The command unexpectedly exited with status 1. If you expect a non-zero exit status, use `When I try [...]`. Else, this may be a bug in your code or test. (RuntimeException)
+
+036 Scenario: Uninstall all installed plugins # vendor/wp-cli/extension-command/features/plugin-uninstall.feature:86
+      Then STDOUT should contain:             # vendor/wp-cli/extension-command/features/plugin-uninstall.feature:88
+        $ wp plugin uninstall --all
+        Uninstalled and deleted 'hello' plugin.
+        Uninstalled and deleted 'sample-plugin' plugin.
+        Success: Uninstalled 2 of 2 plugins.
+        
+        cwd: /tmp/wp-cli-test-run-plugin-uninstall.feature.86-6b0987dd644da5.06294927/
+        run time: 0.27637982368469
+        exit status: 0
+        
+        Output does not contain expected string:
+        Uninstalled and deleted 'akismet' plugin.
+        
+        --- Expected
+        +++ Actual
+        @@ @@
+        -Uninstalled and deleted 'akismet' plugin.
+        +Uninstalled and deleted 'hello' plugin.
+        +Uninstalled and deleted 'sample-plugin' plugin.
+        +Success: Uninstalled 2 of 2 plugins.
+         (Exception)
+
+037 Scenario: Uninstall all installed plugins when one or more activated # vendor/wp-cli/extension-command/features/plugin-uninstall.feature:110
+      Then STDOUT should contain:                                        # vendor/wp-cli/extension-command/features/plugin-uninstall.feature:112
+        $ wp plugin activate --all
+        Plugin 'hello' activated.
+        Plugin 'sample-plugin' activated.
+        Success: Activated 2 of 2 plugins.
+        
+        cwd: /tmp/wp-cli-test-run-plugin-uninstall.feature.110-6b0987decf9208.57576210/
+        run time: 0.28161287307739
+        exit status: 0
+        
+        Output does not contain expected string:
+        Success: Activated 3 of 3 plugins.
+        
+        --- Expected
+        +++ Actual
+        @@ @@
+        -Success: Activated 3 of 3 plugins.
+        +Plugin 'hello' activated.
+        +Plugin 'sample-plugin' activated.
+        +Success: Activated 2 of 2 plugins.
+         (Exception)
+
+038 Scenario: Updating plugin with invalid version shouldn't remove the old version # vendor/wp-cli/extension-command/features/plugin-update.feature:4
+      Then STDERR should be:                                                        # vendor/wp-cli/extension-command/features/plugin-update.feature:20
+        $ wp plugin update akismet --version=0.5.3
+        
+        Warning: The 'akismet' plugin could not be found.
+        cwd: /tmp/wp-cli-test-run-plugin-update.feature.4-6b0987e047e497.06116907/
+        run time: 0.24281406402588
+        exit status: 0
+        
+        Output does not exactly match expected string:
+        Error: Can't find the requested plugin's version 0.5.3 in the WordPress.org plugin repository (HTTP code 404).
+        
+        --- Expected
+        +++ Actual
+        @@ @@
+        -Error: Can't find the requested plugin's version 0.5.3 in the WordPress.org plugin repository (HTTP code 404).
+        +Warning: The 'akismet' plugin could not be found.
+         (Exception)
+
+039 Scenario: Updating all plugins ignores an older no-update version # vendor/wp-cli/extension-command/features/plugin-update.feature:296
+      And I run `wp plugin delete akismet`                            # vendor/wp-cli/extension-command/features/plugin-update.feature:298
+        $ wp plugin delete akismet
+        Success: Plugin already deleted.
+        
+        Warning: The 'akismet' plugin could not be found.
+        cwd: /tmp/wp-cli-test-run-plugin-update.feature.296-6b0987e2433eb7.21893909/
+        run time: 0.37207508087158
+        exit status: 0
+        
+        The command unexpectedly produced STDERR output. If you expect a non-zero exit status or STDERR output, use `When I try [...]`. Else, this may be a bug in your code or test. (RuntimeException)
+
+040 Scenario: Updating all plugins should show the name of each plugin as it is updated # vendor/wp-cli/extension-command/features/plugin-update.feature:406
+      And I run `wp plugin delete akismet`                                              # vendor/wp-cli/extension-command/features/plugin-update.feature:408
+        $ wp plugin delete akismet
+        Success: Plugin already deleted.
+        
+        Warning: The 'akismet' plugin could not be found.
+        cwd: /tmp/wp-cli-test-run-plugin-update.feature.406-6b0987e3216b54.14443380/
+        run time: 0.37443113327026
+        exit status: 0
+        
+        The command unexpectedly produced STDERR output. If you expect a non-zero exit status or STDERR output, use `When I try [...]`. Else, this may be a bug in your code or test. (RuntimeException)
+
+041 Scenario: Network activate a plugin       # vendor/wp-cli/extension-command/features/plugin.feature:227
+      When I run `wp plugin activate akismet` # vendor/wp-cli/extension-command/features/plugin.feature:230
+        $ wp plugin activate akismet
+        
+        Warning: The 'akismet' plugin could not be found.
+        Error: No plugins activated.
+        cwd: /tmp/wp-cli-test-run-plugin.feature.227-6b0987e3f31126.35029192/
+        run time: 0.36708307266235
+        exit status: 1
+        
+        The command unexpectedly exited with status 1. If you expect a non-zero exit status, use `When I try [...]`. Else, this may be a bug in your code or test. (RuntimeException)
+
+042 Scenario: List plugins                           # vendor/wp-cli/extension-command/features/plugin.feature:340
+      Then STDOUT should be a table containing rows: # vendor/wp-cli/extension-command/features/plugin.feature:350
+        name	status	file
+        hello	active	hello.php
+        
+        
+        --- Expected
+        +++ Actual
+        @@ @@
+        -akismet	active	akismet/akismet.php
+        +hello	active	hello.php
+         (Exception)
+
+043 Scenario: List plugin by multiple statuses # vendor/wp-cli/extension-command/features/plugin.feature:383
+      When I run `wp plugin activate akismet`  # vendor/wp-cli/extension-command/features/plugin.feature:392
+        $ wp plugin activate akismet
+        
+        Warning: The 'akismet' plugin could not be found.
+        Error: No plugins activated.
+        cwd: /tmp/wp-cli-test-run-plugin.feature.383-6b0987e68ff103.85444503/
+        run time: 0.37193894386292
+        exit status: 1
+        
+        The command unexpectedly exited with status 1. If you expect a non-zero exit status, use `When I try [...]`. Else, this may be a bug in your code or test. (RuntimeException)
+
+044 Scenario: Filter plugin list by multiple names   # vendor/wp-cli/extension-command/features/plugin.feature:419
+      Then STDOUT should be a table containing rows: # vendor/wp-cli/extension-command/features/plugin.feature:426
+        name	status
+        wordpress-importer	inactive
+        
+        
+        --- Expected
+        +++ Actual
+        @@ @@
+        -akismet	inactive
+         wordpress-importer	inactive
+         (Exception)
+
+045 Scenario: Enable and disable all plugins # vendor/wp-cli/extension-command/features/plugin.feature:495
+      Then STDOUT should contain:            # vendor/wp-cli/extension-command/features/plugin.feature:500
+        $ wp plugin activate --all
+        Plugin 'hello' activated.
+        Plugin 'sample-plugin' activated.
+        Success: Activated 2 of 2 plugins.
+        
+        cwd: /tmp/wp-cli-test-run-plugin.feature.495-6b0987e93ba099.31298674/
+        run time: 0.27761101722717
+        exit status: 0
+        
+        Output does not contain expected string:
+        Plugin 'akismet' activated.
+        
+        --- Expected
+        +++ Actual
+        @@ @@
+        -Plugin 'akismet' activated.
+        +Plugin 'hello' activated.
+        +Plugin 'sample-plugin' activated.
+        +Success: Activated 2 of 2 plugins.
+         (Exception)
+
+046 Scenario: Can't install theme that requires a newer version of WordPress # vendor/wp-cli/extension-command/features/theme-install.feature:130
+      When I run `wp core download --version=6.4 --force`                    # vendor/wp-cli/extension-command/features/theme-install.feature:133
+        $ wp core download --version=6.4 --force
+        Downloading WordPress 6.4 (en_US)...
+        Using cached file '/tmp/wp-cli-home/.wp-cli/cache/core/wordpress-6.4-en_US.zip'...
+        Cleaning up files...
+        No old files were removed.
+        Success: WordPress downloaded.
+        
+        Warning: Could not retrieve WordPress core checksums; skipping checksum-based cleanup. Files listed in $_old_files were still cleaned up.
+        cwd: /tmp/wp-cli-test-run-theme-install.feature.130-6b0987eab06b91.58413514/
+        run time: 0.57852602005005
+        exit status: 0
+        
+        The command unexpectedly produced STDERR output. If you expect a non-zero exit status or STDERR output, use `When I try [...]`. Else, this may be a bug in your code or test. (RuntimeException)
+
+047 Example: | theme | Theme     | storefront | Storefront | 1.0.0   | https://wordpress.org/themes/download/storefront.1.0.0.zip | {CONTENT_DIR}/storefront/style.css | # vendor/wp-cli/extension-command/features/upgradables.feature:213
+      And I run `wp plugin delete akismet`                                                                                                                               # vendor/wp-cli/extension-command/features/upgradables.feature:10
+        $ wp plugin delete akismet
+        Success: Plugin already deleted.
+        
+        Warning: The 'akismet' plugin could not be found.
+        cwd: /tmp/wp-cli-test-run-upgradables.feature.213-6b0987ec49c3f2.16894623/
+        run time: 0.37058711051941
+        exit status: 0
+        
+        The command unexpectedly produced STDERR output. If you expect a non-zero exit status or STDERR output, use `When I try [...]`. Else, this may be a bug in your code or test. (RuntimeException)
+
+048 Example: | plugin | Plugin    | category-checklist-tree | Category Checklist Tree | 1.2     | https://downloads.wordpress.org/plugin/category-checklist-tree.1.2.zip | {CONTENT_DIR}/category-checklist-tree/category-checklist-tree.php | # vendor/wp-cli/extension-command/features/upgradables.feature:214
+      And I run `wp plugin delete akismet`                                                                                                                                                                                                     # vendor/wp-cli/extension-command/features/upgradables.feature:10
+        $ wp plugin delete akismet
+        Success: Plugin already deleted.
+        
+        Warning: The 'akismet' plugin could not be found.
+        cwd: /tmp/wp-cli-test-run-upgradables.feature.214-6b0987ed230594.59244035/
+        run time: 0.37406802177429
+        exit status: 0
+        
+        The command unexpectedly produced STDERR output. If you expect a non-zero exit status or STDERR output, use `When I try [...]`. Else, this may be a bug in your code or test. (RuntimeException)
+
+48 scenarios (48 failed)
+631 steps (139 passed, 48 failed, 444 skipped)
+1m8.44s (15.33Mb)
+Script run-test-suite handling the test event returned with error code 1
+Packages with failed tests: :wp-cli/extension-command
+##[error]Process completed with exit code 1.
+
+################ Step: Run the extension-command tests against the baseline ################
+##[group]Run composer test
+composer test
+shell: /usr/bin/bash -e {0}
+env:
+  DEFAULT_PACKAGES: wp-cli-bundle,ability-command,ai-command,config-command,core-command,cron-command,db-command,entity-command,export-command,extension-command,import-command,media-command,rewrite-command,role-command,search-replace-command,site-health-command
+  DEFAULT_PHP_VERSION: 8.5
+  WP_CLI_TEST_DBROOTUSER: root
+  WP_CLI_TEST_DBROOTPASS: root
+  WP_CLI_TEST_DBNAME: wp_cli_test
+  WP_CLI_TEST_DBUSER: wp_cli_test
+  WP_CLI_TEST_DBPASS: password1
+  WP_CLI_TEST_DBHOST: 127.0.0.1:3306
+  COMPOSER_PROCESS_TIMEOUT: 0
+  COMPOSER_NO_INTERACTION: 1
+  COMPOSER_NO_AUDIT: 1
+  TEST_PACKAGE: wp-cli/extension-command
+  WP_VERSION: trunk
+  WP_CLI_TEST_CORE_ZIP: /home/runner/work/_temp/wordpress-baseline/baseline.zip
+  WP_CLI_TEST_JUNIT_DIR: /home/runner/work/_temp/junit/baseline
+##[endgroup]
+Running source package tests...
+Writing JUnit reports to /home/runner/work/_temp/junit/baseline
+Testing package wp-cli/extension-command...
+Not running 8 of 301 scenarios:
+  Not part of this configuration:
+    @less-than-wp-6.5, as WordPress trunk is used: vendor/wp-cli/extension-command/features/plugin-dependencies.feature:7, vendor/wp-cli/extension-command/features/plugin-dependencies.feature:45
+    @github-api, as GITHUB_TOKEN is not set: vendor/wp-cli/extension-command/features/plugin-install-github-latest.feature:4, vendor/wp-cli/extension-command/features/plugin-install.feature:390, vendor/wp-cli/extension-command/features/upgradables.feature:217
+    @less-than-php-7.4, as PHP 8.5.13 is used: vendor/wp-cli/extension-command/features/plugin-install.feature:310, vendor/wp-cli/extension-command/features/theme-install.feature:148
+    @less-than-wp-5.3, as WordPress trunk is used: vendor/wp-cli/extension-command/features/plugin-list-wporg-status.feature:269
+........F----...............................F----..................... 70
+........F--.....F--....F--..........................F-................ 140
+............................................F......................... 210
+........................F.....................................F-----.. 280
+..F----------....F---...F------....................................... 350
+........F---..F--------..F---..F---------..F----..F----..F-----..F--.. 420
+.F-----.....................F--------.........................F-----.. 490
+...................................................................... 560
+.....................................F-----.........................F- 630
+---................................................................... 700
+..............................................................F---.F-- 770
+---....F----------..F----------.......F-----..............F-------.... 840
+................................................................F---.. 910
+F------..F----..F----...............F-----..F-----........F-------...F 980
+---------..................................................F-------... 1050
+...................................................................... 1120
+.......F----------................................F-------............ 1190
+...................................................................... 1260
+...................................................................F-- 1330
+----------------------...................F--------------..F----------- 1400
+....F--........................F--------------........................ 1470
+...................................................................... 1540
+...................................................................... 1610
+...................................................................... 1680
+...................................................................... 1750
+...................................................................... 1820
+...................................................................... 1890
+..............F----................................................... 1960
+...................................................................... 2030
+...................................................................... 2100
+...................................................................... 2170
+...................................................................... 2240
+...................................................................... 2310
+...................................................................... 2380
+...................................................................... 2450
+...................................................................... 2520
+...................................................................... 2590
+...F------------------------------------------------------------------ 2660
+--------------------..F----------------------------------------------- 2730
+---------------------------------------
+
+--- Failed steps:
+
+001 Scenario: Downloading a plugin package to a custom path                                    # vendor/wp-cli/extension-command/features/extension-download.feature:19
+      When I run `wp plugin download debug-bar --target-path=/tmp/wp-cli-download-test-plugin` # vendor/wp-cli/extension-command/features/extension-download.feature:22
+        $ wp plugin download debug-bar --target-path=/tmp/wp-cli-download-test-plugin
+        
+        Error: Destination file already exists: /tmp/wp-cli-download-test-plugin/debug-bar.1.2.0.zip
+        cwd: /tmp/wp-cli-test-run-extension-download.feature.19-6b0987eea96db4.74126036/
+        run time: 0.1190710067749
+        exit status: 1
+        
+        The command unexpectedly exited with status 1. If you expect a non-zero exit status, use `When I try [...]`. Else, this may be a bug in your code or test. (RuntimeException)
+
+002 Scenario: Downloading a theme package to a custom path                                      # vendor/wp-cli/extension-command/features/extension-download.feature:103
+      When I run `wp theme download twentytwelve --target-path=/tmp/wp-cli-download-test-theme` # vendor/wp-cli/extension-command/features/extension-download.feature:106
+        $ wp theme download twentytwelve --target-path=/tmp/wp-cli-download-test-theme
+        
+        Error: Destination file already exists: /tmp/wp-cli-download-test-theme/twentytwelve.4.9.zip
+        cwd: /tmp/wp-cli-test-run-extension-download.feature.103-6b0987f07698a4.30726144/
+        run time: 0.17957377433777
+        exit status: 1
+        
+        The command unexpectedly exited with status 1. If you expect a non-zero exit status, use `When I try [...]`. Else, this may be a bug in your code or test. (RuntimeException)
+
+003 Scenario: Activate a plugin that's already installed # vendor/wp-cli/extension-command/features/plugin-activate.feature:6
+      When I run `wp plugin activate akismet`            # vendor/wp-cli/extension-command/features/plugin-activate.feature:7
+        $ wp plugin activate akismet
+        
+        Warning: The 'akismet' plugin could not be found.
+        Error: No plugins activated.
+        cwd: /tmp/wp-cli-test-run-plugin-activate.feature.6-6b0987f49dceb2.68097150/
+        run time: 0.37747287750244
+        exit status: 1
+        
+        The command unexpectedly exited with status 1. If you expect a non-zero exit status, use `When I try [...]`. Else, this may be a bug in your code or test. (RuntimeException)
+
+004 Scenario: Attempt to activate a plugin that's not installed # vendor/wp-cli/extension-command/features/plugin-activate.feature:15
+      Then STDERR should be:                                    # vendor/wp-cli/extension-command/features/plugin-activate.feature:25
+        $ wp plugin activate akismet debug-bar
+        
+        Warning: The 'akismet' plugin could not be found.
+        Warning: The 'debug-bar' plugin could not be found.
+        Error: No plugins activated.
+        cwd: /tmp/wp-cli-test-run-plugin-activate.feature.15-6b0987f574a997.34213767/
+        run time: 0.24371290206909
+        exit status: 1
+        
+        Output does not exactly match expected string:
+        Warning: The 'debug-bar' plugin could not be found.
+        Error: Only activated 1 of 2 plugins.
+        
+        --- Expected
+        +++ Actual
+        @@ @@
+        +Warning: The 'akismet' plugin could not be found.
+         Warning: The 'debug-bar' plugin could not be found.
+        -Error: Only activated 1 of 2 plugins.
+        +Error: No plugins activated.
+         (Exception)
+
+005 Scenario: Activate all when one plugin is hidden by "all_plugins" filter # vendor/wp-cli/extension-command/features/plugin-activate.feature:36
+      Then STDOUT should contain:                                            # vendor/wp-cli/extension-command/features/plugin-activate.feature:56
+        $ wp plugin activate --all
+        Plugin 'hello' activated.
+        Plugin 'sample-plugin' activated.
+        Success: Activated 2 of 2 plugins.
+        
+        cwd: /tmp/wp-cli-test-run-plugin-activate.feature.36-6b0987f6896037.49727297/
+        run time: 0.27173900604248
+        exit status: 0
+        
+        Output does not contain expected string:
+        Plugin 'akismet' activated.
+        
+        --- Expected
+        +++ Actual
+        @@ @@
+        -Plugin 'akismet' activated.
+        +Plugin 'hello' activated.
+        +Plugin 'sample-plugin' activated.
+        +Success: Activated 2 of 2 plugins.
+         (Exception)
+
+006 Scenario: Adding --exclude with plugin activate --all should exclude the plugins specified via --exclude # vendor/wp-cli/extension-command/features/plugin-activate.feature:139
+      Then STDOUT should be:                                                                                 # vendor/wp-cli/extension-command/features/plugin-activate.feature:141
+        $ wp plugin activate --all --exclude=hello,hello-dolly
+        Success: No plugins activated.
+        
+        cwd: /tmp/wp-cli-test-run-plugin-activate.feature.139-6b0987fb81c6c4.38519559/
+        run time: 0.37210297584534
+        exit status: 0
+        
+        Output does not exactly match expected string:
+        Plugin 'akismet' activated.
+        Success: Activated 1 of 1 plugins.
+        
+        --- Expected
+        +++ Actual
+        @@ @@
+        -Plugin 'akismet' activated.
+        -Success: Activated 1 of 1 plugins.
+        +Success: No plugins activated.
+         (Exception)
+
+007 Scenario: Disable auto-updates for already disabled plugins # vendor/wp-cli/extension-command/features/plugin-auto-updates-disable.feature:48
+      And STDERR should contain:                                # vendor/wp-cli/extension-command/features/plugin-auto-updates-disable.feature:55
+        $ wp plugin auto-updates disable --all
+        
+        Warning: Auto-updates already disabled for plugin sample-plugin.
+        Error: Only disabled 2 of 3 plugin auto-updates.
+        cwd: /tmp/wp-cli-test-run-plugin-auto-updates-disable.feature.48-6b098807b3ae87.17789975/
+        run time: 0.24491310119629
+        exit status: 1
+        
+        Output does not contain expected string:
+        Error: Only disabled 3 of 4 plugin auto-updates.
+        
+        --- Expected
+        +++ Actual
+        @@ @@
+        -Error: Only disabled 3 of 4 plugin auto-updates.
+        +Warning: Auto-updates already disabled for plugin sample-plugin.
+        +Error: Only disabled 2 of 3 plugin auto-updates.
+         (Exception)
+
+008 Scenario: Enable auto-updates for already enabled plugins # vendor/wp-cli/extension-command/features/plugin-auto-updates-enable.feature:47
+      And STDERR should contain:                              # vendor/wp-cli/extension-command/features/plugin-auto-updates-enable.feature:54
+        $ wp plugin auto-updates enable --all
+        
+        Warning: Auto-updates already enabled for plugin sample-plugin.
+        Error: Only enabled 2 of 3 plugin auto-updates.
+        cwd: /tmp/wp-cli-test-run-plugin-auto-updates-enable.feature.47-6b098817b132a7.86103707/
+        run time: 0.2405731678009
+        exit status: 1
+        
+        Output does not contain expected string:
+        Error: Only enabled 3 of 4 plugin auto-updates.
+        
+        --- Expected
+        +++ Actual
+        @@ @@
+        -Error: Only enabled 3 of 4 plugin auto-updates.
+        +Warning: Auto-updates already enabled for plugin sample-plugin.
+        +Error: Only enabled 2 of 3 plugin auto-updates.
+         (Exception)
+
+009 Scenario: Show the status of auto-updates all installed plugins # vendor/wp-cli/extension-command/features/plugin-auto-updates-status.feature:34
+      Then STDOUT should be a table containing rows:                # vendor/wp-cli/extension-command/features/plugin-auto-updates-status.feature:36
+        name	status
+        debug-bar	disabled
+        hello	disabled
+        sample-plugin	disabled
+        
+        
+        --- Expected
+        +++ Actual
+        @@ @@
+        -akismet	disabled
+         debug-bar	disabled
+        +hello	disabled
+         sample-plugin	disabled
+         (Exception)
+
+010 Scenario: The status can be filtered to only show enabled or disabled plugins # vendor/wp-cli/extension-command/features/plugin-auto-updates-status.feature:53
+      Then STDOUT should be a table containing rows:                              # vendor/wp-cli/extension-command/features/plugin-auto-updates-status.feature:57
+        name	status
+        debug-bar	disabled
+        hello	disabled
+        sample-plugin	enabled
+        
+        
+        --- Expected
+        +++ Actual
+        @@ @@
+        -akismet	disabled
+         debug-bar	disabled
+        +hello	disabled
+         sample-plugin	enabled
+         (Exception)
+
+011 Scenario: The fields can be shown individually # vendor/wp-cli/extension-command/features/plugin-auto-updates-status.feature:85
+      Then STDOUT should contain:                  # vendor/wp-cli/extension-command/features/plugin-auto-updates-status.feature:89
+        $ wp plugin auto-updates status --all --disabled-only --field=name
+        debug-bar
+        hello
+        
+        cwd: /tmp/wp-cli-test-run-plugin-auto-updates-status.feature.85-6b098828703f97.97363378/
+        run time: 0.2401819229126
+        exit status: 0
+        
+        Output does not contain expected string:
+        akismet
+        
+        --- Expected
+        +++ Actual
+        @@ @@
+        -akismet
+        +debug-bar
+        +hello
+         (Exception)
+
+012 Scenario: Formatting options work # vendor/wp-cli/extension-command/features/plugin-auto-updates-status.feature:105
+      Then STDOUT should contain:     # vendor/wp-cli/extension-command/features/plugin-auto-updates-status.feature:107
+        $ wp plugin auto-updates status --all --format=json
+        [{"name":"debug-bar","status":"disabled"},{"name":"hello","status":"disabled"},{"name":"sample-plugin","status":"disabled"}]
+        cwd: /tmp/wp-cli-test-run-plugin-auto-updates-status.feature.105-6b09882a5e0035.64878573/
+        run time: 0.27160906791687
+        exit status: 0
+        
+        Output does not contain expected string:
+        {"name":"akismet","status":"disabled"}
+        
+        --- Expected
+        +++ Actual
+        @@ @@
+        -{"name":"akismet","status":"disabled"}
+        +[{"name":"debug-bar","status":"disabled"},{"name":"hello","status":"disabled"},{"name":"sample-plugin","status":"disabled"}]
+         (Exception)
+
+013 Scenario: Deactivate a plugin that's already activated # vendor/wp-cli/extension-command/features/plugin-deactivate.feature:8
+      And I run `wp plugin activate akismet sample-plugin` # vendor/wp-cli/extension-command/features/plugin-deactivate.feature:6
+        $ wp plugin activate akismet sample-plugin
+        Plugin 'sample-plugin' activated.
+        
+        Warning: The 'akismet' plugin could not be found.
+        Error: Only activated 1 of 2 plugins.
+        cwd: /tmp/wp-cli-test-run-plugin-deactivate.feature.8-6b0988378d33a9.92948300/
+        run time: 0.2682421207428
+        exit status: 1
+        
+        The command unexpectedly exited with status 1. If you expect a non-zero exit status, use `When I try [...]`. Else, this may be a bug in your code or test. (RuntimeException)
+
+014 Scenario: Attempt to deactivate a plugin that's not installed # vendor/wp-cli/extension-command/features/plugin-deactivate.feature:17
+      And I run `wp plugin activate akismet sample-plugin`        # vendor/wp-cli/extension-command/features/plugin-deactivate.feature:6
+        $ wp plugin activate akismet sample-plugin
+        Plugin 'sample-plugin' activated.
+        
+        Warning: The 'akismet' plugin could not be found.
+        Error: Only activated 1 of 2 plugins.
+        cwd: /tmp/wp-cli-test-run-plugin-deactivate.feature.17-6b0988391dd9e8.66365381/
+        run time: 0.2683539390564
+        exit status: 1
+        
+        The command unexpectedly exited with status 1. If you expect a non-zero exit status, use `When I try [...]`. Else, this may be a bug in your code or test. (RuntimeException)
+
+015 Scenario: Deactivate all when a previously active plugin is hidden by "all_plugins" filter # vendor/wp-cli/extension-command/features/plugin-deactivate.feature:40
+      And I run `wp plugin activate akismet sample-plugin`                                     # vendor/wp-cli/extension-command/features/plugin-deactivate.feature:6
+        $ wp plugin activate akismet sample-plugin
+        Plugin 'sample-plugin' activated.
+        
+        Warning: The 'akismet' plugin could not be found.
+        Error: Only activated 1 of 2 plugins.
+        cwd: /tmp/wp-cli-test-run-plugin-deactivate.feature.40-6b09883a830801.85553244/
+        run time: 0.27447485923767
+        exit status: 1
+        
+        The command unexpectedly exited with status 1. If you expect a non-zero exit status, use `When I try [...]`. Else, this may be a bug in your code or test. (RuntimeException)
+
+016 Scenario: Not giving a slug on deactivate should throw an error unless --all given # vendor/wp-cli/extension-command/features/plugin-deactivate.feature:64
+      And I run `wp plugin activate akismet sample-plugin`                             # vendor/wp-cli/extension-command/features/plugin-deactivate.feature:6
+        $ wp plugin activate akismet sample-plugin
+        Plugin 'sample-plugin' activated.
+        
+        Warning: The 'akismet' plugin could not be found.
+        Error: Only activated 1 of 2 plugins.
+        cwd: /tmp/wp-cli-test-run-plugin-deactivate.feature.64-6b09883be91c12.93086122/
+        run time: 0.27034711837769
+        exit status: 1
+        
+        The command unexpectedly exited with status 1. If you expect a non-zero exit status, use `When I try [...]`. Else, this may be a bug in your code or test. (RuntimeException)
+
+017 Scenario: Adding --exclude with plugin deactivate --all should exclude the plugins specified via --exclude # vendor/wp-cli/extension-command/features/plugin-deactivate.feature:83
+      And I run `wp plugin activate akismet sample-plugin`                                                     # vendor/wp-cli/extension-command/features/plugin-deactivate.feature:6
+        $ wp plugin activate akismet sample-plugin
+        Plugin 'sample-plugin' activated.
+        
+        Warning: The 'akismet' plugin could not be found.
+        Error: Only activated 1 of 2 plugins.
+        cwd: /tmp/wp-cli-test-run-plugin-deactivate.feature.83-6b09883d5cf464.98973134/
+        run time: 0.26610779762268
+        exit status: 1
+        
+        The command unexpectedly exited with status 1. If you expect a non-zero exit status, use `When I try [...]`. Else, this may be a bug in your code or test. (RuntimeException)
+
+018 Scenario: Adding --exclude with plugin deactivate should throw an error unless --all given # vendor/wp-cli/extension-command/features/plugin-deactivate.feature:95
+      And I run `wp plugin activate akismet sample-plugin`                                     # vendor/wp-cli/extension-command/features/plugin-deactivate.feature:6
+        $ wp plugin activate akismet sample-plugin
+        Plugin 'sample-plugin' activated.
+        
+        Warning: The 'akismet' plugin could not be found.
+        Error: Only activated 1 of 2 plugins.
+        cwd: /tmp/wp-cli-test-run-plugin-deactivate.feature.95-6b09883ec09a61.72076200/
+        run time: 0.27178192138672
+        exit status: 1
+        
+        The command unexpectedly exited with status 1. If you expect a non-zero exit status, use `When I try [...]`. Else, this may be a bug in your code or test. (RuntimeException)
+
+019 Scenario: Excluding a missing plugin should not throw an error # vendor/wp-cli/extension-command/features/plugin-deactivate.feature:104
+      And I run `wp plugin activate akismet sample-plugin`         # vendor/wp-cli/extension-command/features/plugin-deactivate.feature:6
+        $ wp plugin activate akismet sample-plugin
+        Plugin 'sample-plugin' activated.
+        
+        Warning: The 'akismet' plugin could not be found.
+        Error: Only activated 1 of 2 plugins.
+        cwd: /tmp/wp-cli-test-run-plugin-deactivate.feature.104-6b098840336148.10626923/
+        run time: 0.27091407775879
+        exit status: 1
+        
+        The command unexpectedly exited with status 1. If you expect a non-zero exit status, use `When I try [...]`. Else, this may be a bug in your code or test. (RuntimeException)
+
+020 Scenario: Delete an installed plugin    # vendor/wp-cli/extension-command/features/plugin-delete.feature:7
+      When I run `wp plugin delete akismet` # vendor/wp-cli/extension-command/features/plugin-delete.feature:8
+        $ wp plugin delete akismet
+        Success: Plugin already deleted.
+        
+        Warning: The 'akismet' plugin could not be found.
+        cwd: /tmp/wp-cli-test-run-plugin-delete.feature.7-6b0988419a9784.20992156/
+        run time: 0.2689049243927
+        exit status: 0
+        
+        The command unexpectedly produced STDERR output. If you expect a non-zero exit status or STDERR output, use `When I try [...]`. Else, this may be a bug in your code or test. (RuntimeException)
+
+021 Scenario: Delete all installed plugins # vendor/wp-cli/extension-command/features/plugin-delete.feature:16
+      Then STDOUT should contain:          # vendor/wp-cli/extension-command/features/plugin-delete.feature:18
+        $ wp plugin delete --all
+        Deleted 'hello' plugin.
+        Deleted 'sample-plugin' plugin.
+        Success: Deleted 2 of 2 plugins.
+        
+        cwd: /tmp/wp-cli-test-run-plugin-delete.feature.16-6b098843097595.65900913/
+        run time: 0.26442384719849
+        exit status: 0
+        
+        Output does not contain expected string:
+        Deleted 'akismet' plugin.
+        
+        --- Expected
+        +++ Actual
+        @@ @@
+        -Deleted 'akismet' plugin.
+        +Deleted 'hello' plugin.
+        +Deleted 'sample-plugin' plugin.
+        +Success: Deleted 2 of 2 plugins.
+         (Exception)
+
+022 Scenario: Reports a failure for a plugin that can't be deleted # vendor/wp-cli/extension-command/features/plugin-delete.feature:69
+      When I run `chmod -w wp-content/plugins/akismet`             # vendor/wp-cli/extension-command/features/plugin-delete.feature:72
+        $ chmod -w wp-content/plugins/akismet
+        
+        chmod: cannot access 'wp-content/plugins/akismet': No such file or directory
+        cwd: /tmp/wp-cli-test-run-plugin-delete.feature.69-6b098849506b33.41349500/
+        run time: 0.0012309551239014
+        exit status: 1
+        
+        The command unexpectedly exited with status 1. If you expect a non-zero exit status, use `When I try [...]`. Else, this may be a bug in your code or test. (RuntimeException)
+
+023 Scenario: Install dependencies with activation # vendor/wp-cli/extension-command/features/plugin-dependencies.feature:91
+      And STDOUT should contain:                   # vendor/wp-cli/extension-command/features/plugin-dependencies.feature:113
+        $ wp plugin install-dependencies test-plugin --activate
+        Installing 2 dependencies for 'test-plugin'...
+        Installing Akismet Anti-spam: Spam Protection (5.7.2)
+        Downloading installation package from https://downloads.wordpress.org/plugin/akismet.5.7.2.zip...
+        Unpacking the package...
+        Installing the plugin...
+        Plugin installed successfully.
+        Activating 'akismet'...
+        Plugin 'akismet' activated.
+        Installing BuddyPress (14.5.7)
+        Downloading installation package from https://downloads.wordpress.org/plugin/buddypress.14.5.7.zip...
+        Unpacking the package...
+        Installing the plugin...
+        Plugin installed successfully.
+        Activating 'buddypress'...
+        Plugin 'buddypress' activated.
+        Success: Installed 2 of 2 plugins.
+        
+        cwd: /tmp/wp-cli-test-run-plugin-dependencies.feature.91-6b09884f86b239.76369196/
+        run time: 1.1811079978943
+        exit status: 0
+        
+        Output does not contain expected string:
+        Success: Installed 1 of 2 plugins.
+        
+        --- Expected
+        +++ Actual
+        @@ @@
+        -Success: Installed 1 of 2 plugins.
+        +Installing 2 dependencies for 'test-plugin'...
+        +Installing Akismet Anti-spam: Spam Protection (5.7.2)
+        +Downloading installation package from https://downloads.wordpress.org/plugin/akismet.5.7.2.zip...
+        +Unpacking the package...
+        +Installing the plugin...
+        +Plugin installed successfully.
+        +Activating 'akismet'...
+        +Plugin 'akismet' activated.
+        +Installing BuddyPress (14.5.7)
+        +Downloading installation package from https://downloads.wordpress.org/plugin/buddypress.14.5.7.zip...
+        +Unpacking the package...
+        +Installing the plugin...
+        +Plugin installed successfully.
+        +Activating 'buddypress'...
+        +Plugin 'buddypress' activated.
+        +Success: Installed 2 of 2 plugins.
+         (Exception)
+
+024 Scenario: Paths aren't backslashed when destination folder already exists # vendor/wp-cli/extension-command/features/plugin-install.feature:215
+      When I run `rm wp-content/plugins/akismet/akismet.php`                  # vendor/wp-cli/extension-command/features/plugin-install.feature:221
+        $ rm wp-content/plugins/akismet/akismet.php
+        
+        rm: cannot remove 'wp-content/plugins/akismet/akismet.php': No such file or directory
+        cwd: /tmp/wp-cli-test-run-plugin-install.feature.215-6b098863234435.72599354/
+        run time: 0.001298189163208
+        exit status: 1
+        
+        The command unexpectedly exited with status 1. If you expect a non-zero exit status, use `When I try [...]`. Else, this may be a bug in your code or test. (RuntimeException)
+
+025 Scenario: Can't install plugin that requires a newer version of WordPress # vendor/wp-cli/extension-command/features/plugin-install.feature:292
+      When I run `wp core download --version=6.4 --force`                     # vendor/wp-cli/extension-command/features/plugin-install.feature:295
+        $ wp core download --version=6.4 --force
+        Downloading WordPress 6.4 (en_US)...
+        md5 hash verified: 8d78482a300204da2a921b150f663bff
+        Cleaning up files...
+        No old files were removed.
+        Success: WordPress downloaded.
+        
+        Warning: Could not retrieve WordPress core checksums; skipping checksum-based cleanup. Files listed in $_old_files were still cleaned up.
+        cwd: /tmp/wp-cli-test-run-plugin-install.feature.292-6b098867aa0871.39089787/
+        run time: 0.81864905357361
+        exit status: 0
+        
+        The command unexpectedly produced STDERR output. If you expect a non-zero exit status or STDERR output, use `When I try [...]`. Else, this may be a bug in your code or test. (RuntimeException)
+
+026 Scenario: Check if an active plugin is active # vendor/wp-cli/extension-command/features/plugin-is-active.feature:6
+      When I run `wp plugin activate akismet`     # vendor/wp-cli/extension-command/features/plugin-is-active.feature:7
+        $ wp plugin activate akismet
+        
+        Warning: The 'akismet' plugin could not be found.
+        Error: No plugins activated.
+        cwd: /tmp/wp-cli-test-run-plugin-is-active.feature.6-6b09887a345bd0.24584462/
+        run time: 0.37429881095886
+        exit status: 1
+        
+        The command unexpectedly exited with status 1. If you expect a non-zero exit status, use `When I try [...]`. Else, this may be a bug in your code or test. (RuntimeException)
+
+027 Scenario: Check if an inactive plugin is not active # vendor/wp-cli/extension-command/features/plugin-is-active.feature:16
+      When I run `wp plugin activate akismet`           # vendor/wp-cli/extension-command/features/plugin-is-active.feature:17
+        $ wp plugin activate akismet
+        
+        Warning: The 'akismet' plugin could not be found.
+        Error: No plugins activated.
+        cwd: /tmp/wp-cli-test-run-plugin-is-active.feature.16-6b09887b0c3ce2.27507612/
+        run time: 0.37291884422302
+        exit status: 1
+        
+        The command unexpectedly exited with status 1. If you expect a non-zero exit status, use `When I try [...]`. Else, this may be a bug in your code or test. (RuntimeException)
+
+028 Scenario: Warn when plugin is in active_plugins but file does not exist # vendor/wp-cli/extension-command/features/plugin-is-active.feature:36
+      When I run `wp plugin activate akismet`                               # vendor/wp-cli/extension-command/features/plugin-is-active.feature:37
+        $ wp plugin activate akismet
+        
+        Warning: The 'akismet' plugin could not be found.
+        Error: No plugins activated.
+        cwd: /tmp/wp-cli-test-run-plugin-is-active.feature.36-6b09887caff6d9.65893298/
+        run time: 0.36738109588623
+        exit status: 1
+        
+        The command unexpectedly exited with status 1. If you expect a non-zero exit status, use `When I try [...]`. Else, this may be a bug in your code or test. (RuntimeException)
+
+029 Scenario: Warn when network-activated plugin is in active_sitewide_plugins but file does not exist # vendor/wp-cli/extension-command/features/plugin-is-active.feature:61
+      When I run `wp plugin activate akismet --network`                                                # vendor/wp-cli/extension-command/features/plugin-is-active.feature:64
+        $ wp plugin activate akismet --network
+        
+        Warning: The 'akismet' plugin could not be found.
+        Error: No plugins network activated.
+        cwd: /tmp/wp-cli-test-run-plugin-is-active.feature.61-6b09887d858046.41646462/
+        run time: 0.41395306587219
+        exit status: 1
+        
+        The command unexpectedly exited with status 1. If you expect a non-zero exit status, use `When I try [...]`. Else, this may be a bug in your code or test. (RuntimeException)
+
+030 Scenario: Verify plugin installation, activation, deactivation and confirm listing recently active plugins list is correct # vendor/wp-cli/extension-command/features/plugin-list-recently-active.feature:3
+      When I run `wp plugin activate akismet`                                                                                  # vendor/wp-cli/extension-command/features/plugin-list-recently-active.feature:26
+        $ wp plugin activate akismet
+        
+        Warning: The 'akismet' plugin could not be found.
+        Error: No plugins activated.
+        cwd: /tmp/wp-cli-test-run-plugin-list-recently-active.feature.3-6b09887f44b795.80648453/
+        run time: 0.24478697776794
+        exit status: 1
+        
+        The command unexpectedly exited with status 1. If you expect a non-zero exit status, use `When I try [...]`. Else, this may be a bug in your code or test. (RuntimeException)
+
+031 Scenario: For a MU site, verify plugin installation, activation, deactivation and confirm listing recently active plugins list is correct # vendor/wp-cli/extension-command/features/plugin-list-recently-active.feature:78
+      When I run `wp plugin activate akismet --network`                                                                                       # vendor/wp-cli/extension-command/features/plugin-list-recently-active.feature:95
+        $ wp plugin activate akismet --network
+        
+        Warning: The 'akismet' plugin could not be found.
+        Error: No plugins network activated.
+        cwd: /tmp/wp-cli-test-run-plugin-list-recently-active.feature.78-6b098883b9b668.98006088/
+        run time: 0.27101993560791
+        exit status: 1
+        
+        The command unexpectedly exited with status 1. If you expect a non-zero exit status, use `When I try [...]`. Else, this may be a bug in your code or test. (RuntimeException)
+
+032 Scenario: Toggle the status of a plugin # vendor/wp-cli/extension-command/features/plugin-toggle.feature:6
+      When I run `wp plugin toggle akismet` # vendor/wp-cli/extension-command/features/plugin-toggle.feature:7
+        $ wp plugin toggle akismet
+        
+        Warning: The 'akismet' plugin could not be found.
+        Error: No plugins toggled.
+        cwd: /tmp/wp-cli-test-run-plugin-toggle.feature.6-6b098892b41c46.73639979/
+        run time: 0.37717604637146
+        exit status: 1
+        
+        The command unexpectedly exited with status 1. If you expect a non-zero exit status, use `When I try [...]`. Else, this may be a bug in your code or test. (RuntimeException)
+
+033 Scenario: Toggling the status of a plugin that doesn't exist # vendor/wp-cli/extension-command/features/plugin-toggle.feature:21
+      Then STDERR should be:                                     # vendor/wp-cli/extension-command/features/plugin-toggle.feature:23
+        $ wp plugin toggle akismet debug-bar
+        
+        Warning: The 'akismet' plugin could not be found.
+        Warning: The 'debug-bar' plugin could not be found.
+        Error: No plugins toggled.
+        cwd: /tmp/wp-cli-test-run-plugin-toggle.feature.21-6b0988939228e1.12453569/
+        run time: 0.37200808525085
+        exit status: 1
+        
+        Output does not exactly match expected string:
+        Warning: The 'debug-bar' plugin could not be found.
+        Error: Only toggled 1 of 2 plugins.
+        
+        --- Expected
+        +++ Actual
+        @@ @@
+        +Warning: The 'akismet' plugin could not be found.
+         Warning: The 'debug-bar' plugin could not be found.
+        -Error: Only toggled 1 of 2 plugins.
+        +Error: No plugins toggled.
+         (Exception)
+
+034 Scenario: Uninstall an installed plugin should uninstall, delete files # vendor/wp-cli/extension-command/features/plugin-uninstall.feature:7
+      When I run `wp plugin uninstall akismet`                             # vendor/wp-cli/extension-command/features/plugin-uninstall.feature:8
+        $ wp plugin uninstall akismet
+        
+        Warning: The 'akismet' plugin could not be found.
+        Error: No plugins uninstalled.
+        cwd: /tmp/wp-cli-test-run-plugin-uninstall.feature.7-6b0988946c9f52.04080480/
+        run time: 0.26713705062866
+        exit status: 1
+        
+        The command unexpectedly exited with status 1. If you expect a non-zero exit status, use `When I try [...]`. Else, this may be a bug in your code or test. (RuntimeException)
+
+035 Scenario: Uninstall an installed plugin but do not delete its files # vendor/wp-cli/extension-command/features/plugin-uninstall.feature:18
+      When I run `wp plugin uninstall akismet --skip-delete`            # vendor/wp-cli/extension-command/features/plugin-uninstall.feature:19
+        $ wp plugin uninstall akismet --skip-delete
+        
+        Warning: The 'akismet' plugin could not be found.
+        Error: No plugins uninstalled.
+        cwd: /tmp/wp-cli-test-run-plugin-uninstall.feature.18-6b098895db07b6.99932422/
+        run time: 0.27711796760559
+        exit status: 1
+        
+        The command unexpectedly exited with status 1. If you expect a non-zero exit status, use `When I try [...]`. Else, this may be a bug in your code or test. (RuntimeException)
+
+036 Scenario: Attempting to uninstall a plugin that's activated # vendor/wp-cli/extension-command/features/plugin-uninstall.feature:49
+      When I run `wp plugin activate akismet`                   # vendor/wp-cli/extension-command/features/plugin-uninstall.feature:50
+        $ wp plugin activate akismet
+        
+        Warning: The 'akismet' plugin could not be found.
+        Error: No plugins activated.
+        cwd: /tmp/wp-cli-test-run-plugin-uninstall.feature.49-6b09889a2b41f9.97680193/
+        run time: 0.27322483062744
+        exit status: 1
+        
+        The command unexpectedly exited with status 1. If you expect a non-zero exit status, use `When I try [...]`. Else, this may be a bug in your code or test. (RuntimeException)
+
+037 Scenario: Attempting to uninstall a plugin that's activated (using --deactivate) # vendor/wp-cli/extension-command/features/plugin-uninstall.feature:62
+      When I run `wp plugin activate akismet`                                        # vendor/wp-cli/extension-command/features/plugin-uninstall.feature:63
+        $ wp plugin activate akismet
+        
+        Warning: The 'akismet' plugin could not be found.
+        Error: No plugins activated.
+        cwd: /tmp/wp-cli-test-run-plugin-uninstall.feature.62-6b09889b935028.56565402/
+        run time: 0.27098608016968
+        exit status: 1
+        
+        The command unexpectedly exited with status 1. If you expect a non-zero exit status, use `When I try [...]`. Else, this may be a bug in your code or test. (RuntimeException)
+
+038 Scenario: Uninstall all installed plugins # vendor/wp-cli/extension-command/features/plugin-uninstall.feature:86
+      Then STDOUT should contain:             # vendor/wp-cli/extension-command/features/plugin-uninstall.feature:88
+        $ wp plugin uninstall --all
+        Uninstalled and deleted 'hello' plugin.
+        Uninstalled and deleted 'sample-plugin' plugin.
+        Success: Uninstalled 2 of 2 plugins.
+        
+        cwd: /tmp/wp-cli-test-run-plugin-uninstall.feature.86-6b09889e6a8f99.29297964/
+        run time: 0.27594900131226
+        exit status: 0
+        
+        Output does not contain expected string:
+        Uninstalled and deleted 'akismet' plugin.
+        
+        --- Expected
+        +++ Actual
+        @@ @@
+        -Uninstalled and deleted 'akismet' plugin.
+        +Uninstalled and deleted 'hello' plugin.
+        +Uninstalled and deleted 'sample-plugin' plugin.
+        +Success: Uninstalled 2 of 2 plugins.
+         (Exception)
+
+039 Scenario: Uninstall all installed plugins when one or more activated # vendor/wp-cli/extension-command/features/plugin-uninstall.feature:110
+      Then STDOUT should contain:                                        # vendor/wp-cli/extension-command/features/plugin-uninstall.feature:112
+        $ wp plugin activate --all
+        Plugin 'hello' activated.
+        Plugin 'sample-plugin' activated.
+        Success: Activated 2 of 2 plugins.
+        
+        cwd: /tmp/wp-cli-test-run-plugin-uninstall.feature.110-6b09889fd1e233.17485356/
+        run time: 0.27091503143311
+        exit status: 0
+        
+        Output does not contain expected string:
+        Success: Activated 3 of 3 plugins.
+        
+        --- Expected
+        +++ Actual
+        @@ @@
+        -Success: Activated 3 of 3 plugins.
+        +Plugin 'hello' activated.
+        +Plugin 'sample-plugin' activated.
+        +Success: Activated 2 of 2 plugins.
+         (Exception)
+
+040 Scenario: Updating plugin with invalid version shouldn't remove the old version # vendor/wp-cli/extension-command/features/plugin-update.feature:4
+      Then STDERR should be:                                                        # vendor/wp-cli/extension-command/features/plugin-update.feature:20
+        $ wp plugin update akismet --version=0.5.3
+        
+        Warning: The 'akismet' plugin could not be found.
+        cwd: /tmp/wp-cli-test-run-plugin-update.feature.4-6b0988ab732791.96131433/
+        run time: 0.24320292472839
+        exit status: 0
+        
+        Output does not exactly match expected string:
+        Error: Can't find the requested plugin's version 0.5.3 in the WordPress.org plugin repository (HTTP code 404).
+        
+        --- Expected
+        +++ Actual
+        @@ @@
+        -Error: Can't find the requested plugin's version 0.5.3 in the WordPress.org plugin repository (HTTP code 404).
+        +Warning: The 'akismet' plugin could not be found.
+         (Exception)
+
+041 Scenario: Updating all plugins ignores an older no-update version # vendor/wp-cli/extension-command/features/plugin-update.feature:296
+      And I run `wp plugin delete akismet`                            # vendor/wp-cli/extension-command/features/plugin-update.feature:298
+        $ wp plugin delete akismet
+        Success: Plugin already deleted.
+        
+        Warning: The 'akismet' plugin could not be found.
+        cwd: /tmp/wp-cli-test-run-plugin-update.feature.296-6b0988bd980fa2.13455241/
+        run time: 0.37612080574036
+        exit status: 0
+        
+        The command unexpectedly produced STDERR output. If you expect a non-zero exit status or STDERR output, use `When I try [...]`. Else, this may be a bug in your code or test. (RuntimeException)
+
+042 Scenario: Updating all plugins should show the name of each plugin as it is updated # vendor/wp-cli/extension-command/features/plugin-update.feature:406
+      And I run `wp plugin delete akismet`                                              # vendor/wp-cli/extension-command/features/plugin-update.feature:408
+        $ wp plugin delete akismet
+        Success: Plugin already deleted.
+        
+        Warning: The 'akismet' plugin could not be found.
+        cwd: /tmp/wp-cli-test-run-plugin-update.feature.406-6b0988c5d9dec7.71207600/
+        run time: 0.36436700820923
+        exit status: 0
+        
+        The command unexpectedly produced STDERR output. If you expect a non-zero exit status or STDERR output, use `When I try [...]`. Else, this may be a bug in your code or test. (RuntimeException)
+
+043 Scenario: Network activate a plugin       # vendor/wp-cli/extension-command/features/plugin.feature:227
+      When I run `wp plugin activate akismet` # vendor/wp-cli/extension-command/features/plugin.feature:230
+        $ wp plugin activate akismet
+        
+        Warning: The 'akismet' plugin could not be found.
+        Error: No plugins activated.
+        cwd: /tmp/wp-cli-test-run-plugin.feature.227-6b0988daad43d0.08303057/
+        run time: 0.36887907981873
+        exit status: 1
+        
+        The command unexpectedly exited with status 1. If you expect a non-zero exit status, use `When I try [...]`. Else, this may be a bug in your code or test. (RuntimeException)
+
+044 Scenario: List plugins                           # vendor/wp-cli/extension-command/features/plugin.feature:340
+      Then STDOUT should be a table containing rows: # vendor/wp-cli/extension-command/features/plugin.feature:350
+        name	status	file
+        hello	active	hello.php
+        
+        
+        --- Expected
+        +++ Actual
+        @@ @@
+        -akismet	active	akismet/akismet.php
+        +hello	active	hello.php
+         (Exception)
+
+045 Scenario: List plugin by multiple statuses # vendor/wp-cli/extension-command/features/plugin.feature:383
+      When I run `wp plugin activate akismet`  # vendor/wp-cli/extension-command/features/plugin.feature:392
+        $ wp plugin activate akismet
+        
+        Warning: The 'akismet' plugin could not be found.
+        Error: No plugins activated.
+        cwd: /tmp/wp-cli-test-run-plugin.feature.383-6b0988dfca24f6.29284579/
+        run time: 0.37175178527832
+        exit status: 1
+        
+        The command unexpectedly exited with status 1. If you expect a non-zero exit status, use `When I try [...]`. Else, this may be a bug in your code or test. (RuntimeException)
+
+046 Scenario: Filter plugin list by multiple names   # vendor/wp-cli/extension-command/features/plugin.feature:419
+      Then STDOUT should be a table containing rows: # vendor/wp-cli/extension-command/features/plugin.feature:426
+        name	status
+        wordpress-importer	inactive
+        
+        
+        --- Expected
+        +++ Actual
+        @@ @@
+        -akismet	inactive
+         wordpress-importer	inactive
+         (Exception)
+
+047 Scenario: Enable and disable all plugins # vendor/wp-cli/extension-command/features/plugin.feature:495
+      Then STDOUT should contain:            # vendor/wp-cli/extension-command/features/plugin.feature:500
+        $ wp plugin activate --all
+        Plugin 'hello' activated.
+        Plugin 'sample-plugin' activated.
+        Success: Activated 2 of 2 plugins.
+        
+        cwd: /tmp/wp-cli-test-run-plugin.feature.495-6b0988e76da769.66565508/
+        run time: 0.28303003311157
+        exit status: 0
+        
+        Output does not contain expected string:
+        Plugin 'akismet' activated.
+        
+        --- Expected
+        +++ Actual
+        @@ @@
+        -Plugin 'akismet' activated.
+        +Plugin 'hello' activated.
+        +Plugin 'sample-plugin' activated.
+        +Success: Activated 2 of 2 plugins.
+         (Exception)
+
+048 Scenario: Can't install theme that requires a newer version of WordPress # vendor/wp-cli/extension-command/features/theme-install.feature:130
+      When I run `wp core download --version=6.4 --force`                    # vendor/wp-cli/extension-command/features/theme-install.feature:133
+        $ wp core download --version=6.4 --force
+        Downloading WordPress 6.4 (en_US)...
+        Using cached file '/tmp/wp-cli-home/.wp-cli/cache/core/wordpress-6.4-en_US.zip'...
+        Cleaning up files...
+        No old files were removed.
+        Success: WordPress downloaded.
+        
+        Warning: Could not retrieve WordPress core checksums; skipping checksum-based cleanup. Files listed in $_old_files were still cleaned up.
+        cwd: /tmp/wp-cli-test-run-theme-install.feature.130-6b09893be5ecd8.82371220/
+        run time: 0.56534886360168
+        exit status: 0
+        
+        The command unexpectedly produced STDERR output. If you expect a non-zero exit status or STDERR output, use `When I try [...]`. Else, this may be a bug in your code or test. (RuntimeException)
+
+049 Example: | theme  | Theme     | storefront              | Storefront              | 1.0.0   | https://wordpress.org/themes/download/storefront.1.0.0.zip             | {CONTENT_DIR}/storefront/style.css                                | # vendor/wp-cli/extension-command/features/upgradables.feature:213
+      And I run `wp plugin delete akismet`                                                                                                                                                                                                     # vendor/wp-cli/extension-command/features/upgradables.feature:10
+        $ wp plugin delete akismet
+        Success: Plugin already deleted.
+        
+        Warning: The 'akismet' plugin could not be found.
+        cwd: /tmp/wp-cli-test-run-upgradables.feature.213-6b0989b4882a42.66930504/
+        run time: 0.37130093574524
+        exit status: 0
+        
+        The command unexpectedly produced STDERR output. If you expect a non-zero exit status or STDERR output, use `When I try [...]`. Else, this may be a bug in your code or test. (RuntimeException)
+
+050 Example: | plugin | Plugin    | category-checklist-tree | Category Checklist Tree | 1.2     | https://downloads.wordpress.org/plugin/category-checklist-tree.1.2.zip | {CONTENT_DIR}/category-checklist-tree/category-checklist-tree.php | # vendor/wp-cli/extension-command/features/upgradables.feature:214
+      And I run `wp plugin delete akismet`                                                                                                                                                                                                     # vendor/wp-cli/extension-command/features/upgradables.feature:10
+        $ wp plugin delete akismet
+        Success: Plugin already deleted.
+        
+        Warning: The 'akismet' plugin could not be found.
+        cwd: /tmp/wp-cli-test-run-upgradables.feature.214-6b0989b55f4923.46392751/
+        run time: 0.36896896362305
+        exit status: 0
+        
+        The command unexpectedly produced STDERR output. If you expect a non-zero exit status or STDERR output, use `When I try [...]`. Else, this may be a bug in your code or test. (RuntimeException)
+
+297 scenarios (247 passed, 50 failed)
+2769 steps (2267 passed, 50 failed, 452 skipped)
+7m35.80s (19.36Mb)
+Not running 8 of 301 scenarios:
+  Not part of this configuration:
+    @less-than-wp-6.5, as WordPress trunk is used: vendor/wp-cli/extension-command/features/plugin-dependencies.feature:7, vendor/wp-cli/extension-command/features/plugin-dependencies.feature:45
+    @github-api, as GITHUB_TOKEN is not set: vendor/wp-cli/extension-command/features/plugin-install-github-latest.feature:4, vendor/wp-cli/extension-command/features/plugin-install.feature:390, vendor/wp-cli/extension-command/features/upgradables.feature:217
+    @less-than-php-7.4, as PHP 8.5.13 is used: vendor/wp-cli/extension-command/features/plugin-install.feature:310, vendor/wp-cli/extension-command/features/theme-install.feature:148
+    @less-than-wp-5.3, as WordPress trunk is used: vendor/wp-cli/extension-command/features/plugin-list-wporg-status.feature:269
+.F----.F----.F--.....F--....F--..F-......F.....F...F-----....F-------- 70
+--....F---...F------..F---..F--------..F---..F---------..F----..F----. 140
+.F-----..F--...F-----...F--------......F-----....F-----..F----.F---.F- 210
+----.F----------..F----------.......F-----.....F-------.F---..F------. 280
+.F----..F----..F-----..F-----...F-------...F---------.........F------- 350
+.F----------.F-------.F------------------------......F--------------.. 420
+F-----------....F--...F--------------...F----..F---------------------- 490
+----------------------------------------------------------------..F--- 560
+---------------------------------------------------------------------- 630
+-------------
+
+--- Failed steps:
+
+001 Scenario: Downloading a plugin package to a custom path                                    # vendor/wp-cli/extension-command/features/extension-download.feature:19
+      When I run `wp plugin download debug-bar --target-path=/tmp/wp-cli-download-test-plugin` # vendor/wp-cli/extension-command/features/extension-download.feature:22
+        $ wp plugin download debug-bar --target-path=/tmp/wp-cli-download-test-plugin
+        
+        Error: Destination file already exists: /tmp/wp-cli-download-test-plugin/debug-bar.1.2.0.zip
+        cwd: /tmp/wp-cli-test-run-extension-download.feature.19-6b0989b68d48c1.86028944/
+        run time: 0.10338997840881
+        exit status: 1
+        
+        The command unexpectedly exited with status 1. If you expect a non-zero exit status, use `When I try [...]`. Else, this may be a bug in your code or test. (RuntimeException)
+
+002 Scenario: Downloading a theme package to a custom path                                      # vendor/wp-cli/extension-command/features/extension-download.feature:103
+      When I run `wp theme download twentytwelve --target-path=/tmp/wp-cli-download-test-theme` # vendor/wp-cli/extension-command/features/extension-download.feature:106
+        $ wp theme download twentytwelve --target-path=/tmp/wp-cli-download-test-theme
+        
+        Error: Destination file already exists: /tmp/wp-cli-download-test-theme/twentytwelve.4.9.zip
+        cwd: /tmp/wp-cli-test-run-extension-download.feature.103-6b0989b6b20fc7.30010840/
+        run time: 0.18797612190247
+        exit status: 1
+        
+        The command unexpectedly exited with status 1. If you expect a non-zero exit status, use `When I try [...]`. Else, this may be a bug in your code or test. (RuntimeException)
+
+003 Scenario: Activate a plugin that's already installed # vendor/wp-cli/extension-command/features/plugin-activate.feature:6
+      When I run `wp plugin activate akismet`            # vendor/wp-cli/extension-command/features/plugin-activate.feature:7
+        $ wp plugin activate akismet
+        
+        Warning: The 'akismet' plugin could not be found.
+        Error: No plugins activated.
+        cwd: /tmp/wp-cli-test-run-plugin-activate.feature.6-6b0989b6f0d150.23646924/
+        run time: 0.36555314064026
+        exit status: 1
+        
+        The command unexpectedly exited with status 1. If you expect a non-zero exit status, use `When I try [...]`. Else, this may be a bug in your code or test. (RuntimeException)
+
+004 Scenario: Attempt to activate a plugin that's not installed # vendor/wp-cli/extension-command/features/plugin-activate.feature:15
+      Then STDERR should be:                                    # vendor/wp-cli/extension-command/features/plugin-activate.feature:25
+        $ wp plugin activate akismet debug-bar
+        
+        Warning: The 'akismet' plugin could not be found.
+        Warning: The 'debug-bar' plugin could not be found.
+        Error: No plugins activated.
+        cwd: /tmp/wp-cli-test-run-plugin-activate.feature.15-6b0989b8ac0e72.58610579/
+        run time: 0.2410409450531
+        exit status: 1
+        
+        Output does not exactly match expected string:
+        Warning: The 'debug-bar' plugin could not be found.
+        Error: Only activated 1 of 2 plugins.
+        
+        --- Expected
+        +++ Actual
+        @@ @@
+        +Warning: The 'akismet' plugin could not be found.
+         Warning: The 'debug-bar' plugin could not be found.
+        -Error: Only activated 1 of 2 plugins.
+        +Error: No plugins activated.
+         (Exception)
+
+005 Scenario: Activate all when one plugin is hidden by "all_plugins" filter # vendor/wp-cli/extension-command/features/plugin-activate.feature:36
+      Then STDOUT should contain:                                            # vendor/wp-cli/extension-command/features/plugin-activate.feature:56
+        $ wp plugin activate --all
+        Plugin 'hello' activated.
+        Plugin 'sample-plugin' activated.
+        Success: Activated 2 of 2 plugins.
+        
+        cwd: /tmp/wp-cli-test-run-plugin-activate.feature.36-6b0989b9b98d74.55150827/
+        run time: 0.27679181098938
+        exit status: 0
+        
+        Output does not contain expected string:
+        Plugin 'akismet' activated.
+        
+        --- Expected
+        +++ Actual
+        @@ @@
+        -Plugin 'akismet' activated.
+        +Plugin 'hello' activated.
+        +Plugin 'sample-plugin' activated.
+        +Success: Activated 2 of 2 plugins.
+         (Exception)
+
+006 Scenario: Adding --exclude with plugin activate --all should exclude the plugins specified via --exclude # vendor/wp-cli/extension-command/features/plugin-activate.feature:139
+      Then STDOUT should be:                                                                                 # vendor/wp-cli/extension-command/features/plugin-activate.feature:141
+        $ wp plugin activate --all --exclude=hello,hello-dolly
+        Success: No plugins activated.
+        
+        cwd: /tmp/wp-cli-test-run-plugin-activate.feature.139-6b0989bb89fd11.99389480/
+        run time: 0.37102103233337
+        exit status: 0
+        
+        Output does not exactly match expected string:
+        Plugin 'akismet' activated.
+        Success: Activated 1 of 1 plugins.
+        
+        --- Expected
+        +++ Actual
+        @@ @@
+        -Plugin 'akismet' activated.
+        -Success: Activated 1 of 1 plugins.
+        +Success: No plugins activated.
+         (Exception)
+
+007 Scenario: Disable auto-updates for already disabled plugins # vendor/wp-cli/extension-command/features/plugin-auto-updates-disable.feature:48
+      And STDERR should contain:                                # vendor/wp-cli/extension-command/features/plugin-auto-updates-disable.feature:55
+        $ wp plugin auto-updates disable --all
+        
+        Warning: Auto-updates already disabled for plugin sample-plugin.
+        Error: Only disabled 2 of 3 plugin auto-updates.
+        cwd: /tmp/wp-cli-test-run-plugin-auto-updates-disable.feature.48-6b0989bc5fae76.75402945/
+        run time: 0.24482488632202
+        exit status: 1
+        
+        Output does not contain expected string:
+        Error: Only disabled 3 of 4 plugin auto-updates.
+        
+        --- Expected
+        +++ Actual
+        @@ @@
+        -Error: Only disabled 3 of 4 plugin auto-updates.
+        +Warning: Auto-updates already disabled for plugin sample-plugin.
+        +Error: Only disabled 2 of 3 plugin auto-updates.
+         (Exception)
+
+008 Scenario: Enable auto-updates for already enabled plugins # vendor/wp-cli/extension-command/features/plugin-auto-updates-enable.feature:47
+      And STDERR should contain:                              # vendor/wp-cli/extension-command/features/plugin-auto-updates-enable.feature:54
+        $ wp plugin auto-updates enable --all
+        
+        Warning: Auto-updates already enabled for plugin sample-plugin.
+        Error: Only enabled 2 of 3 plugin auto-updates.
+        cwd: /tmp/wp-cli-test-run-plugin-auto-updates-enable.feature.47-6b0989be85a9f6.18322320/
+        run time: 0.23327779769897
+        exit status: 1
+        
+        Output does not contain expected string:
+        Error: Only enabled 3 of 4 plugin auto-updates.
+        
+        --- Expected
+        +++ Actual
+        @@ @@
+        -Error: Only enabled 3 of 4 plugin auto-updates.
+        +Warning: Auto-updates already enabled for plugin sample-plugin.
+        +Error: Only enabled 2 of 3 plugin auto-updates.
+         (Exception)
+
+009 Scenario: Show the status of auto-updates all installed plugins # vendor/wp-cli/extension-command/features/plugin-auto-updates-status.feature:34
+      Then STDOUT should be a table containing rows:                # vendor/wp-cli/extension-command/features/plugin-auto-updates-status.feature:36
+        name	status
+        debug-bar	disabled
+        hello	disabled
+        sample-plugin	disabled
+        
+        
+        --- Expected
+        +++ Actual
+        @@ @@
+        -akismet	disabled
+         debug-bar	disabled
+        +hello	disabled
+         sample-plugin	disabled
+         (Exception)
+
+010 Scenario: The status can be filtered to only show enabled or disabled plugins # vendor/wp-cli/extension-command/features/plugin-auto-updates-status.feature:53
+      Then STDOUT should be a table containing rows:                              # vendor/wp-cli/extension-command/features/plugin-auto-updates-status.feature:57
+        name	status
+        debug-bar	disabled
+        hello	disabled
+        sample-plugin	enabled
+        
+        
+        --- Expected
+        +++ Actual
+        @@ @@
+        -akismet	disabled
+         debug-bar	disabled
+        +hello	disabled
+         sample-plugin	enabled
+         (Exception)
+
+011 Scenario: The fields can be shown individually # vendor/wp-cli/extension-command/features/plugin-auto-updates-status.feature:85
+      Then STDOUT should contain:                  # vendor/wp-cli/extension-command/features/plugin-auto-updates-status.feature:89
+        $ wp plugin auto-updates status --all --disabled-only --field=name
+        debug-bar
+        hello
+        
+        cwd: /tmp/wp-cli-test-run-plugin-auto-updates-status.feature.85-6b0989c4011f58.96493725/
+        run time: 0.2397940158844
+        exit status: 0
+        
+        Output does not contain expected string:
+        akismet
+        
+        --- Expected
+        +++ Actual
+        @@ @@
+        -akismet
+        +debug-bar
+        +hello
+         (Exception)
+
+012 Scenario: Formatting options work # vendor/wp-cli/extension-command/features/plugin-auto-updates-status.feature:105
+      Then STDOUT should contain:     # vendor/wp-cli/extension-command/features/plugin-auto-updates-status.feature:107
+        $ wp plugin auto-updates status --all --format=json
+        [{"name":"debug-bar","status":"disabled"},{"name":"hello","status":"disabled"},{"name":"sample-plugin","status":"disabled"}]
+        cwd: /tmp/wp-cli-test-run-plugin-auto-updates-status.feature.105-6b0989c5de7ed3.27990758/
+        run time: 0.27237200737
+        exit status: 0
+        
+        Output does not contain expected string:
+        {"name":"akismet","status":"disabled"}
+        
+        --- Expected
+        +++ Actual
+        @@ @@
+        -{"name":"akismet","status":"disabled"}
+        +[{"name":"debug-bar","status":"disabled"},{"name":"hello","status":"disabled"},{"name":"sample-plugin","status":"disabled"}]
+         (Exception)
+
+013 Scenario: Deactivate a plugin that's already activated # vendor/wp-cli/extension-command/features/plugin-deactivate.feature:8
+      And I run `wp plugin activate akismet sample-plugin` # vendor/wp-cli/extension-command/features/plugin-deactivate.feature:6
+        $ wp plugin activate akismet sample-plugin
+        Plugin 'sample-plugin' activated.
+        
+        Warning: The 'akismet' plugin could not be found.
+        Error: Only activated 1 of 2 plugins.
+        cwd: /tmp/wp-cli-test-run-plugin-deactivate.feature.8-6b0989c78f3ae1.77276905/
+        run time: 0.263188123703
+        exit status: 1
+        
+        The command unexpectedly exited with status 1. If you expect a non-zero exit status, use `When I try [...]`. Else, this may be a bug in your code or test. (RuntimeException)
+
+014 Scenario: Attempt to deactivate a plugin that's not installed # vendor/wp-cli/extension-command/features/plugin-deactivate.feature:17
+      And I run `wp plugin activate akismet sample-plugin`        # vendor/wp-cli/extension-command/features/plugin-deactivate.feature:6
+        $ wp plugin activate akismet sample-plugin
+        Plugin 'sample-plugin' activated.
+        
+        Warning: The 'akismet' plugin could not be found.
+        Error: Only activated 1 of 2 plugins.
+        cwd: /tmp/wp-cli-test-run-plugin-deactivate.feature.17-6b0989c8eafff7.86221061/
+        run time: 0.26686382293701
+        exit status: 1
+        
+        The command unexpectedly exited with status 1. If you expect a non-zero exit status, use `When I try [...]`. Else, this may be a bug in your code or test. (RuntimeException)
+
+015 Scenario: Deactivate all when a previously active plugin is hidden by "all_plugins" filter # vendor/wp-cli/extension-command/features/plugin-deactivate.feature:40
+      And I run `wp plugin activate akismet sample-plugin`                                     # vendor/wp-cli/extension-command/features/plugin-deactivate.feature:6
+        $ wp plugin activate akismet sample-plugin
+        Plugin 'sample-plugin' activated.
+        
+        Warning: The 'akismet' plugin could not be found.
+        Error: Only activated 1 of 2 plugins.
+        cwd: /tmp/wp-cli-test-run-plugin-deactivate.feature.40-6b0989ca5668d4.48019541/
+        run time: 0.27372002601624
+        exit status: 1
+        
+        The command unexpectedly exited with status 1. If you expect a non-zero exit status, use `When I try [...]`. Else, this may be a bug in your code or test. (RuntimeException)
+
+016 Scenario: Not giving a slug on deactivate should throw an error unless --all given # vendor/wp-cli/extension-command/features/plugin-deactivate.feature:64
+      And I run `wp plugin activate akismet sample-plugin`                             # vendor/wp-cli/extension-command/features/plugin-deactivate.feature:6
+        $ wp plugin activate akismet sample-plugin
+        Plugin 'sample-plugin' activated.
+        
+        Warning: The 'akismet' plugin could not be found.
+        Error: Only activated 1 of 2 plugins.
+        cwd: /tmp/wp-cli-test-run-plugin-deactivate.feature.64-6b0989cbcb04e8.75148195/
+        run time: 0.2754819393158
+        exit status: 1
+        
+        The command unexpectedly exited with status 1. If you expect a non-zero exit status, use `When I try [...]`. Else, this may be a bug in your code or test. (RuntimeException)
+
+017 Scenario: Adding --exclude with plugin deactivate --all should exclude the plugins specified via --exclude # vendor/wp-cli/extension-command/features/plugin-deactivate.feature:83
+      And I run `wp plugin activate akismet sample-plugin`                                                     # vendor/wp-cli/extension-command/features/plugin-deactivate.feature:6
+        $ wp plugin activate akismet sample-plugin
+        Plugin 'sample-plugin' activated.
+        
+        Warning: The 'akismet' plugin could not be found.
+        Error: Only activated 1 of 2 plugins.
+        cwd: /tmp/wp-cli-test-run-plugin-deactivate.feature.83-6b0989cd3953f6.95277703/
+        run time: 0.27238607406616
+        exit status: 1
+        
+        The command unexpectedly exited with status 1. If you expect a non-zero exit status, use `When I try [...]`. Else, this may be a bug in your code or test. (RuntimeException)
+
+018 Scenario: Adding --exclude with plugin deactivate should throw an error unless --all given # vendor/wp-cli/extension-command/features/plugin-deactivate.feature:95
+      And I run `wp plugin activate akismet sample-plugin`                                     # vendor/wp-cli/extension-command/features/plugin-deactivate.feature:6
+        $ wp plugin activate akismet sample-plugin
+        Plugin 'sample-plugin' activated.
+        
+        Warning: The 'akismet' plugin could not be found.
+        Error: Only activated 1 of 2 plugins.
+        cwd: /tmp/wp-cli-test-run-plugin-deactivate.feature.95-6b0989ce9b99f1.83818936/
+        run time: 0.27125597000122
+        exit status: 1
+        
+        The command unexpectedly exited with status 1. If you expect a non-zero exit status, use `When I try [...]`. Else, this may be a bug in your code or test. (RuntimeException)
+
+019 Scenario: Excluding a missing plugin should not throw an error # vendor/wp-cli/extension-command/features/plugin-deactivate.feature:104
+      And I run `wp plugin activate akismet sample-plugin`         # vendor/wp-cli/extension-command/features/plugin-deactivate.feature:6
+        $ wp plugin activate akismet sample-plugin
+        Plugin 'sample-plugin' activated.
+        
+        Warning: The 'akismet' plugin could not be found.
+        Error: Only activated 1 of 2 plugins.
+        cwd: /tmp/wp-cli-test-run-plugin-deactivate.feature.104-6b0989d009e638.19556314/
+        run time: 0.27862596511841
+        exit status: 1
+        
+        The command unexpectedly exited with status 1. If you expect a non-zero exit status, use `When I try [...]`. Else, this may be a bug in your code or test. (RuntimeException)
+
+020 Scenario: Delete an installed plugin    # vendor/wp-cli/extension-command/features/plugin-delete.feature:7
+      When I run `wp plugin delete akismet` # vendor/wp-cli/extension-command/features/plugin-delete.feature:8
+        $ wp plugin delete akismet
+        Success: Plugin already deleted.
+        
+        Warning: The 'akismet' plugin could not be found.
+        cwd: /tmp/wp-cli-test-run-plugin-delete.feature.7-6b0989d16fca31.71622973/
+        run time: 0.26629304885864
+        exit status: 0
+        
+        The command unexpectedly produced STDERR output. If you expect a non-zero exit status or STDERR output, use `When I try [...]`. Else, this may be a bug in your code or test. (RuntimeException)
+
+021 Scenario: Delete all installed plugins # vendor/wp-cli/extension-command/features/plugin-delete.feature:16
+      Then STDOUT should contain:          # vendor/wp-cli/extension-command/features/plugin-delete.feature:18
+        $ wp plugin delete --all
+        Deleted 'hello' plugin.
+        Deleted 'sample-plugin' plugin.
+        Success: Deleted 2 of 2 plugins.
+        
+        cwd: /tmp/wp-cli-test-run-plugin-delete.feature.16-6b0989d2d353c3.98945143/
+        run time: 0.27749800682068
+        exit status: 0
+        
+        Output does not contain expected string:
+        Deleted 'akismet' plugin.
+        
+        --- Expected
+        +++ Actual
+        @@ @@
+        -Deleted 'akismet' plugin.
+        +Deleted 'hello' plugin.
+        +Deleted 'sample-plugin' plugin.
+        +Success: Deleted 2 of 2 plugins.
+         (Exception)
+
+022 Scenario: Reports a failure for a plugin that can't be deleted # vendor/wp-cli/extension-command/features/plugin-delete.feature:69
+      When I run `chmod -w wp-content/plugins/akismet`             # vendor/wp-cli/extension-command/features/plugin-delete.feature:72
+        $ chmod -w wp-content/plugins/akismet
+        
+        chmod: cannot access 'wp-content/plugins/akismet': No such file or directory
+        cwd: /tmp/wp-cli-test-run-plugin-delete.feature.69-6b0989d44c9293.96117842/
+        run time: 0.0013370513916016
+        exit status: 1
+        
+        The command unexpectedly exited with status 1. If you expect a non-zero exit status, use `When I try [...]`. Else, this may be a bug in your code or test. (RuntimeException)
+
+023 Scenario: Install dependencies with activation # vendor/wp-cli/extension-command/features/plugin-dependencies.feature:91
+      And STDOUT should contain:                   # vendor/wp-cli/extension-command/features/plugin-dependencies.feature:113
+        $ wp plugin install-dependencies test-plugin --activate
+        Installing 2 dependencies for 'test-plugin'...
+        Installing Akismet Anti-spam: Spam Protection (5.7.2)
+        Downloading installation package from https://downloads.wordpress.org/plugin/akismet.5.7.2.zip...
+        Unpacking the package...
+        Installing the plugin...
+        Plugin installed successfully.
+        Activating 'akismet'...
+        Plugin 'akismet' activated.
+        Installing BuddyPress (14.5.7)
+        Downloading installation package from https://downloads.wordpress.org/plugin/buddypress.14.5.7.zip...
+        Unpacking the package...
+        Installing the plugin...
+        Plugin installed successfully.
+        Activating 'buddypress'...
+        Plugin 'buddypress' activated.
+        Success: Installed 2 of 2 plugins.
+        
+        cwd: /tmp/wp-cli-test-run-plugin-dependencies.feature.91-6b0989d60181a7.10724706/
+        run time: 1.1821630001068
+        exit status: 0
+        
+        Output does not contain expected string:
+        Success: Installed 1 of 2 plugins.
+        
+        --- Expected
+        +++ Actual
+        @@ @@
+        -Success: Installed 1 of 2 plugins.
+        +Installing 2 dependencies for 'test-plugin'...
+        +Installing Akismet Anti-spam: Spam Protection (5.7.2)
+        +Downloading installation package from https://downloads.wordpress.org/plugin/akismet.5.7.2.zip...
+        +Unpacking the package...
+        +Installing the plugin...
+        +Plugin installed successfully.
+        +Activating 'akismet'...
+        +Plugin 'akismet' activated.
+        +Installing BuddyPress (14.5.7)
+        +Downloading installation package from https://downloads.wordpress.org/plugin/buddypress.14.5.7.zip...
+        +Unpacking the package...
+        +Installing the plugin...
+        +Plugin installed successfully.
+        +Activating 'buddypress'...
+        +Plugin 'buddypress' activated.
+        +Success: Installed 2 of 2 plugins.
+         (Exception)
+
+024 Scenario: Paths aren't backslashed when destination folder already exists # vendor/wp-cli/extension-command/features/plugin-install.feature:215
+      When I run `rm wp-content/plugins/akismet/akismet.php`                  # vendor/wp-cli/extension-command/features/plugin-install.feature:221
+        $ rm wp-content/plugins/akismet/akismet.php
+        
+        rm: cannot remove 'wp-content/plugins/akismet/akismet.php': No such file or directory
+        cwd: /tmp/wp-cli-test-run-plugin-install.feature.215-6b0989d7a5d120.97871188/
+        run time: 0.0013668537139893
+        exit status: 1
+        
+        The command unexpectedly exited with status 1. If you expect a non-zero exit status, use `When I try [...]`. Else, this may be a bug in your code or test. (RuntimeException)
+
+025 Scenario: Can't install plugin that requires a newer version of WordPress # vendor/wp-cli/extension-command/features/plugin-install.feature:292
+      When I run `wp core download --version=6.4 --force`                     # vendor/wp-cli/extension-command/features/plugin-install.feature:295
+        $ wp core download --version=6.4 --force
+        Downloading WordPress 6.4 (en_US)...
+        md5 hash verified: 8d78482a300204da2a921b150f663bff
+        Cleaning up files...
+        No old files were removed.
+        Success: WordPress downloaded.
+        
+        Warning: Could not retrieve WordPress core checksums; skipping checksum-based cleanup. Files listed in $_old_files were still cleaned up.
+        cwd: /tmp/wp-cli-test-run-plugin-install.feature.292-6b0989d867bc51.77700568/
+        run time: 0.8585638999939
+        exit status: 0
+        
+        The command unexpectedly produced STDERR output. If you expect a non-zero exit status or STDERR output, use `When I try [...]`. Else, this may be a bug in your code or test. (RuntimeException)
+
+026 Scenario: Check if an active plugin is active # vendor/wp-cli/extension-command/features/plugin-is-active.feature:6
+      When I run `wp plugin activate akismet`     # vendor/wp-cli/extension-command/features/plugin-is-active.feature:7
+        $ wp plugin activate akismet
+        
+        Warning: The 'akismet' plugin could not be found.
+        Error: No plugins activated.
+        cwd: /tmp/wp-cli-test-run-plugin-is-active.feature.6-6b0989d9bf0820.76639914/
+        run time: 0.36590695381165
+        exit status: 1
+        
+        The command unexpectedly exited with status 1. If you expect a non-zero exit status, use `When I try [...]`. Else, this may be a bug in your code or test. (RuntimeException)
+
+027 Scenario: Check if an inactive plugin is not active # vendor/wp-cli/extension-command/features/plugin-is-active.feature:16
+      When I run `wp plugin activate akismet`           # vendor/wp-cli/extension-command/features/plugin-is-active.feature:17
+        $ wp plugin activate akismet
+        
+        Warning: The 'akismet' plugin could not be found.
+        Error: No plugins activated.
+        cwd: /tmp/wp-cli-test-run-plugin-is-active.feature.16-6b0989da99df43.54236150/
+        run time: 0.37192583084106
+        exit status: 1
+        
+        The command unexpectedly exited with status 1. If you expect a non-zero exit status, use `When I try [...]`. Else, this may be a bug in your code or test. (RuntimeException)
+
+028 Scenario: Warn when plugin is in active_plugins but file does not exist # vendor/wp-cli/extension-command/features/plugin-is-active.feature:36
+      When I run `wp plugin activate akismet`                               # vendor/wp-cli/extension-command/features/plugin-is-active.feature:37
+        $ wp plugin activate akismet
+        
+        Warning: The 'akismet' plugin could not be found.
+        Error: No plugins activated.
+        cwd: /tmp/wp-cli-test-run-plugin-is-active.feature.36-6b0989db779bf0.22502443/
+        run time: 0.36676001548767
+        exit status: 1
+        
+        The command unexpectedly exited with status 1. If you expect a non-zero exit status, use `When I try [...]`. Else, this may be a bug in your code or test. (RuntimeException)
+
+029 Scenario: Warn when network-activated plugin is in active_sitewide_plugins but file does not exist # vendor/wp-cli/extension-command/features/plugin-is-active.feature:61
+      When I run `wp plugin activate akismet --network`                                                # vendor/wp-cli/extension-command/features/plugin-is-active.feature:64
+        $ wp plugin activate akismet --network
+        
+        Warning: The 'akismet' plugin could not be found.
+        Error: No plugins network activated.
+        cwd: /tmp/wp-cli-test-run-plugin-is-active.feature.61-6b0989dc539410.71359366/
+        run time: 0.36284685134888
+        exit status: 1
+        
+        The command unexpectedly exited with status 1. If you expect a non-zero exit status, use `When I try [...]`. Else, this may be a bug in your code or test. (RuntimeException)
+
+030 Scenario: Verify plugin installation, activation, deactivation and confirm listing recently active plugins list is correct # vendor/wp-cli/extension-command/features/plugin-list-recently-active.feature:3
+      When I run `wp plugin activate akismet`                                                                                  # vendor/wp-cli/extension-command/features/plugin-list-recently-active.feature:26
+        $ wp plugin activate akismet
+        
+        Warning: The 'akismet' plugin could not be found.
+        Error: No plugins activated.
+        cwd: /tmp/wp-cli-test-run-plugin-list-recently-active.feature.3-6b0989de0c5d18.68696612/
+        run time: 0.24709105491638
+        exit status: 1
+        
+        The command unexpectedly exited with status 1. If you expect a non-zero exit status, use `When I try [...]`. Else, this may be a bug in your code or test. (RuntimeException)
+
+031 Scenario: For a MU site, verify plugin installation, activation, deactivation and confirm listing recently active plugins list is correct # vendor/wp-cli/extension-command/features/plugin-list-recently-active.feature:78
+      When I run `wp plugin activate akismet --network`                                                                                       # vendor/wp-cli/extension-command/features/plugin-list-recently-active.feature:95
+        $ wp plugin activate akismet --network
+        
+        Warning: The 'akismet' plugin could not be found.
+        Error: No plugins network activated.
+        cwd: /tmp/wp-cli-test-run-plugin-list-recently-active.feature.78-6b0989e053dfb7.82155074/
+        run time: 0.27974200248718
+        exit status: 1
+        
+        The command unexpectedly exited with status 1. If you expect a non-zero exit status, use `When I try [...]`. Else, this may be a bug in your code or test. (RuntimeException)
+
+032 Scenario: Toggle the status of a plugin # vendor/wp-cli/extension-command/features/plugin-toggle.feature:6
+      When I run `wp plugin toggle akismet` # vendor/wp-cli/extension-command/features/plugin-toggle.feature:7
+        $ wp plugin toggle akismet
+        
+        Warning: The 'akismet' plugin could not be found.
+        Error: No plugins toggled.
+        cwd: /tmp/wp-cli-test-run-plugin-toggle.feature.6-6b0989e2a2bcd1.67925941/
+        run time: 0.36946582794189
+        exit status: 1
+        
+        The command unexpectedly exited with status 1. If you expect a non-zero exit status, use `When I try [...]`. Else, this may be a bug in your code or test. (RuntimeException)
+
+033 Scenario: Toggling the status of a plugin that doesn't exist # vendor/wp-cli/extension-command/features/plugin-toggle.feature:21
+      Then STDERR should be:                                     # vendor/wp-cli/extension-command/features/plugin-toggle.feature:23
+        $ wp plugin toggle akismet debug-bar
+        
+        Warning: The 'akismet' plugin could not be found.
+        Warning: The 'debug-bar' plugin could not be found.
+        Error: No plugins toggled.
+        cwd: /tmp/wp-cli-test-run-plugin-toggle.feature.21-6b0989e3802768.88506870/
+        run time: 0.37132287025452
+        exit status: 1
+        
+        Output does not exactly match expected string:
+        Warning: The 'debug-bar' plugin could not be found.
+        Error: Only toggled 1 of 2 plugins.
+        
+        --- Expected
+        +++ Actual
+        @@ @@
+        +Warning: The 'akismet' plugin could not be found.
+         Warning: The 'debug-bar' plugin could not be found.
+        -Error: Only toggled 1 of 2 plugins.
+        +Error: No plugins toggled.
+         (Exception)
+
+034 Scenario: Uninstall an installed plugin should uninstall, delete files # vendor/wp-cli/extension-command/features/plugin-uninstall.feature:7
+      When I run `wp plugin uninstall akismet`                             # vendor/wp-cli/extension-command/features/plugin-uninstall.feature:8
+        $ wp plugin uninstall akismet
+        
+        Warning: The 'akismet' plugin could not be found.
+        Error: No plugins uninstalled.
+        cwd: /tmp/wp-cli-test-run-plugin-uninstall.feature.7-6b0989e45c52f5.74996200/
+        run time: 0.26678919792175
+        exit status: 1
+        
+        The command unexpectedly exited with status 1. If you expect a non-zero exit status, use `When I try [...]`. Else, this may be a bug in your code or test. (RuntimeException)
+
+035 Scenario: Uninstall an installed plugin but do not delete its files # vendor/wp-cli/extension-command/features/plugin-uninstall.feature:18
+      When I run `wp plugin uninstall akismet --skip-delete`            # vendor/wp-cli/extension-command/features/plugin-uninstall.feature:19
+        $ wp plugin uninstall akismet --skip-delete
+        
+        Warning: The 'akismet' plugin could not be found.
+        Error: No plugins uninstalled.
+        cwd: /tmp/wp-cli-test-run-plugin-uninstall.feature.18-6b0989e5c643f3.04497818/
+        run time: 0.27156209945679
+        exit status: 1
+        
+        The command unexpectedly exited with status 1. If you expect a non-zero exit status, use `When I try [...]`. Else, this may be a bug in your code or test. (RuntimeException)
+
+036 Scenario: Attempting to uninstall a plugin that's activated # vendor/wp-cli/extension-command/features/plugin-uninstall.feature:49
+      When I run `wp plugin activate akismet`                   # vendor/wp-cli/extension-command/features/plugin-uninstall.feature:50
+        $ wp plugin activate akismet
+        
+        Warning: The 'akismet' plugin could not be found.
+        Error: No plugins activated.
+        cwd: /tmp/wp-cli-test-run-plugin-uninstall.feature.49-6b0989e739f3f4.08833021/
+        run time: 0.27166199684143
+        exit status: 1
+        
+        The command unexpectedly exited with status 1. If you expect a non-zero exit status, use `When I try [...]`. Else, this may be a bug in your code or test. (RuntimeException)
+
+037 Scenario: Attempting to uninstall a plugin that's activated (using --deactivate) # vendor/wp-cli/extension-command/features/plugin-uninstall.feature:62
+      When I run `wp plugin activate akismet`                                        # vendor/wp-cli/extension-command/features/plugin-uninstall.feature:63
+        $ wp plugin activate akismet
+        
+        Warning: The 'akismet' plugin could not be found.
+        Error: No plugins activated.
+        cwd: /tmp/wp-cli-test-run-plugin-uninstall.feature.62-6b0989e8a02130.19346446/
+        run time: 0.27008414268494
+        exit status: 1
+        
+        The command unexpectedly exited with status 1. If you expect a non-zero exit status, use `When I try [...]`. Else, this may be a bug in your code or test. (RuntimeException)
+
+038 Scenario: Uninstall all installed plugins # vendor/wp-cli/extension-command/features/plugin-uninstall.feature:86
+      Then STDOUT should contain:             # vendor/wp-cli/extension-command/features/plugin-uninstall.feature:88
+        $ wp plugin uninstall --all
+        Uninstalled and deleted 'hello' plugin.
+        Uninstalled and deleted 'sample-plugin' plugin.
+        Success: Uninstalled 2 of 2 plugins.
+        
+        cwd: /tmp/wp-cli-test-run-plugin-uninstall.feature.86-6b0989ea13a347.12087321/
+        run time: 0.27581691741943
+        exit status: 0
+        
+        Output does not contain expected string:
+        Uninstalled and deleted 'akismet' plugin.
+        
+        --- Expected
+        +++ Actual
+        @@ @@
+        -Uninstalled and deleted 'akismet' plugin.
+        +Uninstalled and deleted 'hello' plugin.
+        +Uninstalled and deleted 'sample-plugin' plugin.
+        +Success: Uninstalled 2 of 2 plugins.
+         (Exception)
+
+039 Scenario: Uninstall all installed plugins when one or more activated # vendor/wp-cli/extension-command/features/plugin-uninstall.feature:110
+      Then STDOUT should contain:                                        # vendor/wp-cli/extension-command/features/plugin-uninstall.feature:112
+        $ wp plugin activate --all
+        Plugin 'hello' activated.
+        Plugin 'sample-plugin' activated.
+        Success: Activated 2 of 2 plugins.
+        
+        cwd: /tmp/wp-cli-test-run-plugin-uninstall.feature.110-6b0989eb7d5155.20194538/
+        run time: 0.27023696899414
+        exit status: 0
+        
+        Output does not contain expected string:
+        Success: Activated 3 of 3 plugins.
+        
+        --- Expected
+        +++ Actual
+        @@ @@
+        -Success: Activated 3 of 3 plugins.
+        +Plugin 'hello' activated.
+        +Plugin 'sample-plugin' activated.
+        +Success: Activated 2 of 2 plugins.
+         (Exception)
+
+040 Scenario: Updating plugin with invalid version shouldn't remove the old version # vendor/wp-cli/extension-command/features/plugin-update.feature:4
+      Then STDERR should be:                                                        # vendor/wp-cli/extension-command/features/plugin-update.feature:20
+        $ wp plugin update akismet --version=0.5.3
+        
+        Warning: The 'akismet' plugin could not be found.
+        cwd: /tmp/wp-cli-test-run-plugin-update.feature.4-6b0989ece5da09.38864517/
+        run time: 0.24556708335876
+        exit status: 0
+        
+        Output does not exactly match expected string:
+        Error: Can't find the requested plugin's version 0.5.3 in the WordPress.org plugin repository (HTTP code 404).
+        
+        --- Expected
+        +++ Actual
+        @@ @@
+        -Error: Can't find the requested plugin's version 0.5.3 in the WordPress.org plugin repository (HTTP code 404).
+        +Warning: The 'akismet' plugin could not be found.
+         (Exception)
+
+041 Scenario: Updating all plugins ignores an older no-update version # vendor/wp-cli/extension-command/features/plugin-update.feature:296
+      And I run `wp plugin delete akismet`                            # vendor/wp-cli/extension-command/features/plugin-update.feature:298
+        $ wp plugin delete akismet
+        Success: Plugin already deleted.
+        
+        Warning: The 'akismet' plugin could not be found.
+        cwd: /tmp/wp-cli-test-run-plugin-update.feature.296-6b0989eee2ef97.01380938/
+        run time: 0.37447094917297
+        exit status: 0
+        
+        The command unexpectedly produced STDERR output. If you expect a non-zero exit status or STDERR output, use `When I try [...]`. Else, this may be a bug in your code or test. (RuntimeException)
+
+042 Scenario: Updating all plugins should show the name of each plugin as it is updated # vendor/wp-cli/extension-command/features/plugin-update.feature:406
+      And I run `wp plugin delete akismet`                                              # vendor/wp-cli/extension-command/features/plugin-update.feature:408
+        $ wp plugin delete akismet
+        Success: Plugin already deleted.
+        
+        Warning: The 'akismet' plugin could not be found.
+        cwd: /tmp/wp-cli-test-run-plugin-update.feature.406-6b0989efc0de33.09205449/
+        run time: 0.37373900413513
+        exit status: 0
+        
+        The command unexpectedly produced STDERR output. If you expect a non-zero exit status or STDERR output, use `When I try [...]`. Else, this may be a bug in your code or test. (RuntimeException)
+
+043 Scenario: Network activate a plugin       # vendor/wp-cli/extension-command/features/plugin.feature:227
+      When I run `wp plugin activate akismet` # vendor/wp-cli/extension-command/features/plugin.feature:230
+        $ wp plugin activate akismet
+        
+        Warning: The 'akismet' plugin could not be found.
+        Error: No plugins activated.
+        cwd: /tmp/wp-cli-test-run-plugin.feature.227-6b0989f09ed6e7.70142240/
+        run time: 0.36206889152527
+        exit status: 1
+        
+        The command unexpectedly exited with status 1. If you expect a non-zero exit status, use `When I try [...]`. Else, this may be a bug in your code or test. (RuntimeException)
+
+044 Scenario: List plugins                           # vendor/wp-cli/extension-command/features/plugin.feature:340
+      Then STDOUT should be a table containing rows: # vendor/wp-cli/extension-command/features/plugin.feature:350
+        name	status	file
+        hello	active	hello.php
+        
+        
+        --- Expected
+        +++ Actual
+        @@ @@
+        -akismet	active	akismet/akismet.php
+        +hello	active	hello.php
+         (Exception)
+
+045 Scenario: List plugin by multiple statuses # vendor/wp-cli/extension-command/features/plugin.feature:383
+      When I run `wp plugin activate akismet`  # vendor/wp-cli/extension-command/features/plugin.feature:392
+        $ wp plugin activate akismet
+        
+        Warning: The 'akismet' plugin could not be found.
+        Error: No plugins activated.
+        cwd: /tmp/wp-cli-test-run-plugin.feature.383-6b0989f3347980.54629202/
+        run time: 0.35877704620361
+        exit status: 1
+        
+        The command unexpectedly exited with status 1. If you expect a non-zero exit status, use `When I try [...]`. Else, this may be a bug in your code or test. (RuntimeException)
+
+046 Scenario: Filter plugin list by multiple names   # vendor/wp-cli/extension-command/features/plugin.feature:419
+      Then STDOUT should be a table containing rows: # vendor/wp-cli/extension-command/features/plugin.feature:426
+        name	status
+        wordpress-importer	inactive
+        
+        
+        --- Expected
+        +++ Actual
+        @@ @@
+        -akismet	inactive
+         wordpress-importer	inactive
+         (Exception)
+
+047 Scenario: Enable and disable all plugins # vendor/wp-cli/extension-command/features/plugin.feature:495
+      Then STDOUT should contain:            # vendor/wp-cli/extension-command/features/plugin.feature:500
+        $ wp plugin activate --all
+        Plugin 'hello' activated.
+        Plugin 'sample-plugin' activated.
+        Success: Activated 2 of 2 plugins.
+        
+        cwd: /tmp/wp-cli-test-run-plugin.feature.495-6b0989f5cae162.36375747/
+        run time: 0.26916408538818
+        exit status: 0
+        
+        Output does not contain expected string:
+        Plugin 'akismet' activated.
+        
+        --- Expected
+        +++ Actual
+        @@ @@
+        -Plugin 'akismet' activated.
+        +Plugin 'hello' activated.
+        +Plugin 'sample-plugin' activated.
+        +Success: Activated 2 of 2 plugins.
+         (Exception)
+
+048 Scenario: Can't install theme that requires a newer version of WordPress # vendor/wp-cli/extension-command/features/theme-install.feature:130
+      When I run `wp core download --version=6.4 --force`                    # vendor/wp-cli/extension-command/features/theme-install.feature:133
+        $ wp core download --version=6.4 --force
+        Downloading WordPress 6.4 (en_US)...
+        Using cached file '/tmp/wp-cli-home/.wp-cli/cache/core/wordpress-6.4-en_US.zip'...
+        Cleaning up files...
+        No old files were removed.
+        Success: WordPress downloaded.
+        
+        Warning: Could not retrieve WordPress core checksums; skipping checksum-based cleanup. Files listed in $_old_files were still cleaned up.
+        cwd: /tmp/wp-cli-test-run-theme-install.feature.130-6b0989f73e9598.72224685/
+        run time: 0.56354999542236
+        exit status: 0
+        
+        The command unexpectedly produced STDERR output. If you expect a non-zero exit status or STDERR output, use `When I try [...]`. Else, this may be a bug in your code or test. (RuntimeException)
+
+049 Example: | theme | Theme     | storefront | Storefront | 1.0.0   | https://wordpress.org/themes/download/storefront.1.0.0.zip | {CONTENT_DIR}/storefront/style.css | # vendor/wp-cli/extension-command/features/upgradables.feature:213
+      And I run `wp plugin delete akismet`                                                                                                                               # vendor/wp-cli/extension-command/features/upgradables.feature:10
+        $ wp plugin delete akismet
+        Success: Plugin already deleted.
+        
+        Warning: The 'akismet' plugin could not be found.
+        cwd: /tmp/wp-cli-test-run-upgradables.feature.213-6b0989f8c5efc3.16332623/
+        run time: 0.37677907943726
+        exit status: 0
+        
+        The command unexpectedly produced STDERR output. If you expect a non-zero exit status or STDERR output, use `When I try [...]`. Else, this may be a bug in your code or test. (RuntimeException)
+
+050 Example: | plugin | Plugin    | category-checklist-tree | Category Checklist Tree | 1.2     | https://downloads.wordpress.org/plugin/category-checklist-tree.1.2.zip | {CONTENT_DIR}/category-checklist-tree/category-checklist-tree.php | # vendor/wp-cli/extension-command/features/upgradables.feature:214
+      And I run `wp plugin delete akismet`                                                                                                                                                                                                     # vendor/wp-cli/extension-command/features/upgradables.feature:10
+        $ wp plugin delete akismet
+        Success: Plugin already deleted.
+        
+        Warning: The 'akismet' plugin could not be found.
+        cwd: /tmp/wp-cli-test-run-upgradables.feature.214-6b0989f99f1e40.81699108/
+        run time: 0.37759900093079
+        exit status: 0
+        
+        The command unexpectedly produced STDERR output. If you expect a non-zero exit status or STDERR output, use `When I try [...]`. Else, this may be a bug in your code or test. (RuntimeException)
+
+50 scenarios (50 failed)
+643 steps (141 passed, 50 failed, 452 skipped)
+1m8.00s (15.36Mb)
+Script run-test-suite handling the test event returned with error code 1
+Packages with failed tests: :wp-cli/extension-command
+##[error]Process completed with exit code 1.
+
+################ Step: Compare the results against the baseline ################
+##[group]Run python3 -I - "${BUILD_REPORTS}" "${BASELINE_REPORTS}" <<'PY'
+python3 -I - "${BUILD_REPORTS}" "${BASELINE_REPORTS}" <<'PY'
+import glob, os, sys
+import xml.etree.ElementTree as ET
+
+FAILED = ('failed', 'undefined')
+
+def load(path, into):
+    root = ET.parse(path).getroot()
+    for case in root.iter('testcase'):
+        key = case.get('file') + ':' + case.get('line')
+        failed = case.get('status') in FAILED or case.find('failure') is not None
+        into[(key, case.get('name') or '')] = {'suite': root.get('name'), 'name': case.get('name'), 'key': key, 'failed': failed}
+
+def read_run(directory):
+    scenarios, flaky, rerun = {}, set(), {}
+    for path in sorted(glob.glob(os.path.join(directory, '*.xml'))):
+        load(path, scenarios)
+    for path in sorted(glob.glob(os.path.join(directory, 'rerun', '*.xml'))):
+        load(path, rerun)
+    # The rerun has the final say: failing and then passing is flaky, not failing.
+    for key, scenario in rerun.items():
+        if key in scenarios and scenarios[key]['failed'] and not scenario['failed']:
+            flaky.add(key)
+        scenarios[key] = scenario
+    return scenarios, flaky
+
+def failing(scenarios):
+    return {key for key, scenario in scenarios.items() if scenario['failed']}
+
+candidate, flaky = read_run(sys.argv[1])
+baseline, _ = read_run(sys.argv[2])
+
+if not candidate:
+    print('::error::The run against the build being tested produced no results.')
+    sys.exit(1)
+
+broken = sorted(failing(candidate) - failing(baseline))
+known = sorted(failing(candidate) & failing(baseline))
+
+lines = []
+if broken:
+    lines += ['### %d scenario(s) fail only with this build' % len(broken), '', '| Scenario | Location |', '| --- | --- |']
+    lines += ['| %s | `%s` |' % (candidate[key]['name'], candidate[key]['key']) for key in broken]
+    for key in broken:
+        print('::error title=Fails only with this build::%s (%s)' % (candidate[key]['name'], candidate[key]['key']))
+else:
+    lines.append('### No new failures')
+if known:
+    lines += ['', '%d scenario(s) also fail against the baseline build, so this build did not cause them:' % len(known), '']
+    lines += ['- %s (`%s`)' % (candidate[key]['name'], candidate[key]['key']) for key in known]
+if flaky:
+    lines += ['', '%d scenario(s) failed and then passed on the rerun, and were treated as flaky.' % len(flaky)]
+
+summary = '\n'.join(lines) + '\n'
+print(summary)
+if os.environ.get('GITHUB_STEP_SUMMARY'):
+    with open(os.environ['GITHUB_STEP_SUMMARY'], 'a') as handle:
+        handle.write(summary)
+
+sys.exit(1 if broken else 0)
+PY
+shell: /usr/bin/bash -e {0}
+env:
+  DEFAULT_PACKAGES: wp-cli-bundle,ability-command,ai-command,config-command,core-command,cron-command,db-command,entity-command,export-command,extension-command,import-command,media-command,rewrite-command,role-command,search-replace-command,site-health-command
+  DEFAULT_PHP_VERSION: 8.5
+  WP_CLI_TEST_DBROOTUSER: root
+  WP_CLI_TEST_DBROOTPASS: root
+  WP_CLI_TEST_DBNAME: wp_cli_test
+  WP_CLI_TEST_DBUSER: wp_cli_test
+  WP_CLI_TEST_DBPASS: password1
+  WP_CLI_TEST_DBHOST: 127.0.0.1:3306
+  COMPOSER_PROCESS_TIMEOUT: 0
+  COMPOSER_NO_INTERACTION: 1
+  COMPOSER_NO_AUDIT: 1
+  BUILD_REPORTS: /home/runner/work/_temp/junit/build
+  BASELINE_REPORTS: /home/runner/work/_temp/junit/baseline
+##[endgroup]
+### No new failures
+
+48 scenario(s) also fail against the baseline build, so this build did not cause them:
+
+- Activate a plugin that's already installed (`vendor/wp-cli/extension-command/features/plugin-activate.feature:13`)
+- Adding --exclude with plugin activate --all should exclude the plugins specified via --exclude (`vendor/wp-cli/extension-command/features/plugin-activate.feature:146`)
+- Attempt to activate a plugin that's not installed (`vendor/wp-cli/extension-command/features/plugin-activate.feature:34`)
+- Activate all when one plugin is hidden by "all_plugins" filter (`vendor/wp-cli/extension-command/features/plugin-activate.feature:64`)
+- Disable auto-updates for already disabled plugins (`vendor/wp-cli/extension-command/features/plugin-auto-updates-disable.feature:55`)
+- Enable auto-updates for already enabled plugins (`vendor/wp-cli/extension-command/features/plugin-auto-updates-enable.feature:54`)
+- Formatting options work (`vendor/wp-cli/extension-command/features/plugin-auto-updates-status.feature:129`)
+- Show the status of auto-updates all installed plugins (`vendor/wp-cli/extension-command/features/plugin-auto-updates-status.feature:50`)
+- The status can be filtered to only show enabled or disabled plugins (`vendor/wp-cli/extension-command/features/plugin-auto-updates-status.feature:79`)
+- The fields can be shown individually (`vendor/wp-cli/extension-command/features/plugin-auto-updates-status.feature:99`)
+- Adding --exclude with plugin deactivate should throw an error unless --all given (`vendor/wp-cli/extension-command/features/plugin-deactivate.feature:102`)
+- Excluding a missing plugin should not throw an error (`vendor/wp-cli/extension-command/features/plugin-deactivate.feature:112`)
+- Deactivate a plugin that's already activated (`vendor/wp-cli/extension-command/features/plugin-deactivate.feature:15`)
+- Attempt to deactivate a plugin that's not installed (`vendor/wp-cli/extension-command/features/plugin-deactivate.feature:38`)
+- Deactivate all when a previously active plugin is hidden by "all_plugins" filter (`vendor/wp-cli/extension-command/features/plugin-deactivate.feature:59`)
+- Not giving a slug on deactivate should throw an error unless --all given (`vendor/wp-cli/extension-command/features/plugin-deactivate.feature:78`)
+- Adding --exclude with plugin deactivate --all should exclude the plugins specified via --exclude (`vendor/wp-cli/extension-command/features/plugin-deactivate.feature:93`)
+- Delete an installed plugin (`vendor/wp-cli/extension-command/features/plugin-delete.feature:14`)
+- Delete all installed plugins (`vendor/wp-cli/extension-command/features/plugin-delete.feature:33`)
+- Reports a failure for a plugin that can't be deleted (`vendor/wp-cli/extension-command/features/plugin-delete.feature:93`)
+- Install dependencies with activation (`vendor/wp-cli/extension-command/features/plugin-dependencies.feature:133`)
+- Paths aren't backslashed when destination folder already exists (`vendor/wp-cli/extension-command/features/plugin-install.feature:233`)
+- Can't install plugin that requires a newer version of WordPress (`vendor/wp-cli/extension-command/features/plugin-install.feature:304`)
+- Check if an active plugin is active (`vendor/wp-cli/extension-command/features/plugin-is-active.feature:14`)
+- Check if an inactive plugin is not active (`vendor/wp-cli/extension-command/features/plugin-is-active.feature:30`)
+- Warn when plugin is in active_plugins but file does not exist (`vendor/wp-cli/extension-command/features/plugin-is-active.feature:59`)
+- Warn when network-activated plugin is in active_sitewide_plugins but file does not exist (`vendor/wp-cli/extension-command/features/plugin-is-active.feature:86`)
+- For a MU site, verify plugin installation, activation, deactivation and confirm listing recently active plugins list is correct (`vendor/wp-cli/extension-command/features/plugin-list-recently-active.feature:115`)
+- Verify plugin installation, activation, deactivation and confirm listing recently active plugins list is correct (`vendor/wp-cli/extension-command/features/plugin-list-recently-active.feature:41`)
+- Toggle the status of a plugin (`vendor/wp-cli/extension-command/features/plugin-toggle.feature:15`)
+- Toggling the status of a plugin that doesn't exist (`vendor/wp-cli/extension-command/features/plugin-toggle.feature:42`)
+- Uninstall all installed plugins (`vendor/wp-cli/extension-command/features/plugin-uninstall.feature:108`)
+- Uninstall all installed plugins when one or more activated (`vendor/wp-cli/extension-command/features/plugin-uninstall.feature:138`)
+- Uninstall an installed plugin should uninstall, delete files (`vendor/wp-cli/extension-command/features/plugin-uninstall.feature:16`)
+- Uninstall an installed plugin but do not delete its files (`vendor/wp-cli/extension-command/features/plugin-uninstall.feature:27`)
+- Attempting to uninstall a plugin that's activated (`vendor/wp-cli/extension-command/features/plugin-uninstall.feature:60`)
+- Attempting to uninstall a plugin that's activated (using --deactivate) (`vendor/wp-cli/extension-command/features/plugin-uninstall.feature:75`)
+- Updating all plugins ignores an older no-update version (`vendor/wp-cli/extension-command/features/plugin-update.feature:312`)
+- Updating plugin with invalid version shouldn't remove the old version (`vendor/wp-cli/extension-command/features/plugin-update.feature:35`)
+- Updating all plugins should show the name of each plugin as it is updated (`vendor/wp-cli/extension-command/features/plugin-update.feature:422`)
+- Network activate a plugin (`vendor/wp-cli/extension-command/features/plugin.feature:297`)
+- List plugins (`vendor/wp-cli/extension-command/features/plugin.feature:378`)
+- List plugin by multiple statuses (`vendor/wp-cli/extension-command/features/plugin.feature:414`)
+- Filter plugin list by multiple names (`vendor/wp-cli/extension-command/features/plugin.feature:432`)
+- Enable and disable all plugins (`vendor/wp-cli/extension-command/features/plugin.feature:550`)
+- Can't install theme that requires a newer version of WordPress (`vendor/wp-cli/extension-command/features/theme-install.feature:142`)
+- Installing, upgrading and deleting a theme or plugin #1 (`vendor/wp-cli/extension-command/features/upgradables.feature:209`)
+- Installing, upgrading and deleting a theme or plugin #2 (`vendor/wp-cli/extension-command/features/upgradables.feature:209`)
+

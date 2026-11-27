@@ -1,0 +1,299 @@
+WP-CLI tests, run 46007121960, package config-command
+Raw job log excerpts; ANSI color codes and timestamp prefixes stripped.
+
+################ Step: Run the config-command tests ################
+##[group]Run composer test
+composer test
+shell: /usr/bin/bash -e {0}
+env:
+  DEFAULT_PACKAGES: wp-cli-bundle,ability-command,ai-command,config-command,core-command,cron-command,db-command,entity-command,export-command,extension-command,import-command,media-command,rewrite-command,role-command,search-replace-command,site-health-command
+  DEFAULT_PHP_VERSION: 8.5
+  WP_CLI_TEST_DBROOTUSER: root
+  WP_CLI_TEST_DBROOTPASS: root
+  WP_CLI_TEST_DBNAME: wp_cli_test
+  WP_CLI_TEST_DBUSER: wp_cli_test
+  WP_CLI_TEST_DBPASS: password1
+  WP_CLI_TEST_DBHOST: 127.0.0.1:3306
+  COMPOSER_PROCESS_TIMEOUT: 0
+  COMPOSER_NO_INTERACTION: 1
+  COMPOSER_NO_AUDIT: 1
+  TEST_PACKAGE: wp-cli/config-command
+  WP_VERSION: trunk
+  WP_CLI_TEST_CORE_ZIP: /home/runner/work/_temp/wordpress-build/develop.zip
+  WP_CLI_TEST_JUNIT_DIR: /home/runner/work/_temp/junit/build
+##[endgroup]
+Running source package tests...
+Writing JUnit reports to /home/runner/work/_temp/junit/build
+Testing package wp-cli/config-command...
+Not running 1 of 107 scenarios:
+  Not part of this configuration:
+    @require-sqlite, as the database is MySQL 8.0.46: vendor/wp-cli/config-command/features/config-create.feature:385
+...................................................................... 70
+...................................................................... 140
+.......F----------.....................................F---........... 210
+...................................................................... 280
+...................................................................... 350
+...................................................................... 420
+...................................................................... 490
+...................................................................... 560
+...................................................................... 630
+...................................................................... 700
+...................................................................... 770
+...................................................................... 840
+...................................................................... 910
+...................................................................... 980
+...................................................................... 1050
+...........
+
+--- Failed steps:
+
+001 Scenario: Configure with database credentials using socket path # vendor/wp-cli/config-command/features/config-create.feature:242
+      When I run `php find-socket.php`                              # vendor/wp-cli/config-command/features/config-create.feature:271
+        $ php find-socket.php
+        No socket found
+        cwd: /tmp/wp-cli-test-run-config-create.feature.242-6b0985ebc6dbb4.29024165/
+        run time: 0.034854173660278
+        exit status: 1
+        
+        The command unexpectedly exited with status 1. If you expect a non-zero exit status, use `When I try [...]`. Else, this may be a bug in your code or test. (RuntimeException)
+
+002 Scenario: Configure with required SSL connection                                                                                                                                                               # vendor/wp-cli/config-command/features/config-create.feature:402
+      And I run `MYSQL_PWD='{DB_ROOT_PASSWORD}' MYSQL_HOST='{MYSQL_HOST}' MYSQL_TCP_PORT='{MYSQL_PORT}' mysql -u root -e "CREATE USER IF NOT EXISTS 'wp_cli_test_ssl'@'%' IDENTIFIED BY 'password2' REQUIRE SSL;"` # vendor/wp-cli/config-command/features/config-create.feature:405
+        $ MYSQL_PWD='root' MYSQL_HOST='' MYSQL_TCP_PORT='' mysql -u root -e "CREATE USER IF NOT EXISTS 'wp_cli_test_ssl'@'%' IDENTIFIED BY 'password2' REQUIRE SSL;"
+        
+        ERROR 2002 (HY000): Can't connect to local MySQL server through socket '/var/run/mysqld/mysqld.sock' (2)
+        cwd: /tmp/wp-cli-test-run-config-create.feature.402-6b0985ef7ad6f4.90561671/
+        run time: 0.0041720867156982
+        exit status: 1
+        
+        The command unexpectedly exited with status 1. If you expect a non-zero exit status, use `When I try [...]`. Else, this may be a bug in your code or test. (RuntimeException)
+
+123 scenarios (121 passed, 2 failed)
+1061 steps (1046 passed, 2 failed, 13 skipped)
+1m9.21s (14.65Mb)
+Not running 1 of 107 scenarios:
+  Not part of this configuration:
+    @require-sqlite, as the database is MySQL 8.0.46: vendor/wp-cli/config-command/features/config-create.feature:385
+...F----------..F---
+
+--- Failed steps:
+
+001 Scenario: Configure with database credentials using socket path # vendor/wp-cli/config-command/features/config-create.feature:242
+      When I run `php find-socket.php`                              # vendor/wp-cli/config-command/features/config-create.feature:271
+        $ php find-socket.php
+        No socket found
+        cwd: /tmp/wp-cli-test-run-config-create.feature.242-6b098625058952.62655286/
+        run time: 0.030821084976196
+        exit status: 1
+        
+        The command unexpectedly exited with status 1. If you expect a non-zero exit status, use `When I try [...]`. Else, this may be a bug in your code or test. (RuntimeException)
+
+002 Scenario: Configure with required SSL connection                                                                                                                                                               # vendor/wp-cli/config-command/features/config-create.feature:402
+      And I run `MYSQL_PWD='{DB_ROOT_PASSWORD}' MYSQL_HOST='{MYSQL_HOST}' MYSQL_TCP_PORT='{MYSQL_PORT}' mysql -u root -e "CREATE USER IF NOT EXISTS 'wp_cli_test_ssl'@'%' IDENTIFIED BY 'password2' REQUIRE SSL;"` # vendor/wp-cli/config-command/features/config-create.feature:405
+        $ MYSQL_PWD='root' MYSQL_HOST='' MYSQL_TCP_PORT='' mysql -u root -e "CREATE USER IF NOT EXISTS 'wp_cli_test_ssl'@'%' IDENTIFIED BY 'password2' REQUIRE SSL;"
+        
+        ERROR 2002 (HY000): Can't connect to local MySQL server through socket '/var/run/mysqld/mysqld.sock' (2)
+        cwd: /tmp/wp-cli-test-run-config-create.feature.402-6b09862583f876.35925688/
+        run time: 0.0036020278930664
+        exit status: 1
+        
+        The command unexpectedly exited with status 1. If you expect a non-zero exit status, use `When I try [...]`. Else, this may be a bug in your code or test. (RuntimeException)
+
+2 scenarios (2 failed)
+20 steps (5 passed, 2 failed, 13 skipped)
+0m0.93s (13.54Mb)
+Packages with failed tests: :wp-cli/config-command
+Script run-test-suite handling the test event returned with error code 1
+##[error]Process completed with exit code 1.
+
+################ Step: Run the config-command tests against the baseline ################
+##[group]Run composer test
+composer test
+shell: /usr/bin/bash -e {0}
+env:
+  DEFAULT_PACKAGES: wp-cli-bundle,ability-command,ai-command,config-command,core-command,cron-command,db-command,entity-command,export-command,extension-command,import-command,media-command,rewrite-command,role-command,search-replace-command,site-health-command
+  DEFAULT_PHP_VERSION: 8.5
+  WP_CLI_TEST_DBROOTUSER: root
+  WP_CLI_TEST_DBROOTPASS: root
+  WP_CLI_TEST_DBNAME: wp_cli_test
+  WP_CLI_TEST_DBUSER: wp_cli_test
+  WP_CLI_TEST_DBPASS: password1
+  WP_CLI_TEST_DBHOST: 127.0.0.1:3306
+  COMPOSER_PROCESS_TIMEOUT: 0
+  COMPOSER_NO_INTERACTION: 1
+  COMPOSER_NO_AUDIT: 1
+  TEST_PACKAGE: wp-cli/config-command
+  WP_VERSION: trunk
+  WP_CLI_TEST_CORE_ZIP: /home/runner/work/_temp/wordpress-baseline/baseline.zip
+  WP_CLI_TEST_JUNIT_DIR: /home/runner/work/_temp/junit/baseline
+##[endgroup]
+Running source package tests...
+Writing JUnit reports to /home/runner/work/_temp/junit/baseline
+Testing package wp-cli/config-command...
+Not running 1 of 107 scenarios:
+  Not part of this configuration:
+    @require-sqlite, as the database is MySQL 8.0.46: vendor/wp-cli/config-command/features/config-create.feature:385
+...................................................................... 70
+...................................................................... 140
+.......F----------.....................................F---........... 210
+...................................................................... 280
+...................................................................... 350
+...................................................................... 420
+...................................................................... 490
+...................................................................... 560
+...................................................................... 630
+...................................................................... 700
+...................................................................... 770
+...................................................................... 840
+...................................................................... 910
+...................................................................... 980
+...................................................................... 1050
+...........
+
+--- Failed steps:
+
+001 Scenario: Configure with database credentials using socket path # vendor/wp-cli/config-command/features/config-create.feature:242
+      When I run `php find-socket.php`                              # vendor/wp-cli/config-command/features/config-create.feature:271
+        $ php find-socket.php
+        No socket found
+        cwd: /tmp/wp-cli-test-run-config-create.feature.242-6b098632014a92.02064996/
+        run time: 0.033343076705933
+        exit status: 1
+        
+        The command unexpectedly exited with status 1. If you expect a non-zero exit status, use `When I try [...]`. Else, this may be a bug in your code or test. (RuntimeException)
+
+002 Scenario: Configure with required SSL connection                                                                                                                                                               # vendor/wp-cli/config-command/features/config-create.feature:402
+      And I run `MYSQL_PWD='{DB_ROOT_PASSWORD}' MYSQL_HOST='{MYSQL_HOST}' MYSQL_TCP_PORT='{MYSQL_PORT}' mysql -u root -e "CREATE USER IF NOT EXISTS 'wp_cli_test_ssl'@'%' IDENTIFIED BY 'password2' REQUIRE SSL;"` # vendor/wp-cli/config-command/features/config-create.feature:405
+        $ MYSQL_PWD='root' MYSQL_HOST='' MYSQL_TCP_PORT='' mysql -u root -e "CREATE USER IF NOT EXISTS 'wp_cli_test_ssl'@'%' IDENTIFIED BY 'password2' REQUIRE SSL;"
+        
+        ERROR 2002 (HY000): Can't connect to local MySQL server through socket '/var/run/mysqld/mysqld.sock' (2)
+        cwd: /tmp/wp-cli-test-run-config-create.feature.402-6b09863555b751.22267034/
+        run time: 0.0034468173980713
+        exit status: 1
+        
+        The command unexpectedly exited with status 1. If you expect a non-zero exit status, use `When I try [...]`. Else, this may be a bug in your code or test. (RuntimeException)
+
+123 scenarios (121 passed, 2 failed)
+1061 steps (1046 passed, 2 failed, 13 skipped)
+1m7.33s (15.73Mb)
+Not running 1 of 107 scenarios:
+  Not part of this configuration:
+    @require-sqlite, as the database is MySQL 8.0.46: vendor/wp-cli/config-command/features/config-create.feature:385
+...F----------..F---
+
+--- Failed steps:
+
+001 Scenario: Configure with database credentials using socket path # vendor/wp-cli/config-command/features/config-create.feature:242
+      When I run `php find-socket.php`                              # vendor/wp-cli/config-command/features/config-create.feature:271
+        $ php find-socket.php
+        No socket found
+        cwd: /tmp/wp-cli-test-run-config-create.feature.242-6b098669dd14c7.94289301/
+        run time: 0.032218933105469
+        exit status: 1
+        
+        The command unexpectedly exited with status 1. If you expect a non-zero exit status, use `When I try [...]`. Else, this may be a bug in your code or test. (RuntimeException)
+
+002 Scenario: Configure with required SSL connection                                                                                                                                                               # vendor/wp-cli/config-command/features/config-create.feature:402
+      And I run `MYSQL_PWD='{DB_ROOT_PASSWORD}' MYSQL_HOST='{MYSQL_HOST}' MYSQL_TCP_PORT='{MYSQL_PORT}' mysql -u root -e "CREATE USER IF NOT EXISTS 'wp_cli_test_ssl'@'%' IDENTIFIED BY 'password2' REQUIRE SSL;"` # vendor/wp-cli/config-command/features/config-create.feature:405
+        $ MYSQL_PWD='root' MYSQL_HOST='' MYSQL_TCP_PORT='' mysql -u root -e "CREATE USER IF NOT EXISTS 'wp_cli_test_ssl'@'%' IDENTIFIED BY 'password2' REQUIRE SSL;"
+        
+        ERROR 2002 (HY000): Can't connect to local MySQL server through socket '/var/run/mysqld/mysqld.sock' (2)
+        cwd: /tmp/wp-cli-test-run-config-create.feature.402-6b09866a675c28.38701605/
+        run time: 0.0037229061126709
+        exit status: 1
+        
+        The command unexpectedly exited with status 1. If you expect a non-zero exit status, use `When I try [...]`. Else, this may be a bug in your code or test. (RuntimeException)
+
+2 scenarios (2 failed)
+20 steps (5 passed, 2 failed, 13 skipped)
+0m0.93s (13.54Mb)
+Packages with failed tests: :wp-cli/config-command
+Script run-test-suite handling the test event returned with error code 1
+##[error]Process completed with exit code 1.
+
+################ Step: Compare the results against the baseline ################
+##[group]Run python3 -I - "${BUILD_REPORTS}" "${BASELINE_REPORTS}" <<'PY'
+python3 -I - "${BUILD_REPORTS}" "${BASELINE_REPORTS}" <<'PY'
+import glob, os, sys
+import xml.etree.ElementTree as ET
+
+FAILED = ('failed', 'undefined')
+
+def load(path, into):
+    root = ET.parse(path).getroot()
+    for case in root.iter('testcase'):
+        key = case.get('file') + ':' + case.get('line')
+        failed = case.get('status') in FAILED or case.find('failure') is not None
+        into[(key, case.get('name') or '')] = {'suite': root.get('name'), 'name': case.get('name'), 'key': key, 'failed': failed}
+
+def read_run(directory):
+    scenarios, flaky, rerun = {}, set(), {}
+    for path in sorted(glob.glob(os.path.join(directory, '*.xml'))):
+        load(path, scenarios)
+    for path in sorted(glob.glob(os.path.join(directory, 'rerun', '*.xml'))):
+        load(path, rerun)
+    # The rerun has the final say: failing and then passing is flaky, not failing.
+    for key, scenario in rerun.items():
+        if key in scenarios and scenarios[key]['failed'] and not scenario['failed']:
+            flaky.add(key)
+        scenarios[key] = scenario
+    return scenarios, flaky
+
+def failing(scenarios):
+    return {key for key, scenario in scenarios.items() if scenario['failed']}
+
+candidate, flaky = read_run(sys.argv[1])
+baseline, _ = read_run(sys.argv[2])
+
+if not candidate:
+    print('::error::The run against the build being tested produced no results.')
+    sys.exit(1)
+
+broken = sorted(failing(candidate) - failing(baseline))
+known = sorted(failing(candidate) & failing(baseline))
+
+lines = []
+if broken:
+    lines += ['### %d scenario(s) fail only with this build' % len(broken), '', '| Scenario | Location |', '| --- | --- |']
+    lines += ['| %s | `%s` |' % (candidate[key]['name'], candidate[key]['key']) for key in broken]
+    for key in broken:
+        print('::error title=Fails only with this build::%s (%s)' % (candidate[key]['name'], candidate[key]['key']))
+else:
+    lines.append('### No new failures')
+if known:
+    lines += ['', '%d scenario(s) also fail against the baseline build, so this build did not cause them:' % len(known), '']
+    lines += ['- %s (`%s`)' % (candidate[key]['name'], candidate[key]['key']) for key in known]
+if flaky:
+    lines += ['', '%d scenario(s) failed and then passed on the rerun, and were treated as flaky.' % len(flaky)]
+
+summary = '\n'.join(lines) + '\n'
+print(summary)
+if os.environ.get('GITHUB_STEP_SUMMARY'):
+    with open(os.environ['GITHUB_STEP_SUMMARY'], 'a') as handle:
+        handle.write(summary)
+
+sys.exit(1 if broken else 0)
+PY
+shell: /usr/bin/bash -e {0}
+env:
+  DEFAULT_PACKAGES: wp-cli-bundle,ability-command,ai-command,config-command,core-command,cron-command,db-command,entity-command,export-command,extension-command,import-command,media-command,rewrite-command,role-command,search-replace-command,site-health-command
+  DEFAULT_PHP_VERSION: 8.5
+  WP_CLI_TEST_DBROOTUSER: root
+  WP_CLI_TEST_DBROOTPASS: root
+  WP_CLI_TEST_DBNAME: wp_cli_test
+  WP_CLI_TEST_DBUSER: wp_cli_test
+  WP_CLI_TEST_DBPASS: password1
+  WP_CLI_TEST_DBHOST: 127.0.0.1:3306
+  COMPOSER_PROCESS_TIMEOUT: 0
+  COMPOSER_NO_INTERACTION: 1
+  COMPOSER_NO_AUDIT: 1
+  BUILD_REPORTS: /home/runner/work/_temp/junit/build
+  BASELINE_REPORTS: /home/runner/work/_temp/junit/baseline
+##[endgroup]
+### No new failures
+
+2 scenario(s) also fail against the baseline build, so this build did not cause them:
+
+- Configure with database credentials using socket path (`vendor/wp-cli/config-command/features/config-create.feature:289`)
+- Configure with required SSL connection (`vendor/wp-cli/config-command/features/config-create.feature:409`)
+

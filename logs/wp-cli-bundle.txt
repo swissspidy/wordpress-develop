@@ -1,0 +1,509 @@
+WP-CLI tests, run 46007121960, package wp-cli-bundle
+Raw job log excerpts; ANSI color codes and timestamp prefixes stripped.
+
+################ Step: Run the wp-cli-bundle tests ################
+##[group]Run composer test
+composer test
+shell: /usr/bin/bash -e {0}
+env:
+  DEFAULT_PACKAGES: wp-cli-bundle,ability-command,ai-command,config-command,core-command,cron-command,db-command,entity-command,export-command,extension-command,import-command,media-command,rewrite-command,role-command,search-replace-command,site-health-command
+  DEFAULT_PHP_VERSION: 8.5
+  WP_CLI_TEST_DBROOTUSER: root
+  WP_CLI_TEST_DBROOTPASS: root
+  WP_CLI_TEST_DBNAME: wp_cli_test
+  WP_CLI_TEST_DBUSER: wp_cli_test
+  WP_CLI_TEST_DBPASS: password1
+  WP_CLI_TEST_DBHOST: 127.0.0.1:3306
+  COMPOSER_PROCESS_TIMEOUT: 0
+  COMPOSER_NO_INTERACTION: 1
+  COMPOSER_NO_AUDIT: 1
+  TEST_PACKAGE: wp-cli/wp-cli-bundle
+  WP_VERSION: trunk
+  WP_CLI_TEST_CORE_ZIP: /home/runner/work/_temp/wordpress-build/develop.zip
+  WP_CLI_TEST_JUNIT_DIR: /home/runner/work/_temp/junit/build
+##[endgroup]
+Running source package tests...
+Writing JUnit reports to /home/runner/work/_temp/junit/build
+Testing package wp-cli/wp-cli-bundle...
+Not running 8 of 63 scenarios:
+  Not part of this configuration:
+    @github-api, as GITHUB_TOKEN is not set: vendor/wp-cli/wp-cli-bundle/features/cli.feature:19, vendor/wp-cli/wp-cli-bundle/features/cli.feature:31, vendor/wp-cli/wp-cli-bundle/features/cli.feature:74, vendor/wp-cli/wp-cli-bundle/features/cli.feature:103, vendor/wp-cli/wp-cli-bundle/features/cli.feature:137
+    @broken, as they are known to be broken: vendor/wp-cli/wp-cli-bundle/features/make-phar.feature:6
+    @less-than-php-8.2, as PHP 8.5.13 is used: vendor/wp-cli/wp-cli-bundle/features/requests.feature:6
+    @less-than-php-8.4, as PHP 8.5.13 is used: vendor/wp-cli/wp-cli-bundle/features/requests.feature:135
+...................................................................... 70
+...................................................................... 140
+............................F......................................... 210
+...................................................................... 280
+...................................................F----.............. 350
+...................................................................... 420
+...................................................................... 490
+.........................................F----------...F---------
+
+--- Failed steps:
+
+001 Scenario: Invalid subcommand of valid command # vendor/wp-cli/wp-cli-bundle/features/command.feature:270
+      Then STDERR should contain:                 # vendor/wp-cli/wp-cli-bundle/features/command.feature:292
+        $ wp --require=custom-cmd.php command invalid < session_no
+        
+        Error: 'invalid' is not a registered subcommand of 'command'. See 'wp help command' for available subcommands.
+        Did you mean 'valid'?
+        cwd: /tmp/wp-cli-test-run-command.feature.270-6b098640e4bb50.22359291/
+        run time: 0.11717295646667
+        exit status: 1
+        
+        Output does not contain expected string:
+        Warning: 'invalid' is not a registered subcommand of 'command'. See 'wp help command' for available subcommands.
+        
+        --- Expected
+        +++ Actual
+        @@ @@
+        -Warning: 'invalid' is not a registered subcommand of 'command'. See 'wp help command' for available subcommands.
+        +Error: 'invalid' is not a registered subcommand of 'command'. See 'wp help command' for available subcommands.
+        +Did you mean 'valid'?
+         (Exception)
+
+002 Scenario: WP-CLI suggests matching commands when user entry contains typos # vendor/wp-cli/wp-cli-bundle/features/command.feature:1181
+      Then STDOUT should contain:                                              # vendor/wp-cli/wp-cli-bundle/features/command.feature:1189
+        $ wp clu < session_no
+        
+        Error: 'clu' is not a registered wp command. See 'wp help' for available commands.
+        Did you mean 'cli'?
+        cwd: /tmp/wp-cli-test-run-command.feature.1181-6b098649699ce7.93045369/
+        run time: 0.4078311920166
+        exit status: 1
+        
+        Output does not contain expected string:
+        Did you mean 'cli'?
+        
+        --- Expected
+        +++ Actual
+        @@ @@
+        -Did you mean 'cli'?
+         (Exception)
+
+003 Scenario: Current version with WordPress-bundled Requests v1 # vendor/wp-cli/wp-cli-bundle/features/requests.feature:57
+      And I run `wp core update --version=5.8 --force`           # vendor/wp-cli/wp-cli-bundle/features/requests.feature:59
+        $ wp core update --version=5.8 --force
+        Updating to version 5.8 (en_US)...
+        Downloading update from https://wordpress.org/wordpress-5.8.zip...
+        Unpacking the update...
+        Cleaning up files...
+        No old files were removed.
+        Success: WordPress updated successfully.
+        
+        Warning: Could not retrieve WordPress core checksums; skipping checksum-based cleanup. Files listed in $_old_files were still cleaned up.
+        cwd: /tmp/wp-cli-test-run-requests.feature.57-6b0986ac009175.41918148/
+        run time: 1.996297121048
+        exit status: 0
+        
+        The command unexpectedly produced STDERR output. If you expect a non-zero exit status or STDERR output, use `When I try [...]`. Else, this may be a bug in your code or test. (RuntimeException)
+
+004 Scenario: Current version with WordPress-bundled Requests v2 # vendor/wp-cli/wp-cli-bundle/features/requests.feature:93
+      And I run `wp core update --version=6.2 --force`           # vendor/wp-cli/wp-cli-bundle/features/requests.feature:102
+        $ wp core update --version=6.2 --force
+        Updating to version 6.2 (en_US)...
+        Downloading update from https://wordpress.org/wordpress-6.2.zip...
+        Unpacking the update...
+        Cleaning up files...
+        No old files were removed.
+        Success: WordPress updated successfully.
+        
+        Warning: Could not retrieve WordPress core checksums; skipping checksum-based cleanup. Files listed in $_old_files were still cleaned up.
+        cwd: /tmp/wp-cli-test-run-requests.feature.93-6b0986aec73302.41112288/
+        run time: 2.1479489803314
+        exit status: 0
+        
+        The command unexpectedly produced STDERR output. If you expect a non-zero exit status or STDERR output, use `When I try [...]`. Else, this may be a bug in your code or test. (RuntimeException)
+
+55 scenarios (51 passed, 4 failed)
+555 steps (528 passed, 4 failed, 23 skipped)
+3m42.91s (14.34Mb)
+Not running 8 of 63 scenarios:
+  Not part of this configuration:
+    @github-api, as GITHUB_TOKEN is not set: vendor/wp-cli/wp-cli-bundle/features/cli.feature:19, vendor/wp-cli/wp-cli-bundle/features/cli.feature:31, vendor/wp-cli/wp-cli-bundle/features/cli.feature:74, vendor/wp-cli/wp-cli-bundle/features/cli.feature:103, vendor/wp-cli/wp-cli-bundle/features/cli.feature:137
+    @broken, as they are known to be broken: vendor/wp-cli/wp-cli-bundle/features/make-phar.feature:6
+    @less-than-php-8.2, as PHP 8.5.13 is used: vendor/wp-cli/wp-cli-bundle/features/requests.feature:6
+    @less-than-php-8.4, as PHP 8.5.13 is used: vendor/wp-cli/wp-cli-bundle/features/requests.feature:135
+....F...F----.F----------...F---------
+
+--- Failed steps:
+
+001 Scenario: Invalid subcommand of valid command # vendor/wp-cli/wp-cli-bundle/features/command.feature:270
+      Then STDERR should contain:                 # vendor/wp-cli/wp-cli-bundle/features/command.feature:292
+        $ wp --require=custom-cmd.php command invalid < session_no
+        
+        Error: 'invalid' is not a registered subcommand of 'command'. See 'wp help command' for available subcommands.
+        Did you mean 'valid'?
+        cwd: /tmp/wp-cli-test-run-command.feature.270-6b0986b352ec78.52653816/
+        run time: 0.12300682067871
+        exit status: 1
+        
+        Output does not contain expected string:
+        Warning: 'invalid' is not a registered subcommand of 'command'. See 'wp help command' for available subcommands.
+        
+        --- Expected
+        +++ Actual
+        @@ @@
+        -Warning: 'invalid' is not a registered subcommand of 'command'. See 'wp help command' for available subcommands.
+        +Error: 'invalid' is not a registered subcommand of 'command'. See 'wp help command' for available subcommands.
+        +Did you mean 'valid'?
+         (Exception)
+
+002 Scenario: WP-CLI suggests matching commands when user entry contains typos # vendor/wp-cli/wp-cli-bundle/features/command.feature:1181
+      Then STDOUT should contain:                                              # vendor/wp-cli/wp-cli-bundle/features/command.feature:1189
+        $ wp clu < session_no
+        
+        Error: 'clu' is not a registered wp command. See 'wp help' for available commands.
+        Did you mean 'cli'?
+        cwd: /tmp/wp-cli-test-run-command.feature.1181-6b0986b388dc86.58277059/
+        run time: 0.38873505592346
+        exit status: 1
+        
+        Output does not contain expected string:
+        Did you mean 'cli'?
+        
+        --- Expected
+        +++ Actual
+        @@ @@
+        -Did you mean 'cli'?
+         (Exception)
+
+003 Scenario: Current version with WordPress-bundled Requests v1 # vendor/wp-cli/wp-cli-bundle/features/requests.feature:57
+      And I run `wp core update --version=5.8 --force`           # vendor/wp-cli/wp-cli-bundle/features/requests.feature:59
+        $ wp core update --version=5.8 --force
+        Updating to version 5.8 (en_US)...
+        Using cached file '/tmp/wp-cli-home/.wp-cli/cache/core/wordpress-5.8-en_US.zip'...
+        Unpacking the update...
+        Cleaning up files...
+        No old files were removed.
+        Success: WordPress updated successfully.
+        
+        Warning: Could not retrieve WordPress core checksums; skipping checksum-based cleanup. Files listed in $_old_files were still cleaned up.
+        cwd: /tmp/wp-cli-test-run-requests.feature.57-6b0986b6016578.41145582/
+        run time: 1.8168499469757
+        exit status: 0
+        
+        The command unexpectedly produced STDERR output. If you expect a non-zero exit status or STDERR output, use `When I try [...]`. Else, this may be a bug in your code or test. (RuntimeException)
+
+004 Scenario: Current version with WordPress-bundled Requests v2 # vendor/wp-cli/wp-cli-bundle/features/requests.feature:93
+      And I run `wp core update --version=6.2 --force`           # vendor/wp-cli/wp-cli-bundle/features/requests.feature:102
+        $ wp core update --version=6.2 --force
+        Updating to version 6.2 (en_US)...
+        Using cached file '/tmp/wp-cli-home/.wp-cli/cache/core/wordpress-6.2-en_US.zip'...
+        Unpacking the update...
+        Cleaning up files...
+        No old files were removed.
+        Success: WordPress updated successfully.
+        
+        Warning: Could not retrieve WordPress core checksums; skipping checksum-based cleanup. Files listed in $_old_files were still cleaned up.
+        cwd: /tmp/wp-cli-test-run-requests.feature.93-6b0986b89b8039.88839314/
+        run time: 1.9513099193573
+        exit status: 0
+        
+        The command unexpectedly produced STDERR output. If you expect a non-zero exit status or STDERR output, use `When I try [...]`. Else, this may be a bug in your code or test. (RuntimeException)
+
+4 scenarios (4 failed)
+38 steps (11 passed, 4 failed, 23 skipped)
+0m8.74s (13.67Mb)
+Packages with failed tests: :wp-cli/wp-cli-bundle
+Script run-test-suite handling the test event returned with error code 1
+##[error]Process completed with exit code 1.
+
+################ Step: Run the wp-cli-bundle tests against the baseline ################
+##[group]Run composer test
+composer test
+shell: /usr/bin/bash -e {0}
+env:
+  DEFAULT_PACKAGES: wp-cli-bundle,ability-command,ai-command,config-command,core-command,cron-command,db-command,entity-command,export-command,extension-command,import-command,media-command,rewrite-command,role-command,search-replace-command,site-health-command
+  DEFAULT_PHP_VERSION: 8.5
+  WP_CLI_TEST_DBROOTUSER: root
+  WP_CLI_TEST_DBROOTPASS: root
+  WP_CLI_TEST_DBNAME: wp_cli_test
+  WP_CLI_TEST_DBUSER: wp_cli_test
+  WP_CLI_TEST_DBPASS: password1
+  WP_CLI_TEST_DBHOST: 127.0.0.1:3306
+  COMPOSER_PROCESS_TIMEOUT: 0
+  COMPOSER_NO_INTERACTION: 1
+  COMPOSER_NO_AUDIT: 1
+  TEST_PACKAGE: wp-cli/wp-cli-bundle
+  WP_VERSION: trunk
+  WP_CLI_TEST_CORE_ZIP: /home/runner/work/_temp/wordpress-baseline/baseline.zip
+  WP_CLI_TEST_JUNIT_DIR: /home/runner/work/_temp/junit/baseline
+##[endgroup]
+Running source package tests...
+Writing JUnit reports to /home/runner/work/_temp/junit/baseline
+Testing package wp-cli/wp-cli-bundle...
+Not running 8 of 63 scenarios:
+  Not part of this configuration:
+    @github-api, as GITHUB_TOKEN is not set: vendor/wp-cli/wp-cli-bundle/features/cli.feature:19, vendor/wp-cli/wp-cli-bundle/features/cli.feature:31, vendor/wp-cli/wp-cli-bundle/features/cli.feature:74, vendor/wp-cli/wp-cli-bundle/features/cli.feature:103, vendor/wp-cli/wp-cli-bundle/features/cli.feature:137
+    @broken, as they are known to be broken: vendor/wp-cli/wp-cli-bundle/features/make-phar.feature:6
+    @less-than-php-8.2, as PHP 8.5.13 is used: vendor/wp-cli/wp-cli-bundle/features/requests.feature:6
+    @less-than-php-8.4, as PHP 8.5.13 is used: vendor/wp-cli/wp-cli-bundle/features/requests.feature:135
+...................................................................... 70
+...................................................................... 140
+............................F......................................... 210
+...................................................................... 280
+...................................................F----.............. 350
+...................................................................... 420
+...................................................................... 490
+.........................................F----------...F---------
+
+--- Failed steps:
+
+001 Scenario: Invalid subcommand of valid command # vendor/wp-cli/wp-cli-bundle/features/command.feature:270
+      Then STDERR should contain:                 # vendor/wp-cli/wp-cli-bundle/features/command.feature:292
+        $ wp --require=custom-cmd.php command invalid < session_no
+        
+        Error: 'invalid' is not a registered subcommand of 'command'. See 'wp help command' for available subcommands.
+        Did you mean 'valid'?
+        cwd: /tmp/wp-cli-test-run-command.feature.270-6b098727b41c83.04050491/
+        run time: 0.11869287490845
+        exit status: 1
+        
+        Output does not contain expected string:
+        Warning: 'invalid' is not a registered subcommand of 'command'. See 'wp help command' for available subcommands.
+        
+        --- Expected
+        +++ Actual
+        @@ @@
+        -Warning: 'invalid' is not a registered subcommand of 'command'. See 'wp help command' for available subcommands.
+        +Error: 'invalid' is not a registered subcommand of 'command'. See 'wp help command' for available subcommands.
+        +Did you mean 'valid'?
+         (Exception)
+
+002 Scenario: WP-CLI suggests matching commands when user entry contains typos # vendor/wp-cli/wp-cli-bundle/features/command.feature:1181
+      Then STDOUT should contain:                                              # vendor/wp-cli/wp-cli-bundle/features/command.feature:1189
+        $ wp clu < session_no
+        
+        Error: 'clu' is not a registered wp command. See 'wp help' for available commands.
+        Did you mean 'cli'?
+        cwd: /tmp/wp-cli-test-run-command.feature.1181-6b09873041daf4.63277505/
+        run time: 0.39186000823975
+        exit status: 1
+        
+        Output does not contain expected string:
+        Did you mean 'cli'?
+        
+        --- Expected
+        +++ Actual
+        @@ @@
+        -Did you mean 'cli'?
+         (Exception)
+
+003 Scenario: Current version with WordPress-bundled Requests v1 # vendor/wp-cli/wp-cli-bundle/features/requests.feature:57
+      And I run `wp core update --version=5.8 --force`           # vendor/wp-cli/wp-cli-bundle/features/requests.feature:59
+        $ wp core update --version=5.8 --force
+        Updating to version 5.8 (en_US)...
+        Using cached file '/tmp/wp-cli-home/.wp-cli/cache/core/wordpress-5.8-en_US.zip'...
+        Unpacking the update...
+        Cleaning up files...
+        No old files were removed.
+        Success: WordPress updated successfully.
+        
+        Warning: Could not retrieve WordPress core checksums; skipping checksum-based cleanup. Files listed in $_old_files were still cleaned up.
+        cwd: /tmp/wp-cli-test-run-requests.feature.57-6b09879256c8b0.52605335/
+        run time: 1.8147211074829
+        exit status: 0
+        
+        The command unexpectedly produced STDERR output. If you expect a non-zero exit status or STDERR output, use `When I try [...]`. Else, this may be a bug in your code or test. (RuntimeException)
+
+004 Scenario: Current version with WordPress-bundled Requests v2 # vendor/wp-cli/wp-cli-bundle/features/requests.feature:93
+      And I run `wp core update --version=6.2 --force`           # vendor/wp-cli/wp-cli-bundle/features/requests.feature:102
+        $ wp core update --version=6.2 --force
+        Updating to version 6.2 (en_US)...
+        Using cached file '/tmp/wp-cli-home/.wp-cli/cache/core/wordpress-6.2-en_US.zip'...
+        Unpacking the update...
+        Cleaning up files...
+        No old files were removed.
+        Success: WordPress updated successfully.
+        
+        Warning: Could not retrieve WordPress core checksums; skipping checksum-based cleanup. Files listed in $_old_files were still cleaned up.
+        cwd: /tmp/wp-cli-test-run-requests.feature.93-6b0987950049a1.62665135/
+        run time: 1.9672050476074
+        exit status: 0
+        
+        The command unexpectedly produced STDERR output. If you expect a non-zero exit status or STDERR output, use `When I try [...]`. Else, this may be a bug in your code or test. (RuntimeException)
+
+55 scenarios (51 passed, 4 failed)
+555 steps (528 passed, 4 failed, 23 skipped)
+3m39.73s (14.94Mb)
+Not running 8 of 63 scenarios:
+  Not part of this configuration:
+    @github-api, as GITHUB_TOKEN is not set: vendor/wp-cli/wp-cli-bundle/features/cli.feature:19, vendor/wp-cli/wp-cli-bundle/features/cli.feature:31, vendor/wp-cli/wp-cli-bundle/features/cli.feature:74, vendor/wp-cli/wp-cli-bundle/features/cli.feature:103, vendor/wp-cli/wp-cli-bundle/features/cli.feature:137
+    @broken, as they are known to be broken: vendor/wp-cli/wp-cli-bundle/features/make-phar.feature:6
+    @less-than-php-8.2, as PHP 8.5.13 is used: vendor/wp-cli/wp-cli-bundle/features/requests.feature:6
+    @less-than-php-8.4, as PHP 8.5.13 is used: vendor/wp-cli/wp-cli-bundle/features/requests.feature:135
+....F...F----.F----------...F---------
+
+--- Failed steps:
+
+001 Scenario: Invalid subcommand of valid command # vendor/wp-cli/wp-cli-bundle/features/command.feature:270
+      Then STDERR should contain:                 # vendor/wp-cli/wp-cli-bundle/features/command.feature:292
+        $ wp --require=custom-cmd.php command invalid < session_no
+        
+        Error: 'invalid' is not a registered subcommand of 'command'. See 'wp help command' for available subcommands.
+        Did you mean 'valid'?
+        cwd: /tmp/wp-cli-test-run-command.feature.270-6b098798e2f8a5.37088305/
+        run time: 0.125736951828
+        exit status: 1
+        
+        Output does not contain expected string:
+        Warning: 'invalid' is not a registered subcommand of 'command'. See 'wp help command' for available subcommands.
+        
+        --- Expected
+        +++ Actual
+        @@ @@
+        -Warning: 'invalid' is not a registered subcommand of 'command'. See 'wp help command' for available subcommands.
+        +Error: 'invalid' is not a registered subcommand of 'command'. See 'wp help command' for available subcommands.
+        +Did you mean 'valid'?
+         (Exception)
+
+002 Scenario: WP-CLI suggests matching commands when user entry contains typos # vendor/wp-cli/wp-cli-bundle/features/command.feature:1181
+      Then STDOUT should contain:                                              # vendor/wp-cli/wp-cli-bundle/features/command.feature:1189
+        $ wp clu < session_no
+        
+        Error: 'clu' is not a registered wp command. See 'wp help' for available commands.
+        Did you mean 'cli'?
+        cwd: /tmp/wp-cli-test-run-command.feature.1181-6b098799264382.83241249/
+        run time: 0.40246605873108
+        exit status: 1
+        
+        Output does not contain expected string:
+        Did you mean 'cli'?
+        
+        --- Expected
+        +++ Actual
+        @@ @@
+        -Did you mean 'cli'?
+         (Exception)
+
+003 Scenario: Current version with WordPress-bundled Requests v1 # vendor/wp-cli/wp-cli-bundle/features/requests.feature:57
+      And I run `wp core update --version=5.8 --force`           # vendor/wp-cli/wp-cli-bundle/features/requests.feature:59
+        $ wp core update --version=5.8 --force
+        Updating to version 5.8 (en_US)...
+        Using cached file '/tmp/wp-cli-home/.wp-cli/cache/core/wordpress-5.8-en_US.zip'...
+        Unpacking the update...
+        Cleaning up files...
+        No old files were removed.
+        Success: WordPress updated successfully.
+        
+        Warning: Could not retrieve WordPress core checksums; skipping checksum-based cleanup. Files listed in $_old_files were still cleaned up.
+        cwd: /tmp/wp-cli-test-run-requests.feature.57-6b09879b9a22d4.09601871/
+        run time: 1.8767790794373
+        exit status: 0
+        
+        The command unexpectedly produced STDERR output. If you expect a non-zero exit status or STDERR output, use `When I try [...]`. Else, this may be a bug in your code or test. (RuntimeException)
+
+004 Scenario: Current version with WordPress-bundled Requests v2 # vendor/wp-cli/wp-cli-bundle/features/requests.feature:93
+      And I run `wp core update --version=6.2 --force`           # vendor/wp-cli/wp-cli-bundle/features/requests.feature:102
+        $ wp core update --version=6.2 --force
+        Updating to version 6.2 (en_US)...
+        Using cached file '/tmp/wp-cli-home/.wp-cli/cache/core/wordpress-6.2-en_US.zip'...
+        Unpacking the update...
+        Cleaning up files...
+        No old files were removed.
+        Success: WordPress updated successfully.
+        
+        Warning: Could not retrieve WordPress core checksums; skipping checksum-based cleanup. Files listed in $_old_files were still cleaned up.
+        cwd: /tmp/wp-cli-test-run-requests.feature.93-6b09879e5161a1.37170553/
+        run time: 1.9801950454712
+        exit status: 0
+        
+        The command unexpectedly produced STDERR output. If you expect a non-zero exit status or STDERR output, use `When I try [...]`. Else, this may be a bug in your code or test. (RuntimeException)
+
+4 scenarios (4 failed)
+38 steps (11 passed, 4 failed, 23 skipped)
+0m8.92s (13.67Mb)
+Packages with failed tests: :wp-cli/wp-cli-bundle
+Script run-test-suite handling the test event returned with error code 1
+##[error]Process completed with exit code 1.
+
+################ Step: Compare the results against the baseline ################
+##[group]Run python3 -I - "${BUILD_REPORTS}" "${BASELINE_REPORTS}" <<'PY'
+python3 -I - "${BUILD_REPORTS}" "${BASELINE_REPORTS}" <<'PY'
+import glob, os, sys
+import xml.etree.ElementTree as ET
+
+FAILED = ('failed', 'undefined')
+
+def load(path, into):
+    root = ET.parse(path).getroot()
+    for case in root.iter('testcase'):
+        key = case.get('file') + ':' + case.get('line')
+        failed = case.get('status') in FAILED or case.find('failure') is not None
+        into[(key, case.get('name') or '')] = {'suite': root.get('name'), 'name': case.get('name'), 'key': key, 'failed': failed}
+
+def read_run(directory):
+    scenarios, flaky, rerun = {}, set(), {}
+    for path in sorted(glob.glob(os.path.join(directory, '*.xml'))):
+        load(path, scenarios)
+    for path in sorted(glob.glob(os.path.join(directory, 'rerun', '*.xml'))):
+        load(path, rerun)
+    # The rerun has the final say: failing and then passing is flaky, not failing.
+    for key, scenario in rerun.items():
+        if key in scenarios and scenarios[key]['failed'] and not scenario['failed']:
+            flaky.add(key)
+        scenarios[key] = scenario
+    return scenarios, flaky
+
+def failing(scenarios):
+    return {key for key, scenario in scenarios.items() if scenario['failed']}
+
+candidate, flaky = read_run(sys.argv[1])
+baseline, _ = read_run(sys.argv[2])
+
+if not candidate:
+    print('::error::The run against the build being tested produced no results.')
+    sys.exit(1)
+
+broken = sorted(failing(candidate) - failing(baseline))
+known = sorted(failing(candidate) & failing(baseline))
+
+lines = []
+if broken:
+    lines += ['### %d scenario(s) fail only with this build' % len(broken), '', '| Scenario | Location |', '| --- | --- |']
+    lines += ['| %s | `%s` |' % (candidate[key]['name'], candidate[key]['key']) for key in broken]
+    for key in broken:
+        print('::error title=Fails only with this build::%s (%s)' % (candidate[key]['name'], candidate[key]['key']))
+else:
+    lines.append('### No new failures')
+if known:
+    lines += ['', '%d scenario(s) also fail against the baseline build, so this build did not cause them:' % len(known), '']
+    lines += ['- %s (`%s`)' % (candidate[key]['name'], candidate[key]['key']) for key in known]
+if flaky:
+    lines += ['', '%d scenario(s) failed and then passed on the rerun, and were treated as flaky.' % len(flaky)]
+
+summary = '\n'.join(lines) + '\n'
+print(summary)
+if os.environ.get('GITHUB_STEP_SUMMARY'):
+    with open(os.environ['GITHUB_STEP_SUMMARY'], 'a') as handle:
+        handle.write(summary)
+
+sys.exit(1 if broken else 0)
+PY
+shell: /usr/bin/bash -e {0}
+env:
+  DEFAULT_PACKAGES: wp-cli-bundle,ability-command,ai-command,config-command,core-command,cron-command,db-command,entity-command,export-command,extension-command,import-command,media-command,rewrite-command,role-command,search-replace-command,site-health-command
+  DEFAULT_PHP_VERSION: 8.5
+  WP_CLI_TEST_DBROOTUSER: root
+  WP_CLI_TEST_DBROOTPASS: root
+  WP_CLI_TEST_DBNAME: wp_cli_test
+  WP_CLI_TEST_DBUSER: wp_cli_test
+  WP_CLI_TEST_DBPASS: password1
+  WP_CLI_TEST_DBHOST: 127.0.0.1:3306
+  COMPOSER_PROCESS_TIMEOUT: 0
+  COMPOSER_NO_INTERACTION: 1
+  COMPOSER_NO_AUDIT: 1
+  BUILD_REPORTS: /home/runner/work/_temp/junit/build
+  BASELINE_REPORTS: /home/runner/work/_temp/junit/baseline
+##[endgroup]
+### No new failures
+
+4 scenario(s) also fail against the baseline build, so this build did not cause them:
+
+- WP-CLI suggests matching commands when user entry contains typos (`vendor/wp-cli/wp-cli-bundle/features/command.feature:1201`)
+- Invalid subcommand of valid command (`vendor/wp-cli/wp-cli-bundle/features/command.feature:292`)
+- Current version with WordPress-bundled Requests v2 (`vendor/wp-cli/wp-cli-bundle/features/requests.feature:127`)
+- Current version with WordPress-bundled Requests v1 (`vendor/wp-cli/wp-cli-bundle/features/requests.feature:85`)
+

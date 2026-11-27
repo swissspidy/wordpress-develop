@@ -1,0 +1,1976 @@
+WP-CLI tests, run 46007121960, package core-command
+Raw job log excerpts; ANSI color codes and timestamp prefixes stripped.
+
+################ Step: Run the core-command tests ################
+##[group]Run composer test
+composer test
+shell: /usr/bin/bash -e {0}
+env:
+  DEFAULT_PACKAGES: wp-cli-bundle,ability-command,ai-command,config-command,core-command,cron-command,db-command,entity-command,export-command,extension-command,import-command,media-command,rewrite-command,role-command,search-replace-command,site-health-command
+  DEFAULT_PHP_VERSION: 8.5
+  WP_CLI_TEST_DBROOTUSER: root
+  WP_CLI_TEST_DBROOTPASS: root
+  WP_CLI_TEST_DBNAME: wp_cli_test
+  WP_CLI_TEST_DBUSER: wp_cli_test
+  WP_CLI_TEST_DBPASS: password1
+  WP_CLI_TEST_DBHOST: 127.0.0.1:3306
+  COMPOSER_PROCESS_TIMEOUT: 0
+  COMPOSER_NO_INTERACTION: 1
+  COMPOSER_NO_AUDIT: 1
+  TEST_PACKAGE: wp-cli/core-command
+  WP_VERSION: trunk
+  WP_CLI_TEST_CORE_ZIP: /home/runner/work/_temp/wordpress-build/develop.zip
+  WP_CLI_TEST_JUNIT_DIR: /home/runner/work/_temp/junit/build
+##[endgroup]
+Running source package tests...
+Writing JUnit reports to /home/runner/work/_temp/junit/build
+Testing package wp-cli/core-command...
+Not running 1 of 105 scenarios:
+  Not part of this configuration:
+    @less-than-php-7.3, as PHP 8.5.13 is used: vendor/wp-cli/core-command/features/core-update.feature:281
+...F--------......F---------------------...........F--------------.... 70
+...................................................................... 140
+...................................................................... 210
+...................................................................... 280
+...................................................................... 350
+...................................................................... 420
+...................................................................... 490
+.............................F-----...F-----...F-------------------... 560
+F----------------------...F----------------......F--------..F------..F 630
+------..F------..F---------...F-------.F-----....F---------..F-------- 700
+----------------.F--.F--........F-............F--------------.F------- 770
+--................................F--........F----.................... 840
+...................................................................... 910
+.....................................F-............................... 980
+...............
+
+--- Failed steps:
+
+001 Scenario: Check if database update is needed on a single site # vendor/wp-cli/core-command/features/core-check-update-db.feature:5
+      And I run `wp core download --version=5.4 --force`          # vendor/wp-cli/core-command/features/core-check-update-db.feature:21
+        $ wp core download --version=5.4 --force
+        Downloading WordPress 5.4 (en_US)...
+        md5 hash verified: e158939c3e9c5ef7b6db8af557ee1556
+        Cleaning up files...
+        No old files were removed.
+        Success: WordPress downloaded.
+        
+        Warning: Could not retrieve WordPress core checksums; skipping checksum-based cleanup. Files listed in $_old_files were still cleaned up.
+        cwd: /tmp/wp-cli-test-run-core-check-update-db.feature.5-6b098600af14e6.77581613/
+        run time: 2.3659670352936
+        exit status: 0
+        
+        The command unexpectedly produced STDERR output. If you expect a non-zero exit status or STDERR output, use `When I try [...]`. Else, this may be a bug in your code or test. (RuntimeException)
+
+002 Scenario: Check if database update is needed across network # vendor/wp-cli/core-command/features/core-check-update-db.feature:53
+      And I run `wp core download --version=6.6 --force`        # vendor/wp-cli/core-command/features/core-check-update-db.feature:69
+        $ wp core download --version=6.6 --force
+        Downloading WordPress 6.6 (en_US)...
+        md5 hash verified: c3c6632072a7460e64443f2733b6f69e
+        Cleaning up files...
+        File removed: wp-admin/images/about-header-privacy.svg
+        File removed: wp-admin/images/about-header-credits.svg
+        File removed: wp-admin/images/about-header-freedoms.svg
+        3 files cleaned up.
+        Success: WordPress downloaded.
+        
+        Warning: Could not retrieve WordPress core checksums; skipping checksum-based cleanup. Files listed in $_old_files were still cleaned up.
+        cwd: /tmp/wp-cli-test-run-core-check-update-db.feature.53-6b098607b97f23.33866006/
+        run time: 2.7117071151733
+        exit status: 0
+        
+        The command unexpectedly produced STDERR output. If you expect a non-zero exit status or STDERR output, use `When I try [...]`. Else, this may be a bug in your code or test. (RuntimeException)
+
+003 Scenario: Check for update via Version Check API      # vendor/wp-cli/core-command/features/core-check-update.feature:5
+      When I run `wp core download --version=5.8 --force` # vendor/wp-cli/core-command/features/core-check-update.feature:12
+        $ wp core download --version=5.8 --force
+        Downloading WordPress 5.8 (en_US)...
+        md5 hash verified: 51b3cc80313a217cb187ced199db5c95
+        Cleaning up files...
+        No old files were removed.
+        Success: WordPress downloaded.
+        
+        Warning: Could not retrieve WordPress core checksums; skipping checksum-based cleanup. Files listed in $_old_files were still cleaned up.
+        cwd: /tmp/wp-cli-test-run-core-check-update.feature.5-6b09860e73c285.72066293/
+        run time: 2.5092539787292
+        exit status: 0
+        
+        The command unexpectedly produced STDERR output. If you expect a non-zero exit status or STDERR output, use `When I try [...]`. Else, this may be a bug in your code or test. (RuntimeException)
+
+004 Scenario: Update db on a single site                 # vendor/wp-cli/core-command/features/core-update-db.feature:5
+      And I run `wp core download --version=5.4 --force` # vendor/wp-cli/core-command/features/core-update-db.feature:21
+        $ wp core download --version=5.4 --force
+        Downloading WordPress 5.4 (en_US)...
+        Using cached file '/tmp/wp-cli-home/.wp-cli/cache/core/wordpress-5.4-en_US.zip'...
+        Cleaning up files...
+        No old files were removed.
+        Success: WordPress downloaded.
+        
+        Warning: Could not retrieve WordPress core checksums; skipping checksum-based cleanup. Files listed in $_old_files were still cleaned up.
+        cwd: /tmp/wp-cli-test-run-core-update-db.feature.5-6b09866e18e0e3.58944711/
+        run time: 0.6299889087677
+        exit status: 0
+        
+        The command unexpectedly produced STDERR output. If you expect a non-zero exit status or STDERR output, use `When I try [...]`. Else, this may be a bug in your code or test. (RuntimeException)
+
+005 Scenario: Dry run update db on a single site         # vendor/wp-cli/core-command/features/core-update-db.feature:38
+      And I run `wp core download --version=5.4 --force` # vendor/wp-cli/core-command/features/core-update-db.feature:54
+        $ wp core download --version=5.4 --force
+        Downloading WordPress 5.4 (en_US)...
+        Using cached file '/tmp/wp-cli-home/.wp-cli/cache/core/wordpress-5.4-en_US.zip'...
+        Cleaning up files...
+        No old files were removed.
+        Success: WordPress downloaded.
+        
+        Warning: Could not retrieve WordPress core checksums; skipping checksum-based cleanup. Files listed in $_old_files were still cleaned up.
+        cwd: /tmp/wp-cli-test-run-core-update-db.feature.38-6b09867038be84.79453382/
+        run time: 0.62070298194885
+        exit status: 0
+        
+        The command unexpectedly produced STDERR output. If you expect a non-zero exit status or STDERR output, use `When I try [...]`. Else, this may be a bug in your code or test. (RuntimeException)
+
+006 Scenario: Update db across network                   # vendor/wp-cli/core-command/features/core-update-db.feature:72
+      And I run `wp core download --version=5.4 --force` # vendor/wp-cli/core-command/features/core-update-db.feature:88
+        $ wp core download --version=5.4 --force
+        Downloading WordPress 5.4 (en_US)...
+        Using cached file '/tmp/wp-cli-home/.wp-cli/cache/core/wordpress-5.4-en_US.zip'...
+        Cleaning up files...
+        No old files were removed.
+        Success: WordPress downloaded.
+        
+        Warning: Could not retrieve WordPress core checksums; skipping checksum-based cleanup. Files listed in $_old_files were still cleaned up.
+        cwd: /tmp/wp-cli-test-run-core-update-db.feature.72-6b098672549e68.06197971/
+        run time: 0.62669610977173
+        exit status: 0
+        
+        The command unexpectedly produced STDERR output. If you expect a non-zero exit status or STDERR output, use `When I try [...]`. Else, this may be a bug in your code or test. (RuntimeException)
+
+007 Scenario: Update db across network, dry run          # vendor/wp-cli/core-command/features/core-update-db.feature:120
+      And I run `wp core download --version=5.4 --force` # vendor/wp-cli/core-command/features/core-update-db.feature:136
+        $ wp core download --version=5.4 --force
+        Downloading WordPress 5.4 (en_US)...
+        Using cached file '/tmp/wp-cli-home/.wp-cli/cache/core/wordpress-5.4-en_US.zip'...
+        Cleaning up files...
+        No old files were removed.
+        Success: WordPress downloaded.
+        
+        Warning: Could not retrieve WordPress core checksums; skipping checksum-based cleanup. Files listed in $_old_files were still cleaned up.
+        cwd: /tmp/wp-cli-test-run-core-update-db.feature.120-6b098674bcc6c1.94932065/
+        run time: 0.62161183357239
+        exit status: 0
+        
+        The command unexpectedly produced STDERR output. If you expect a non-zero exit status or STDERR output, use `When I try [...]`. Else, this may be a bug in your code or test. (RuntimeException)
+
+008 Scenario: Update db only updates sites from the current network in multinetwork setup # vendor/wp-cli/core-command/features/core-update-db.feature:180
+      And I run `wp core download --version=5.4 --force`                                  # vendor/wp-cli/core-command/features/core-update-db.feature:196
+        $ wp core download --version=5.4 --force
+        Downloading WordPress 5.4 (en_US)...
+        Using cached file '/tmp/wp-cli-home/.wp-cli/cache/core/wordpress-5.4-en_US.zip'...
+        Cleaning up files...
+        No old files were removed.
+        Success: WordPress downloaded.
+        
+        Warning: Could not retrieve WordPress core checksums; skipping checksum-based cleanup. Files listed in $_old_files were still cleaned up.
+        cwd: /tmp/wp-cli-test-run-core-update-db.feature.180-6b0986772faa96.86862802/
+        run time: 0.62402009963989
+        exit status: 0
+        
+        The command unexpectedly produced STDERR output. If you expect a non-zero exit status or STDERR output, use `When I try [...]`. Else, this may be a bug in your code or test. (RuntimeException)
+
+009 Scenario: Update from a ZIP file                      # vendor/wp-cli/core-command/features/core-update.feature:5
+      When I run `wp core download --version=6.2 --force` # vendor/wp-cli/core-command/features/core-update.feature:12
+        $ wp core download --version=6.2 --force
+        Downloading WordPress 6.2 (en_US)...
+        md5 hash verified: 354e81106f8197b2b4bbc33a752caa2f
+        Cleaning up files...
+        No old files were removed.
+        Success: WordPress downloaded.
+        
+        Warning: Could not retrieve WordPress core checksums; skipping checksum-based cleanup. Files listed in $_old_files were still cleaned up.
+        cwd: /tmp/wp-cli-test-run-core-update.feature.5-6b09867a526647.43886142/
+        run time: 2.6893630027771
+        exit status: 0
+        
+        The command unexpectedly produced STDERR output. If you expect a non-zero exit status or STDERR output, use `When I try [...]`. Else, this may be a bug in your code or test. (RuntimeException)
+
+010 Scenario: Output in JSON format                       # vendor/wp-cli/core-command/features/core-update.feature:39
+      When I run `wp core download --version=6.6 --force` # vendor/wp-cli/core-command/features/core-update.feature:46
+        $ wp core download --version=6.6 --force
+        Downloading WordPress 6.6 (en_US)...
+        Using cached file '/tmp/wp-cli-home/.wp-cli/cache/core/wordpress-6.6-en_US.zip'...
+        Cleaning up files...
+        File removed: wp-admin/images/about-header-privacy.svg
+        File removed: wp-admin/images/about-header-credits.svg
+        File removed: wp-admin/images/about-header-freedoms.svg
+        3 files cleaned up.
+        Success: WordPress downloaded.
+        
+        Warning: Could not retrieve WordPress core checksums; skipping checksum-based cleanup. Files listed in $_old_files were still cleaned up.
+        cwd: /tmp/wp-cli-test-run-core-update.feature.39-6b09867e801e08.13587812/
+        run time: 0.78526210784912
+        exit status: 0
+        
+        The command unexpectedly produced STDERR output. If you expect a non-zero exit status or STDERR output, use `When I try [...]`. Else, this may be a bug in your code or test. (RuntimeException)
+
+011 Scenario: Output in CSV format                        # vendor/wp-cli/core-command/features/core-update.feature:63
+      When I run `wp core download --version=6.6 --force` # vendor/wp-cli/core-command/features/core-update.feature:70
+        $ wp core download --version=6.6 --force
+        Downloading WordPress 6.6 (en_US)...
+        Using cached file '/tmp/wp-cli-home/.wp-cli/cache/core/wordpress-6.6-en_US.zip'...
+        Cleaning up files...
+        File removed: wp-admin/images/about-header-privacy.svg
+        File removed: wp-admin/images/about-header-credits.svg
+        File removed: wp-admin/images/about-header-freedoms.svg
+        3 files cleaned up.
+        Success: WordPress downloaded.
+        
+        Warning: Could not retrieve WordPress core checksums; skipping checksum-based cleanup. Files listed in $_old_files were still cleaned up.
+        cwd: /tmp/wp-cli-test-run-core-update.feature.63-6b098680c4cf73.29478316/
+        run time: 0.7706470489502
+        exit status: 0
+        
+        The command unexpectedly produced STDERR output. If you expect a non-zero exit status or STDERR output, use `When I try [...]`. Else, this may be a bug in your code or test. (RuntimeException)
+
+012 Scenario: Output in table format                      # vendor/wp-cli/core-command/features/core-update.feature:88
+      When I run `wp core download --version=6.6 --force` # vendor/wp-cli/core-command/features/core-update.feature:95
+        $ wp core download --version=6.6 --force
+        Downloading WordPress 6.6 (en_US)...
+        Using cached file '/tmp/wp-cli-home/.wp-cli/cache/core/wordpress-6.6-en_US.zip'...
+        Cleaning up files...
+        File removed: wp-admin/images/about-header-privacy.svg
+        File removed: wp-admin/images/about-header-credits.svg
+        File removed: wp-admin/images/about-header-freedoms.svg
+        3 files cleaned up.
+        Success: WordPress downloaded.
+        
+        Warning: Could not retrieve WordPress core checksums; skipping checksum-based cleanup. Files listed in $_old_files were still cleaned up.
+        cwd: /tmp/wp-cli-test-run-core-update.feature.88-6b098683131e85.31524966/
+        run time: 0.77172613143921
+        exit status: 0
+        
+        The command unexpectedly produced STDERR output. If you expect a non-zero exit status or STDERR output, use `When I try [...]`. Else, this may be a bug in your code or test. (RuntimeException)
+
+013 Scenario: Update to the latest minor release (PHP 7.2 compatible with WP >= 4.9) # vendor/wp-cli/core-command/features/core-update.feature:112
+      When I run `wp core download --version=6.2.5 --force`                          # vendor/wp-cli/core-command/features/core-update.feature:119
+        $ wp core download --version=6.2.5 --force
+        Downloading WordPress 6.2.5 (en_US)...
+        md5 hash verified: 05a9b5b08f5128db3dc8a1b374619585
+        Cleaning up files...
+        No old files were removed.
+        Success: WordPress downloaded.
+        
+        Warning: Could not retrieve WordPress core checksums; skipping checksum-based cleanup. Files listed in $_old_files were still cleaned up.
+        cwd: /tmp/wp-cli-test-run-core-update.feature.112-6b09868553aa88.99003137/
+        run time: 2.710067987442
+        exit status: 0
+        
+        The command unexpectedly produced STDERR output. If you expect a non-zero exit status or STDERR output, use `When I try [...]`. Else, this may be a bug in your code or test. (RuntimeException)
+
+014 Scenario: Core update from cache                      # vendor/wp-cli/core-command/features/core-update.feature:151
+      When I run `wp core update --version=6.2.5 --force` # vendor/wp-cli/core-command/features/core-update.feature:159
+        $ wp core update --version=6.2.5 --force
+        Updating to version 6.2.5 (en_US)...
+        Downloading update from https://wordpress.org/wordpress-6.2.5.zip...
+        Unpacking the update...
+        Cleaning up files...
+        No old files were removed.
+        Success: WordPress updated successfully.
+        
+        Warning: Could not retrieve WordPress core checksums; skipping checksum-based cleanup. Files listed in $_old_files were still cleaned up.
+        cwd: /tmp/wp-cli-test-run-core-update.feature.151-6b09868985c3c0.31446670/
+        run time: 4.5162448883057
+        exit status: 0
+        
+        The command unexpectedly produced STDERR output. If you expect a non-zero exit status or STDERR output, use `When I try [...]`. Else, this may be a bug in your code or test. (RuntimeException)
+
+015 Scenario: Don't run update when up-to-date # vendor/wp-cli/core-command/features/core-update.feature:183
+      And I run `wp core update`               # vendor/wp-cli/core-command/features/core-update.feature:185
+        $ wp core update
+        Updating to version 7.2-RC3-65804 (en_US)...
+        Downloading update from https://wordpress.org/nightly-builds/wordpress-7.2-latest.zip...
+        Unpacking the update...
+        Cleaning up files...
+        No old files were removed.
+        Success: WordPress updated successfully.
+        
+        Warning: Could not retrieve WordPress core checksums; skipping checksum-based cleanup. Files listed in $_old_files were still cleaned up.
+        cwd: /tmp/wp-cli-test-run-core-update.feature.183-6b09868f8bed59.64645504/
+        run time: 5.7984869480133
+        exit status: 0
+        
+        The command unexpectedly produced STDERR output. If you expect a non-zero exit status or STDERR output, use `When I try [...]`. Else, this may be a bug in your code or test. (RuntimeException)
+
+016 Scenario: Ensure cached partial upgrades aren't used in full upgrade # vendor/wp-cli/core-command/features/core-update.feature:203
+      When I run `wp core download --version=6.5.2 --force`              # vendor/wp-cli/core-command/features/core-update.feature:245
+        $ wp core download --version=6.5.2 --force
+        Downloading WordPress 6.5.2 (en_US)...
+        md5 hash verified: b511bdde9b5be94626fb56f7272c2ce1
+        Cleaning up files...
+        File removed: wp-admin/images/about-header-privacy.svg
+        File removed: wp-admin/images/about-header-credits.svg
+        File removed: wp-admin/images/about-header-freedoms.svg
+        3 files cleaned up.
+        Success: WordPress downloaded.
+        
+        Warning: Could not retrieve WordPress core checksums; skipping checksum-based cleanup. Files listed in $_old_files were still cleaned up.
+        cwd: /tmp/wp-cli-test-run-core-update.feature.203-6b098695c97570.76154479/
+        run time: 2.7019441127777
+        exit status: 0
+        
+        The command unexpectedly produced STDERR output. If you expect a non-zero exit status or STDERR output, use `When I try [...]`. Else, this may be a bug in your code or test. (RuntimeException)
+
+017 Scenario: Make sure files are cleaned up with mixed case # vendor/wp-cli/core-command/features/core-update.feature:321
+      When I run `wp core update --version=5.8 --force`      # vendor/wp-cli/core-command/features/core-update.feature:328
+        $ wp core update --version=5.8 --force
+        Updating to version 5.8 (en_US)...
+        Using cached file '/tmp/wp-cli-home/.wp-cli/cache/core/wordpress-5.8-en_US.zip'...
+        Unpacking the update...
+        Cleaning up files...
+        No old files were removed.
+        Success: WordPress updated successfully.
+        
+        Warning: Could not retrieve WordPress core checksums; skipping checksum-based cleanup. Files listed in $_old_files were still cleaned up.
+        cwd: /tmp/wp-cli-test-run-core-update.feature.321-6b09869a07fe42.45248687/
+        run time: 2.8502249717712
+        exit status: 0
+        
+        The command unexpectedly produced STDERR output. If you expect a non-zero exit status or STDERR output, use `When I try [...]`. Else, this may be a bug in your code or test. (RuntimeException)
+
+018 Example: | trunk   |                          # vendor/wp-cli/core-command/features/core-update.feature:382
+      When I run `wp core update --version=trunk` # vendor/wp-cli/core-command/features/core-update.feature:369
+        $ wp core update --version=trunk
+        Updating to version nightly (en_US)...
+        Downloading update from https://wordpress.org/nightly-builds/wordpress-latest.zip...
+        Unpacking the update...
+        Cleaning up files...
+        No old files were removed.
+        Success: WordPress updated successfully.
+        
+        Warning: Could not retrieve WordPress core checksums; skipping checksum-based cleanup. Files listed in $_old_files were still cleaned up.
+        cwd: /tmp/wp-cli-test-run-core-update.feature.382-6b09869e612768.29939052/
+        run time: 5.5394790172577
+        exit status: 0
+        
+        The command unexpectedly produced STDERR output. If you expect a non-zero exit status or STDERR output, use `When I try [...]`. Else, this may be a bug in your code or test. (RuntimeException)
+
+019 Example: | nightly |                            # vendor/wp-cli/core-command/features/core-update.feature:383
+      When I run `wp core update --version=nightly` # vendor/wp-cli/core-command/features/core-update.feature:369
+        $ wp core update --version=nightly
+        Updating to version nightly (en_US)...
+        Downloading update from https://wordpress.org/nightly-builds/wordpress-latest.zip...
+        Unpacking the update...
+        Cleaning up files...
+        No old files were removed.
+        Success: WordPress updated successfully.
+        
+        Warning: Could not retrieve WordPress core checksums; skipping checksum-based cleanup. Files listed in $_old_files were still cleaned up.
+        cwd: /tmp/wp-cli-test-run-core-update.feature.383-6b0986a4617207.39310768/
+        run time: 5.5359151363373
+        exit status: 0
+        
+        The command unexpectedly produced STDERR output. If you expect a non-zero exit status or STDERR output, use `When I try [...]`. Else, this may be a bug in your code or test. (RuntimeException)
+
+020 Scenario: Allow installing major version with trailing zero # vendor/wp-cli/core-command/features/core-update.feature:411
+      When I run `wp core update --version=6.2.0 --force`       # vendor/wp-cli/core-command/features/core-update.feature:414
+        $ wp core update --version=6.2.0 --force
+        Updating to version 6.2.0 (en_US)...
+        Using cached file '/tmp/wp-cli-home/.wp-cli/cache/core/wordpress-6.2-en_US.zip'...
+        Unpacking the update...
+        Cleaning up files...
+        No old files were removed.
+        Success: WordPress updated successfully.
+        
+        Warning: Could not retrieve WordPress core checksums; skipping checksum-based cleanup. Files listed in $_old_files were still cleaned up.
+        cwd: /tmp/wp-cli-test-run-core-update.feature.411-6b0986b6926a71.70559824/
+        run time: 2.9659428596497
+        exit status: 0
+        
+        The command unexpectedly produced STDERR output. If you expect a non-zero exit status or STDERR output, use `When I try [...]`. Else, this may be a bug in your code or test. (RuntimeException)
+
+021 Scenario: Old files from $_old_files are cleaned up when upgrading # vendor/wp-cli/core-command/features/core-update.feature:456
+      When I run `wp core download --version=6.8 --force`              # vendor/wp-cli/core-command/features/core-update.feature:459
+        $ wp core download --version=6.8 --force
+        Downloading WordPress 6.8 (en_US)...
+        md5 hash verified: d01e7caaede2152a32f29e275e66ca33
+        Cleaning up files...
+        File removed: wp-admin/images/about-header-privacy.svg
+        File removed: wp-admin/images/about-header-credits.svg
+        File removed: wp-admin/images/about-header-freedoms.svg
+        File removed: wp-includes/js/dist/undo-manager.js
+        File removed: wp-includes/js/dist/undo-manager.min.js
+        5 files cleaned up.
+        Success: WordPress downloaded.
+        
+        Warning: Could not retrieve WordPress core checksums; skipping checksum-based cleanup. Files listed in $_old_files were still cleaned up.
+        cwd: /tmp/wp-cli-test-run-core-update.feature.456-6b0986c24cab38.57184908/
+        run time: 2.7716829776764
+        exit status: 0
+        
+        The command unexpectedly produced STDERR output. If you expect a non-zero exit status or STDERR output, use `When I try [...]`. Else, this may be a bug in your code or test. (RuntimeException)
+
+022 Scenario: Old files cleanup works when checksums unavailable # vendor/wp-cli/core-command/features/core-update.feature:498
+      When I run `wp core download --version=6.8 --force`        # vendor/wp-cli/core-command/features/core-update.feature:501
+        $ wp core download --version=6.8 --force
+        Downloading WordPress 6.8 (en_US)...
+        Using cached file '/tmp/wp-cli-home/.wp-cli/cache/core/wordpress-6.8-en_US.zip'...
+        Cleaning up files...
+        File removed: wp-admin/images/about-header-privacy.svg
+        File removed: wp-admin/images/about-header-credits.svg
+        File removed: wp-admin/images/about-header-freedoms.svg
+        File removed: wp-includes/js/dist/undo-manager.js
+        File removed: wp-includes/js/dist/undo-manager.min.js
+        5 files cleaned up.
+        Success: WordPress downloaded.
+        
+        Warning: Could not retrieve WordPress core checksums; skipping checksum-based cleanup. Files listed in $_old_files were still cleaned up.
+        cwd: /tmp/wp-cli-test-run-core-update.feature.498-6b0986c585aca1.14082056/
+        run time: 0.8192720413208
+        exit status: 0
+        
+        The command unexpectedly produced STDERR output. If you expect a non-zero exit status or STDERR output, use `When I try [...]`. Else, this may be a bug in your code or test. (RuntimeException)
+
+023 Scenario: Attempting to downgrade without --force shows helpful message # vendor/wp-cli/core-command/features/core-update.feature:606
+      When I run `wp core update --version=6.0 --force`                     # vendor/wp-cli/core-command/features/core-update.feature:631
+        $ wp core update --version=6.0 --force
+        Updating to version 6.0 (en_US)...
+        Downloading update from https://wordpress.org/wordpress-6.0.zip...
+        Unpacking the update...
+        Cleaning up files...
+        No old files were removed.
+        Success: WordPress updated successfully.
+        
+        Warning: Could not retrieve WordPress core checksums; skipping checksum-based cleanup. Files listed in $_old_files were still cleaned up.
+        cwd: /tmp/wp-cli-test-run-core-update.feature.606-6b0986d73c1191.07382998/
+        run time: 4.4754910469055
+        exit status: 0
+        
+        The command unexpectedly produced STDERR output. If you expect a non-zero exit status or STDERR output, use `When I try [...]`. Else, this may be a bug in your code or test. (RuntimeException)
+
+024 Scenario: Verify core version                          # vendor/wp-cli/core-command/features/core-version.feature:3
+      And I run `wp core download --version=4.4.2 --force` # vendor/wp-cli/core-command/features/core-version.feature:5
+        $ wp core download --version=4.4.2 --force
+        Downloading WordPress 4.4.2 (en_US)...
+        md5 hash verified: c499a4d9f2486cd1f35b48cb65fbc845
+        Cleaning up files...
+        File removed: wp-includes/js/tinymce/wp-tinymce.js
+        File removed: wp-admin/options-privacy.php
+        File removed: wp-admin/css/media-rtl.min.css
+        File removed: wp-admin/css/media.min.css
+        File removed: wp-admin/css/farbtastic-rtl.min.css
+        File removed: wp-includes/js/plupload/plupload.js
+        6 files cleaned up.
+        Success: WordPress downloaded.
+        
+        Warning: Could not retrieve WordPress core checksums; skipping checksum-based cleanup. Files listed in $_old_files were still cleaned up.
+        cwd: /tmp/wp-cli-test-run-core-version.feature.3-6b0986ddeb3202.46643743/
+        run time: 2.1061551570892
+        exit status: 0
+        
+        The command unexpectedly produced STDERR output. If you expect a non-zero exit status or STDERR output, use `When I try [...]`. Else, this may be a bug in your code or test. (RuntimeException)
+
+025 Scenario: Custom wp-content directory # vendor/wp-cli/core-command/features/core.feature:274
+      When I run `wp plugin get akismet`  # vendor/wp-cli/core-command/features/core.feature:278
+        $ wp plugin get akismet
+        
+        Error: The 'akismet' plugin could not be found.
+        cwd: /tmp/wp-cli-test-run-core.feature.274-6b0986f3885e40.73268622/
+        run time: 1.0460278987885
+        exit status: 1
+        
+        The command unexpectedly exited with status 1. If you expect a non-zero exit status, use `When I try [...]`. Else, this may be a bug in your code or test. (RuntimeException)
+
+105 scenarios (80 passed, 25 failed)
+995 steps (745 passed, 25 failed, 225 skipped)
+4m12.05s (14.53Mb)
+Not running 1 of 105 scenarios:
+  Not part of this configuration:
+    @less-than-php-7.3, as PHP 8.5.13 is used: vendor/wp-cli/core-command/features/core-update.feature:281
+...F--------...F---------------------..F--------------...F-----...F--- 70
+--...F-------------------...F----------------------...F--------------- 140
+-..F--------..F------..F------..F------..F---------...F-------.F-----. 210
+...F---------..F------------------------.F--.F--.F-.F--------------.F- 280
+--------.........F--.F----..F-
+
+--- Failed steps:
+
+001 Scenario: Check if database update is needed on a single site # vendor/wp-cli/core-command/features/core-check-update-db.feature:5
+      And I run `wp core download --version=5.4 --force`          # vendor/wp-cli/core-command/features/core-check-update-db.feature:21
+        $ wp core download --version=5.4 --force
+        Downloading WordPress 5.4 (en_US)...
+        Using cached file '/tmp/wp-cli-home/.wp-cli/cache/core/wordpress-5.4-en_US.zip'...
+        Cleaning up files...
+        No old files were removed.
+        Success: WordPress downloaded.
+        
+        Warning: Could not retrieve WordPress core checksums; skipping checksum-based cleanup. Files listed in $_old_files were still cleaned up.
+        cwd: /tmp/wp-cli-test-run-core-check-update-db.feature.5-6b0986fccfc619.00735221/
+        run time: 0.63200712203979
+        exit status: 0
+        
+        The command unexpectedly produced STDERR output. If you expect a non-zero exit status or STDERR output, use `When I try [...]`. Else, this may be a bug in your code or test. (RuntimeException)
+
+002 Scenario: Check if database update is needed across network # vendor/wp-cli/core-command/features/core-check-update-db.feature:53
+      And I run `wp core download --version=6.6 --force`        # vendor/wp-cli/core-command/features/core-check-update-db.feature:69
+        $ wp core download --version=6.6 --force
+        Downloading WordPress 6.6 (en_US)...
+        Using cached file '/tmp/wp-cli-home/.wp-cli/cache/core/wordpress-6.6-en_US.zip'...
+        Cleaning up files...
+        File removed: wp-admin/images/about-header-privacy.svg
+        File removed: wp-admin/images/about-header-credits.svg
+        File removed: wp-admin/images/about-header-freedoms.svg
+        3 files cleaned up.
+        Success: WordPress downloaded.
+        
+        Warning: Could not retrieve WordPress core checksums; skipping checksum-based cleanup. Files listed in $_old_files were still cleaned up.
+        cwd: /tmp/wp-cli-test-run-core-check-update-db.feature.53-6b0986ffdf4404.47091493/
+        run time: 0.78837299346924
+        exit status: 0
+        
+        The command unexpectedly produced STDERR output. If you expect a non-zero exit status or STDERR output, use `When I try [...]`. Else, this may be a bug in your code or test. (RuntimeException)
+
+003 Scenario: Check for update via Version Check API      # vendor/wp-cli/core-command/features/core-check-update.feature:5
+      When I run `wp core download --version=5.8 --force` # vendor/wp-cli/core-command/features/core-check-update.feature:12
+        $ wp core download --version=5.8 --force
+        Downloading WordPress 5.8 (en_US)...
+        Using cached file '/tmp/wp-cli-home/.wp-cli/cache/core/wordpress-5.8-en_US.zip'...
+        Cleaning up files...
+        No old files were removed.
+        Success: WordPress downloaded.
+        
+        Warning: Could not retrieve WordPress core checksums; skipping checksum-based cleanup. Files listed in $_old_files were still cleaned up.
+        cwd: /tmp/wp-cli-test-run-core-check-update.feature.5-6b09870282d0b8.00198595/
+        run time: 0.70343494415283
+        exit status: 0
+        
+        The command unexpectedly produced STDERR output. If you expect a non-zero exit status or STDERR output, use `When I try [...]`. Else, this may be a bug in your code or test. (RuntimeException)
+
+004 Scenario: Update db on a single site                 # vendor/wp-cli/core-command/features/core-update-db.feature:5
+      And I run `wp core download --version=5.4 --force` # vendor/wp-cli/core-command/features/core-update-db.feature:21
+        $ wp core download --version=5.4 --force
+        Downloading WordPress 5.4 (en_US)...
+        Using cached file '/tmp/wp-cli-home/.wp-cli/cache/core/wordpress-5.4-en_US.zip'...
+        Cleaning up files...
+        No old files were removed.
+        Success: WordPress downloaded.
+        
+        Warning: Could not retrieve WordPress core checksums; skipping checksum-based cleanup. Files listed in $_old_files were still cleaned up.
+        cwd: /tmp/wp-cli-test-run-core-update-db.feature.5-6b098704b8e829.74715087/
+        run time: 0.62897992134094
+        exit status: 0
+        
+        The command unexpectedly produced STDERR output. If you expect a non-zero exit status or STDERR output, use `When I try [...]`. Else, this may be a bug in your code or test. (RuntimeException)
+
+005 Scenario: Dry run update db on a single site         # vendor/wp-cli/core-command/features/core-update-db.feature:38
+      And I run `wp core download --version=5.4 --force` # vendor/wp-cli/core-command/features/core-update-db.feature:54
+        $ wp core download --version=5.4 --force
+        Downloading WordPress 5.4 (en_US)...
+        Using cached file '/tmp/wp-cli-home/.wp-cli/cache/core/wordpress-5.4-en_US.zip'...
+        Cleaning up files...
+        No old files were removed.
+        Success: WordPress downloaded.
+        
+        Warning: Could not retrieve WordPress core checksums; skipping checksum-based cleanup. Files listed in $_old_files were still cleaned up.
+        cwd: /tmp/wp-cli-test-run-core-update-db.feature.38-6b098706dd1d91.09782778/
+        run time: 0.6305570602417
+        exit status: 0
+        
+        The command unexpectedly produced STDERR output. If you expect a non-zero exit status or STDERR output, use `When I try [...]`. Else, this may be a bug in your code or test. (RuntimeException)
+
+006 Scenario: Update db across network                   # vendor/wp-cli/core-command/features/core-update-db.feature:72
+      And I run `wp core download --version=5.4 --force` # vendor/wp-cli/core-command/features/core-update-db.feature:88
+        $ wp core download --version=5.4 --force
+        Downloading WordPress 5.4 (en_US)...
+        Using cached file '/tmp/wp-cli-home/.wp-cli/cache/core/wordpress-5.4-en_US.zip'...
+        Cleaning up files...
+        No old files were removed.
+        Success: WordPress downloaded.
+        
+        Warning: Could not retrieve WordPress core checksums; skipping checksum-based cleanup. Files listed in $_old_files were still cleaned up.
+        cwd: /tmp/wp-cli-test-run-core-update-db.feature.72-6b09870910d0d7.49861081/
+        run time: 0.63416481018066
+        exit status: 0
+        
+        The command unexpectedly produced STDERR output. If you expect a non-zero exit status or STDERR output, use `When I try [...]`. Else, this may be a bug in your code or test. (RuntimeException)
+
+007 Scenario: Update db across network, dry run          # vendor/wp-cli/core-command/features/core-update-db.feature:120
+      And I run `wp core download --version=5.4 --force` # vendor/wp-cli/core-command/features/core-update-db.feature:136
+        $ wp core download --version=5.4 --force
+        Downloading WordPress 5.4 (en_US)...
+        Using cached file '/tmp/wp-cli-home/.wp-cli/cache/core/wordpress-5.4-en_US.zip'...
+        Cleaning up files...
+        No old files were removed.
+        Success: WordPress downloaded.
+        
+        Warning: Could not retrieve WordPress core checksums; skipping checksum-based cleanup. Files listed in $_old_files were still cleaned up.
+        cwd: /tmp/wp-cli-test-run-core-update-db.feature.120-6b09870b83d600.35073838/
+        run time: 0.62710809707642
+        exit status: 0
+        
+        The command unexpectedly produced STDERR output. If you expect a non-zero exit status or STDERR output, use `When I try [...]`. Else, this may be a bug in your code or test. (RuntimeException)
+
+008 Scenario: Update db only updates sites from the current network in multinetwork setup # vendor/wp-cli/core-command/features/core-update-db.feature:180
+      And I run `wp core download --version=5.4 --force`                                  # vendor/wp-cli/core-command/features/core-update-db.feature:196
+        $ wp core download --version=5.4 --force
+        Downloading WordPress 5.4 (en_US)...
+        Using cached file '/tmp/wp-cli-home/.wp-cli/cache/core/wordpress-5.4-en_US.zip'...
+        Cleaning up files...
+        No old files were removed.
+        Success: WordPress downloaded.
+        
+        Warning: Could not retrieve WordPress core checksums; skipping checksum-based cleanup. Files listed in $_old_files were still cleaned up.
+        cwd: /tmp/wp-cli-test-run-core-update-db.feature.180-6b09870e073183.23101264/
+        run time: 0.63057994842529
+        exit status: 0
+        
+        The command unexpectedly produced STDERR output. If you expect a non-zero exit status or STDERR output, use `When I try [...]`. Else, this may be a bug in your code or test. (RuntimeException)
+
+009 Scenario: Update from a ZIP file                      # vendor/wp-cli/core-command/features/core-update.feature:5
+      When I run `wp core download --version=6.2 --force` # vendor/wp-cli/core-command/features/core-update.feature:12
+        $ wp core download --version=6.2 --force
+        Downloading WordPress 6.2 (en_US)...
+        Using cached file '/tmp/wp-cli-home/.wp-cli/cache/core/wordpress-6.2-en_US.zip'...
+        Cleaning up files...
+        No old files were removed.
+        Success: WordPress downloaded.
+        
+        Warning: Could not retrieve WordPress core checksums; skipping checksum-based cleanup. Files listed in $_old_files were still cleaned up.
+        cwd: /tmp/wp-cli-test-run-core-update.feature.5-6b09871077be97.28149555/
+        run time: 0.7692928314209
+        exit status: 0
+        
+        The command unexpectedly produced STDERR output. If you expect a non-zero exit status or STDERR output, use `When I try [...]`. Else, this may be a bug in your code or test. (RuntimeException)
+
+010 Scenario: Output in JSON format                       # vendor/wp-cli/core-command/features/core-update.feature:39
+      When I run `wp core download --version=6.6 --force` # vendor/wp-cli/core-command/features/core-update.feature:46
+        $ wp core download --version=6.6 --force
+        Downloading WordPress 6.6 (en_US)...
+        Using cached file '/tmp/wp-cli-home/.wp-cli/cache/core/wordpress-6.6-en_US.zip'...
+        Cleaning up files...
+        File removed: wp-admin/images/about-header-privacy.svg
+        File removed: wp-admin/images/about-header-credits.svg
+        File removed: wp-admin/images/about-header-freedoms.svg
+        3 files cleaned up.
+        Success: WordPress downloaded.
+        
+        Warning: Could not retrieve WordPress core checksums; skipping checksum-based cleanup. Files listed in $_old_files were still cleaned up.
+        cwd: /tmp/wp-cli-test-run-core-update.feature.39-6b098712bd3da7.89703079/
+        run time: 0.78505110740662
+        exit status: 0
+        
+        The command unexpectedly produced STDERR output. If you expect a non-zero exit status or STDERR output, use `When I try [...]`. Else, this may be a bug in your code or test. (RuntimeException)
+
+011 Scenario: Output in CSV format                        # vendor/wp-cli/core-command/features/core-update.feature:63
+      When I run `wp core download --version=6.6 --force` # vendor/wp-cli/core-command/features/core-update.feature:70
+        $ wp core download --version=6.6 --force
+        Downloading WordPress 6.6 (en_US)...
+        Using cached file '/tmp/wp-cli-home/.wp-cli/cache/core/wordpress-6.6-en_US.zip'...
+        Cleaning up files...
+        File removed: wp-admin/images/about-header-privacy.svg
+        File removed: wp-admin/images/about-header-credits.svg
+        File removed: wp-admin/images/about-header-freedoms.svg
+        3 files cleaned up.
+        Success: WordPress downloaded.
+        
+        Warning: Could not retrieve WordPress core checksums; skipping checksum-based cleanup. Files listed in $_old_files were still cleaned up.
+        cwd: /tmp/wp-cli-test-run-core-update.feature.63-6b098715143862.05003860/
+        run time: 0.78377294540405
+        exit status: 0
+        
+        The command unexpectedly produced STDERR output. If you expect a non-zero exit status or STDERR output, use `When I try [...]`. Else, this may be a bug in your code or test. (RuntimeException)
+
+012 Scenario: Output in table format                      # vendor/wp-cli/core-command/features/core-update.feature:88
+      When I run `wp core download --version=6.6 --force` # vendor/wp-cli/core-command/features/core-update.feature:95
+        $ wp core download --version=6.6 --force
+        Downloading WordPress 6.6 (en_US)...
+        Using cached file '/tmp/wp-cli-home/.wp-cli/cache/core/wordpress-6.6-en_US.zip'...
+        Cleaning up files...
+        File removed: wp-admin/images/about-header-privacy.svg
+        File removed: wp-admin/images/about-header-credits.svg
+        File removed: wp-admin/images/about-header-freedoms.svg
+        3 files cleaned up.
+        Success: WordPress downloaded.
+        
+        Warning: Could not retrieve WordPress core checksums; skipping checksum-based cleanup. Files listed in $_old_files were still cleaned up.
+        cwd: /tmp/wp-cli-test-run-core-update.feature.88-6b09871760bb66.80678360/
+        run time: 0.7839949131012
+        exit status: 0
+        
+        The command unexpectedly produced STDERR output. If you expect a non-zero exit status or STDERR output, use `When I try [...]`. Else, this may be a bug in your code or test. (RuntimeException)
+
+013 Scenario: Update to the latest minor release (PHP 7.2 compatible with WP >= 4.9) # vendor/wp-cli/core-command/features/core-update.feature:112
+      When I run `wp core download --version=6.2.5 --force`                          # vendor/wp-cli/core-command/features/core-update.feature:119
+        $ wp core download --version=6.2.5 --force
+        Downloading WordPress 6.2.5 (en_US)...
+        Using cached file '/tmp/wp-cli-home/.wp-cli/cache/core/wordpress-6.2.5-en_US.zip'...
+        Cleaning up files...
+        No old files were removed.
+        Success: WordPress downloaded.
+        
+        Warning: Could not retrieve WordPress core checksums; skipping checksum-based cleanup. Files listed in $_old_files were still cleaned up.
+        cwd: /tmp/wp-cli-test-run-core-update.feature.112-6b098719ac3b90.21098903/
+        run time: 0.77503490447998
+        exit status: 0
+        
+        The command unexpectedly produced STDERR output. If you expect a non-zero exit status or STDERR output, use `When I try [...]`. Else, this may be a bug in your code or test. (RuntimeException)
+
+014 Scenario: Core update from cache                      # vendor/wp-cli/core-command/features/core-update.feature:151
+      When I run `wp core update --version=6.2.5 --force` # vendor/wp-cli/core-command/features/core-update.feature:159
+        $ wp core update --version=6.2.5 --force
+        Updating to version 6.2.5 (en_US)...
+        Downloading update from https://wordpress.org/wordpress-6.2.5.zip...
+        Unpacking the update...
+        Cleaning up files...
+        No old files were removed.
+        Success: WordPress updated successfully.
+        
+        Warning: Could not retrieve WordPress core checksums; skipping checksum-based cleanup. Files listed in $_old_files were still cleaned up.
+        cwd: /tmp/wp-cli-test-run-core-update.feature.151-6b09871c0115d8.53022024/
+        run time: 4.5948750972748
+        exit status: 0
+        
+        The command unexpectedly produced STDERR output. If you expect a non-zero exit status or STDERR output, use `When I try [...]`. Else, this may be a bug in your code or test. (RuntimeException)
+
+015 Scenario: Don't run update when up-to-date # vendor/wp-cli/core-command/features/core-update.feature:183
+      And I run `wp core update`               # vendor/wp-cli/core-command/features/core-update.feature:185
+        $ wp core update
+        Updating to version 7.2-RC3-65804 (en_US)...
+        Downloading update from https://wordpress.org/nightly-builds/wordpress-7.2-latest.zip...
+        Unpacking the update...
+        Cleaning up files...
+        No old files were removed.
+        Success: WordPress updated successfully.
+        
+        Warning: Could not retrieve WordPress core checksums; skipping checksum-based cleanup. Files listed in $_old_files were still cleaned up.
+        cwd: /tmp/wp-cli-test-run-core-update.feature.183-6b0987221b08c6.90171601/
+        run time: 5.9631597995758
+        exit status: 0
+        
+        The command unexpectedly produced STDERR output. If you expect a non-zero exit status or STDERR output, use `When I try [...]`. Else, this may be a bug in your code or test. (RuntimeException)
+
+016 Scenario: Ensure cached partial upgrades aren't used in full upgrade # vendor/wp-cli/core-command/features/core-update.feature:203
+      When I run `wp core download --version=6.5.2 --force`              # vendor/wp-cli/core-command/features/core-update.feature:245
+        $ wp core download --version=6.5.2 --force
+        Downloading WordPress 6.5.2 (en_US)...
+        md5 hash verified: b511bdde9b5be94626fb56f7272c2ce1
+        Cleaning up files...
+        File removed: wp-admin/images/about-header-privacy.svg
+        File removed: wp-admin/images/about-header-credits.svg
+        File removed: wp-admin/images/about-header-freedoms.svg
+        3 files cleaned up.
+        Success: WordPress downloaded.
+        
+        Warning: Could not retrieve WordPress core checksums; skipping checksum-based cleanup. Files listed in $_old_files were still cleaned up.
+        cwd: /tmp/wp-cli-test-run-core-update.feature.203-6b09872883e259.27249747/
+        run time: 2.7219457626343
+        exit status: 0
+        
+        The command unexpectedly produced STDERR output. If you expect a non-zero exit status or STDERR output, use `When I try [...]`. Else, this may be a bug in your code or test. (RuntimeException)
+
+017 Scenario: Make sure files are cleaned up with mixed case # vendor/wp-cli/core-command/features/core-update.feature:321
+      When I run `wp core update --version=5.8 --force`      # vendor/wp-cli/core-command/features/core-update.feature:328
+        $ wp core update --version=5.8 --force
+        Updating to version 5.8 (en_US)...
+        Using cached file '/tmp/wp-cli-home/.wp-cli/cache/core/wordpress-5.8-en_US.zip'...
+        Unpacking the update...
+        Cleaning up files...
+        No old files were removed.
+        Success: WordPress updated successfully.
+        
+        Warning: Could not retrieve WordPress core checksums; skipping checksum-based cleanup. Files listed in $_old_files were still cleaned up.
+        cwd: /tmp/wp-cli-test-run-core-update.feature.321-6b09872cc0dd11.29161462/
+        run time: 2.8565540313721
+        exit status: 0
+        
+        The command unexpectedly produced STDERR output. If you expect a non-zero exit status or STDERR output, use `When I try [...]`. Else, this may be a bug in your code or test. (RuntimeException)
+
+018 Example: | trunk   |                          # vendor/wp-cli/core-command/features/core-update.feature:382
+      When I run `wp core update --version=trunk` # vendor/wp-cli/core-command/features/core-update.feature:369
+        $ wp core update --version=trunk
+        Updating to version nightly (en_US)...
+        Downloading update from https://wordpress.org/nightly-builds/wordpress-latest.zip...
+        Unpacking the update...
+        Cleaning up files...
+        No old files were removed.
+        Success: WordPress updated successfully.
+        
+        Warning: Could not retrieve WordPress core checksums; skipping checksum-based cleanup. Files listed in $_old_files were still cleaned up.
+        cwd: /tmp/wp-cli-test-run-core-update.feature.382-6b0987312817f1.32114970/
+        run time: 5.5454578399658
+        exit status: 0
+        
+        The command unexpectedly produced STDERR output. If you expect a non-zero exit status or STDERR output, use `When I try [...]`. Else, this may be a bug in your code or test. (RuntimeException)
+
+019 Example: | nightly |                            # vendor/wp-cli/core-command/features/core-update.feature:383
+      When I run `wp core update --version=nightly` # vendor/wp-cli/core-command/features/core-update.feature:369
+        $ wp core update --version=nightly
+        Updating to version nightly (en_US)...
+        Downloading update from https://wordpress.org/nightly-builds/wordpress-latest.zip...
+        Unpacking the update...
+        Cleaning up files...
+        No old files were removed.
+        Success: WordPress updated successfully.
+        
+        Warning: Could not retrieve WordPress core checksums; skipping checksum-based cleanup. Files listed in $_old_files were still cleaned up.
+        cwd: /tmp/wp-cli-test-run-core-update.feature.383-6b0987372a3401.16340722/
+        run time: 5.5088958740234
+        exit status: 0
+        
+        The command unexpectedly produced STDERR output. If you expect a non-zero exit status or STDERR output, use `When I try [...]`. Else, this may be a bug in your code or test. (RuntimeException)
+
+020 Scenario: Allow installing major version with trailing zero # vendor/wp-cli/core-command/features/core-update.feature:411
+      When I run `wp core update --version=6.2.0 --force`       # vendor/wp-cli/core-command/features/core-update.feature:414
+        $ wp core update --version=6.2.0 --force
+        Updating to version 6.2.0 (en_US)...
+        Using cached file '/tmp/wp-cli-home/.wp-cli/cache/core/wordpress-6.2-en_US.zip'...
+        Unpacking the update...
+        Cleaning up files...
+        No old files were removed.
+        Success: WordPress updated successfully.
+        
+        Warning: Could not retrieve WordPress core checksums; skipping checksum-based cleanup. Files listed in $_old_files were still cleaned up.
+        cwd: /tmp/wp-cli-test-run-core-update.feature.411-6b09873d23e7e4.73572840/
+        run time: 2.9869439601898
+        exit status: 0
+        
+        The command unexpectedly produced STDERR output. If you expect a non-zero exit status or STDERR output, use `When I try [...]`. Else, this may be a bug in your code or test. (RuntimeException)
+
+021 Scenario: Old files from $_old_files are cleaned up when upgrading # vendor/wp-cli/core-command/features/core-update.feature:456
+      When I run `wp core download --version=6.8 --force`              # vendor/wp-cli/core-command/features/core-update.feature:459
+        $ wp core download --version=6.8 --force
+        Downloading WordPress 6.8 (en_US)...
+        Using cached file '/tmp/wp-cli-home/.wp-cli/cache/core/wordpress-6.8-en_US.zip'...
+        Cleaning up files...
+        File removed: wp-admin/images/about-header-privacy.svg
+        File removed: wp-admin/images/about-header-credits.svg
+        File removed: wp-admin/images/about-header-freedoms.svg
+        File removed: wp-includes/js/dist/undo-manager.js
+        File removed: wp-includes/js/dist/undo-manager.min.js
+        5 files cleaned up.
+        Success: WordPress downloaded.
+        
+        Warning: Could not retrieve WordPress core checksums; skipping checksum-based cleanup. Files listed in $_old_files were still cleaned up.
+        cwd: /tmp/wp-cli-test-run-core-update.feature.456-6b098740920b35.18812884/
+        run time: 0.8110339641571
+        exit status: 0
+        
+        The command unexpectedly produced STDERR output. If you expect a non-zero exit status or STDERR output, use `When I try [...]`. Else, this may be a bug in your code or test. (RuntimeException)
+
+022 Scenario: Old files cleanup works when checksums unavailable # vendor/wp-cli/core-command/features/core-update.feature:498
+      When I run `wp core download --version=6.8 --force`        # vendor/wp-cli/core-command/features/core-update.feature:501
+        $ wp core download --version=6.8 --force
+        Downloading WordPress 6.8 (en_US)...
+        Using cached file '/tmp/wp-cli-home/.wp-cli/cache/core/wordpress-6.8-en_US.zip'...
+        Cleaning up files...
+        File removed: wp-admin/images/about-header-privacy.svg
+        File removed: wp-admin/images/about-header-credits.svg
+        File removed: wp-admin/images/about-header-freedoms.svg
+        File removed: wp-includes/js/dist/undo-manager.js
+        File removed: wp-includes/js/dist/undo-manager.min.js
+        5 files cleaned up.
+        Success: WordPress downloaded.
+        
+        Warning: Could not retrieve WordPress core checksums; skipping checksum-based cleanup. Files listed in $_old_files were still cleaned up.
+        cwd: /tmp/wp-cli-test-run-core-update.feature.498-6b098741d5ac53.80071453/
+        run time: 0.80782890319824
+        exit status: 0
+        
+        The command unexpectedly produced STDERR output. If you expect a non-zero exit status or STDERR output, use `When I try [...]`. Else, this may be a bug in your code or test. (RuntimeException)
+
+023 Scenario: Attempting to downgrade without --force shows helpful message # vendor/wp-cli/core-command/features/core-update.feature:606
+      When I run `wp core update --version=6.0 --force`                     # vendor/wp-cli/core-command/features/core-update.feature:631
+        $ wp core update --version=6.0 --force
+        Updating to version 6.0 (en_US)...
+        Using cached file '/tmp/wp-cli-home/.wp-cli/cache/core/wordpress-6.0-en_US.zip'...
+        Unpacking the update...
+        Cleaning up files...
+        No old files were removed.
+        Success: WordPress updated successfully.
+        
+        Warning: Could not retrieve WordPress core checksums; skipping checksum-based cleanup. Files listed in $_old_files were still cleaned up.
+        cwd: /tmp/wp-cli-test-run-core-update.feature.606-6b0987432314f3.77811533/
+        run time: 2.9382312297821
+        exit status: 0
+        
+        The command unexpectedly produced STDERR output. If you expect a non-zero exit status or STDERR output, use `When I try [...]`. Else, this may be a bug in your code or test. (RuntimeException)
+
+024 Scenario: Verify core version                          # vendor/wp-cli/core-command/features/core-version.feature:3
+      And I run `wp core download --version=4.4.2 --force` # vendor/wp-cli/core-command/features/core-version.feature:5
+        $ wp core download --version=4.4.2 --force
+        Downloading WordPress 4.4.2 (en_US)...
+        Using cached file '/tmp/wp-cli-home/.wp-cli/cache/core/wordpress-4.4.2-en_US.zip'...
+        Cleaning up files...
+        File removed: wp-includes/js/tinymce/wp-tinymce.js
+        File removed: wp-admin/options-privacy.php
+        File removed: wp-admin/css/media-rtl.min.css
+        File removed: wp-admin/css/media.min.css
+        File removed: wp-admin/css/farbtastic-rtl.min.css
+        File removed: wp-includes/js/plupload/plupload.js
+        6 files cleaned up.
+        Success: WordPress downloaded.
+        
+        Warning: Could not retrieve WordPress core checksums; skipping checksum-based cleanup. Files listed in $_old_files were still cleaned up.
+        cwd: /tmp/wp-cli-test-run-core-version.feature.3-6b098746d5a259.60607364/
+        run time: 0.49513411521912
+        exit status: 0
+        
+        The command unexpectedly produced STDERR output. If you expect a non-zero exit status or STDERR output, use `When I try [...]`. Else, this may be a bug in your code or test. (RuntimeException)
+
+025 Scenario: Custom wp-content directory # vendor/wp-cli/core-command/features/core.feature:274
+      When I run `wp plugin get akismet`  # vendor/wp-cli/core-command/features/core.feature:278
+        $ wp plugin get akismet
+        
+        Error: The 'akismet' plugin could not be found.
+        cwd: /tmp/wp-cli-test-run-core.feature.274-6b098747cc6213.89238266/
+        run time: 1.040577173233
+        exit status: 1
+        
+        The command unexpectedly exited with status 1. If you expect a non-zero exit status, use `When I try [...]`. Else, this may be a bug in your code or test. (RuntimeException)
+
+25 scenarios (25 failed)
+310 steps (60 passed, 25 failed, 225 skipped)
+1m16.62s (14.39Mb)
+Script run-test-suite handling the test event returned with error code 1
+Packages with failed tests: :wp-cli/core-command
+##[error]Process completed with exit code 1.
+
+################ Step: Run the core-command tests against the baseline ################
+##[group]Run composer test
+composer test
+shell: /usr/bin/bash -e {0}
+env:
+  DEFAULT_PACKAGES: wp-cli-bundle,ability-command,ai-command,config-command,core-command,cron-command,db-command,entity-command,export-command,extension-command,import-command,media-command,rewrite-command,role-command,search-replace-command,site-health-command
+  DEFAULT_PHP_VERSION: 8.5
+  WP_CLI_TEST_DBROOTUSER: root
+  WP_CLI_TEST_DBROOTPASS: root
+  WP_CLI_TEST_DBNAME: wp_cli_test
+  WP_CLI_TEST_DBUSER: wp_cli_test
+  WP_CLI_TEST_DBPASS: password1
+  WP_CLI_TEST_DBHOST: 127.0.0.1:3306
+  COMPOSER_PROCESS_TIMEOUT: 0
+  COMPOSER_NO_INTERACTION: 1
+  COMPOSER_NO_AUDIT: 1
+  TEST_PACKAGE: wp-cli/core-command
+  WP_VERSION: trunk
+  WP_CLI_TEST_CORE_ZIP: /home/runner/work/_temp/wordpress-baseline/baseline.zip
+  WP_CLI_TEST_JUNIT_DIR: /home/runner/work/_temp/junit/baseline
+##[endgroup]
+Running source package tests...
+Writing JUnit reports to /home/runner/work/_temp/junit/baseline
+Testing package wp-cli/core-command...
+Not running 1 of 105 scenarios:
+  Not part of this configuration:
+    @less-than-php-7.3, as PHP 8.5.13 is used: vendor/wp-cli/core-command/features/core-update.feature:281
+...F--------......F---------------------...........F--------------.... 70
+...................................................................... 140
+...................................................................... 210
+...................................................................... 280
+...................................................................... 350
+...................................................................... 420
+...................................................................... 490
+.............................F-----...F-----...F-------------------... 560
+F----------------------...F----------------......F--------..F------..F 630
+------..F------..F---------...F-------.F-----....F---------..F-------- 700
+----------------.F--.F--........F-............F--------------.F------- 770
+--................................F--........F----.................... 840
+...................................................................... 910
+.....................................F-............................... 980
+...............
+
+--- Failed steps:
+
+001 Scenario: Check if database update is needed on a single site # vendor/wp-cli/core-command/features/core-check-update-db.feature:5
+      And I run `wp core download --version=5.4 --force`          # vendor/wp-cli/core-command/features/core-check-update-db.feature:21
+        $ wp core download --version=5.4 --force
+        Downloading WordPress 5.4 (en_US)...
+        Using cached file '/tmp/wp-cli-home/.wp-cli/cache/core/wordpress-5.4-en_US.zip'...
+        Cleaning up files...
+        No old files were removed.
+        Success: WordPress downloaded.
+        
+        Warning: Could not retrieve WordPress core checksums; skipping checksum-based cleanup. Files listed in $_old_files were still cleaned up.
+        cwd: /tmp/wp-cli-test-run-core-check-update-db.feature.5-6b098749cd3c26.82181913/
+        run time: 0.62862992286682
+        exit status: 0
+        
+        The command unexpectedly produced STDERR output. If you expect a non-zero exit status or STDERR output, use `When I try [...]`. Else, this may be a bug in your code or test. (RuntimeException)
+
+002 Scenario: Check if database update is needed across network # vendor/wp-cli/core-command/features/core-check-update-db.feature:53
+      And I run `wp core download --version=6.6 --force`        # vendor/wp-cli/core-command/features/core-check-update-db.feature:69
+        $ wp core download --version=6.6 --force
+        Downloading WordPress 6.6 (en_US)...
+        Using cached file '/tmp/wp-cli-home/.wp-cli/cache/core/wordpress-6.6-en_US.zip'...
+        Cleaning up files...
+        File removed: wp-admin/images/about-header-privacy.svg
+        File removed: wp-admin/images/about-header-credits.svg
+        File removed: wp-admin/images/about-header-freedoms.svg
+        3 files cleaned up.
+        Success: WordPress downloaded.
+        
+        Warning: Could not retrieve WordPress core checksums; skipping checksum-based cleanup. Files listed in $_old_files were still cleaned up.
+        cwd: /tmp/wp-cli-test-run-core-check-update-db.feature.53-6b09874e25e057.95222706/
+        run time: 0.78971195220947
+        exit status: 0
+        
+        The command unexpectedly produced STDERR output. If you expect a non-zero exit status or STDERR output, use `When I try [...]`. Else, this may be a bug in your code or test. (RuntimeException)
+
+003 Scenario: Check for update via Version Check API      # vendor/wp-cli/core-command/features/core-check-update.feature:5
+      When I run `wp core download --version=5.8 --force` # vendor/wp-cli/core-command/features/core-check-update.feature:12
+        $ wp core download --version=5.8 --force
+        Downloading WordPress 5.8 (en_US)...
+        Using cached file '/tmp/wp-cli-home/.wp-cli/cache/core/wordpress-5.8-en_US.zip'...
+        Cleaning up files...
+        No old files were removed.
+        Success: WordPress downloaded.
+        
+        Warning: Could not retrieve WordPress core checksums; skipping checksum-based cleanup. Files listed in $_old_files were still cleaned up.
+        cwd: /tmp/wp-cli-test-run-core-check-update.feature.5-6b09875302d7b6.18704101/
+        run time: 0.70585918426514
+        exit status: 0
+        
+        The command unexpectedly produced STDERR output. If you expect a non-zero exit status or STDERR output, use `When I try [...]`. Else, this may be a bug in your code or test. (RuntimeException)
+
+004 Scenario: Update db on a single site                 # vendor/wp-cli/core-command/features/core-update-db.feature:5
+      And I run `wp core download --version=5.4 --force` # vendor/wp-cli/core-command/features/core-update-db.feature:21
+        $ wp core download --version=5.4 --force
+        Downloading WordPress 5.4 (en_US)...
+        Using cached file '/tmp/wp-cli-home/.wp-cli/cache/core/wordpress-5.4-en_US.zip'...
+        Cleaning up files...
+        No old files were removed.
+        Success: WordPress downloaded.
+        
+        Warning: Could not retrieve WordPress core checksums; skipping checksum-based cleanup. Files listed in $_old_files were still cleaned up.
+        cwd: /tmp/wp-cli-test-run-core-update-db.feature.5-6b0987a7452725.33899641/
+        run time: 0.62792205810547
+        exit status: 0
+        
+        The command unexpectedly produced STDERR output. If you expect a non-zero exit status or STDERR output, use `When I try [...]`. Else, this may be a bug in your code or test. (RuntimeException)
+
+005 Scenario: Dry run update db on a single site         # vendor/wp-cli/core-command/features/core-update-db.feature:38
+      And I run `wp core download --version=5.4 --force` # vendor/wp-cli/core-command/features/core-update-db.feature:54
+        $ wp core download --version=5.4 --force
+        Downloading WordPress 5.4 (en_US)...
+        Using cached file '/tmp/wp-cli-home/.wp-cli/cache/core/wordpress-5.4-en_US.zip'...
+        Cleaning up files...
+        No old files were removed.
+        Success: WordPress downloaded.
+        
+        Warning: Could not retrieve WordPress core checksums; skipping checksum-based cleanup. Files listed in $_old_files were still cleaned up.
+        cwd: /tmp/wp-cli-test-run-core-update-db.feature.38-6b0987a969d5b7.40100201/
+        run time: 0.63072490692139
+        exit status: 0
+        
+        The command unexpectedly produced STDERR output. If you expect a non-zero exit status or STDERR output, use `When I try [...]`. Else, this may be a bug in your code or test. (RuntimeException)
+
+006 Scenario: Update db across network                   # vendor/wp-cli/core-command/features/core-update-db.feature:72
+      And I run `wp core download --version=5.4 --force` # vendor/wp-cli/core-command/features/core-update-db.feature:88
+        $ wp core download --version=5.4 --force
+        Downloading WordPress 5.4 (en_US)...
+        Using cached file '/tmp/wp-cli-home/.wp-cli/cache/core/wordpress-5.4-en_US.zip'...
+        Cleaning up files...
+        No old files were removed.
+        Success: WordPress downloaded.
+        
+        Warning: Could not retrieve WordPress core checksums; skipping checksum-based cleanup. Files listed in $_old_files were still cleaned up.
+        cwd: /tmp/wp-cli-test-run-core-update-db.feature.72-6b0987ab8b49b1.91231979/
+        run time: 0.6262731552124
+        exit status: 0
+        
+        The command unexpectedly produced STDERR output. If you expect a non-zero exit status or STDERR output, use `When I try [...]`. Else, this may be a bug in your code or test. (RuntimeException)
+
+007 Scenario: Update db across network, dry run          # vendor/wp-cli/core-command/features/core-update-db.feature:120
+      And I run `wp core download --version=5.4 --force` # vendor/wp-cli/core-command/features/core-update-db.feature:136
+        $ wp core download --version=5.4 --force
+        Downloading WordPress 5.4 (en_US)...
+        Using cached file '/tmp/wp-cli-home/.wp-cli/cache/core/wordpress-5.4-en_US.zip'...
+        Cleaning up files...
+        No old files were removed.
+        Success: WordPress downloaded.
+        
+        Warning: Could not retrieve WordPress core checksums; skipping checksum-based cleanup. Files listed in $_old_files were still cleaned up.
+        cwd: /tmp/wp-cli-test-run-core-update-db.feature.120-6b0987ae064ae5.87859935/
+        run time: 0.63531708717346
+        exit status: 0
+        
+        The command unexpectedly produced STDERR output. If you expect a non-zero exit status or STDERR output, use `When I try [...]`. Else, this may be a bug in your code or test. (RuntimeException)
+
+008 Scenario: Update db only updates sites from the current network in multinetwork setup # vendor/wp-cli/core-command/features/core-update-db.feature:180
+      And I run `wp core download --version=5.4 --force`                                  # vendor/wp-cli/core-command/features/core-update-db.feature:196
+        $ wp core download --version=5.4 --force
+        Downloading WordPress 5.4 (en_US)...
+        Using cached file '/tmp/wp-cli-home/.wp-cli/cache/core/wordpress-5.4-en_US.zip'...
+        Cleaning up files...
+        No old files were removed.
+        Success: WordPress downloaded.
+        
+        Warning: Could not retrieve WordPress core checksums; skipping checksum-based cleanup. Files listed in $_old_files were still cleaned up.
+        cwd: /tmp/wp-cli-test-run-core-update-db.feature.180-6b0987b07889e3.16339721/
+        run time: 0.63045310974121
+        exit status: 0
+        
+        The command unexpectedly produced STDERR output. If you expect a non-zero exit status or STDERR output, use `When I try [...]`. Else, this may be a bug in your code or test. (RuntimeException)
+
+009 Scenario: Update from a ZIP file                      # vendor/wp-cli/core-command/features/core-update.feature:5
+      When I run `wp core download --version=6.2 --force` # vendor/wp-cli/core-command/features/core-update.feature:12
+        $ wp core download --version=6.2 --force
+        Downloading WordPress 6.2 (en_US)...
+        Using cached file '/tmp/wp-cli-home/.wp-cli/cache/core/wordpress-6.2-en_US.zip'...
+        Cleaning up files...
+        No old files were removed.
+        Success: WordPress downloaded.
+        
+        Warning: Could not retrieve WordPress core checksums; skipping checksum-based cleanup. Files listed in $_old_files were still cleaned up.
+        cwd: /tmp/wp-cli-test-run-core-update.feature.5-6b0987b3a32a03.38296097/
+        run time: 0.76684093475342
+        exit status: 0
+        
+        The command unexpectedly produced STDERR output. If you expect a non-zero exit status or STDERR output, use `When I try [...]`. Else, this may be a bug in your code or test. (RuntimeException)
+
+010 Scenario: Output in JSON format                       # vendor/wp-cli/core-command/features/core-update.feature:39
+      When I run `wp core download --version=6.6 --force` # vendor/wp-cli/core-command/features/core-update.feature:46
+        $ wp core download --version=6.6 --force
+        Downloading WordPress 6.6 (en_US)...
+        Using cached file '/tmp/wp-cli-home/.wp-cli/cache/core/wordpress-6.6-en_US.zip'...
+        Cleaning up files...
+        File removed: wp-admin/images/about-header-privacy.svg
+        File removed: wp-admin/images/about-header-credits.svg
+        File removed: wp-admin/images/about-header-freedoms.svg
+        3 files cleaned up.
+        Success: WordPress downloaded.
+        
+        Warning: Could not retrieve WordPress core checksums; skipping checksum-based cleanup. Files listed in $_old_files were still cleaned up.
+        cwd: /tmp/wp-cli-test-run-core-update.feature.39-6b0987b5e27df0.99962930/
+        run time: 0.78236889839172
+        exit status: 0
+        
+        The command unexpectedly produced STDERR output. If you expect a non-zero exit status or STDERR output, use `When I try [...]`. Else, this may be a bug in your code or test. (RuntimeException)
+
+011 Scenario: Output in CSV format                        # vendor/wp-cli/core-command/features/core-update.feature:63
+      When I run `wp core download --version=6.6 --force` # vendor/wp-cli/core-command/features/core-update.feature:70
+        $ wp core download --version=6.6 --force
+        Downloading WordPress 6.6 (en_US)...
+        Using cached file '/tmp/wp-cli-home/.wp-cli/cache/core/wordpress-6.6-en_US.zip'...
+        Cleaning up files...
+        File removed: wp-admin/images/about-header-privacy.svg
+        File removed: wp-admin/images/about-header-credits.svg
+        File removed: wp-admin/images/about-header-freedoms.svg
+        3 files cleaned up.
+        Success: WordPress downloaded.
+        
+        Warning: Could not retrieve WordPress core checksums; skipping checksum-based cleanup. Files listed in $_old_files were still cleaned up.
+        cwd: /tmp/wp-cli-test-run-core-update.feature.63-6b0987b835a9c0.20243790/
+        run time: 0.78403306007385
+        exit status: 0
+        
+        The command unexpectedly produced STDERR output. If you expect a non-zero exit status or STDERR output, use `When I try [...]`. Else, this may be a bug in your code or test. (RuntimeException)
+
+012 Scenario: Output in table format                      # vendor/wp-cli/core-command/features/core-update.feature:88
+      When I run `wp core download --version=6.6 --force` # vendor/wp-cli/core-command/features/core-update.feature:95
+        $ wp core download --version=6.6 --force
+        Downloading WordPress 6.6 (en_US)...
+        Using cached file '/tmp/wp-cli-home/.wp-cli/cache/core/wordpress-6.6-en_US.zip'...
+        Cleaning up files...
+        File removed: wp-admin/images/about-header-privacy.svg
+        File removed: wp-admin/images/about-header-credits.svg
+        File removed: wp-admin/images/about-header-freedoms.svg
+        3 files cleaned up.
+        Success: WordPress downloaded.
+        
+        Warning: Could not retrieve WordPress core checksums; skipping checksum-based cleanup. Files listed in $_old_files were still cleaned up.
+        cwd: /tmp/wp-cli-test-run-core-update.feature.88-6b0987ba7d81b5.08693694/
+        run time: 0.78543305397034
+        exit status: 0
+        
+        The command unexpectedly produced STDERR output. If you expect a non-zero exit status or STDERR output, use `When I try [...]`. Else, this may be a bug in your code or test. (RuntimeException)
+
+013 Scenario: Update to the latest minor release (PHP 7.2 compatible with WP >= 4.9) # vendor/wp-cli/core-command/features/core-update.feature:112
+      When I run `wp core download --version=6.2.5 --force`                          # vendor/wp-cli/core-command/features/core-update.feature:119
+        $ wp core download --version=6.2.5 --force
+        Downloading WordPress 6.2.5 (en_US)...
+        Using cached file '/tmp/wp-cli-home/.wp-cli/cache/core/wordpress-6.2.5-en_US.zip'...
+        Cleaning up files...
+        No old files were removed.
+        Success: WordPress downloaded.
+        
+        Warning: Could not retrieve WordPress core checksums; skipping checksum-based cleanup. Files listed in $_old_files were still cleaned up.
+        cwd: /tmp/wp-cli-test-run-core-update.feature.112-6b0987bcc45951.74870251/
+        run time: 0.77277994155884
+        exit status: 0
+        
+        The command unexpectedly produced STDERR output. If you expect a non-zero exit status or STDERR output, use `When I try [...]`. Else, this may be a bug in your code or test. (RuntimeException)
+
+014 Scenario: Core update from cache                      # vendor/wp-cli/core-command/features/core-update.feature:151
+      When I run `wp core update --version=6.2.5 --force` # vendor/wp-cli/core-command/features/core-update.feature:159
+        $ wp core update --version=6.2.5 --force
+        Updating to version 6.2.5 (en_US)...
+        Downloading update from https://wordpress.org/wordpress-6.2.5.zip...
+        Unpacking the update...
+        Cleaning up files...
+        No old files were removed.
+        Success: WordPress updated successfully.
+        
+        Warning: Could not retrieve WordPress core checksums; skipping checksum-based cleanup. Files listed in $_old_files were still cleaned up.
+        cwd: /tmp/wp-cli-test-run-core-update.feature.151-6b0987bf16c9a9.64456127/
+        run time: 4.5718588829041
+        exit status: 0
+        
+        The command unexpectedly produced STDERR output. If you expect a non-zero exit status or STDERR output, use `When I try [...]`. Else, this may be a bug in your code or test. (RuntimeException)
+
+015 Scenario: Don't run update when up-to-date # vendor/wp-cli/core-command/features/core-update.feature:183
+      And I run `wp core update`               # vendor/wp-cli/core-command/features/core-update.feature:185
+        $ wp core update
+        Updating to version 7.3-alpha-65805 (en_US)...
+        Downloading update from https://wordpress.org/nightly-builds/wordpress-latest.zip...
+        Unpacking the update...
+        Cleaning up files...
+        No old files were removed.
+        Success: WordPress updated successfully.
+        
+        Warning: Could not retrieve WordPress core checksums; skipping checksum-based cleanup. Files listed in $_old_files were still cleaned up.
+        cwd: /tmp/wp-cli-test-run-core-update.feature.183-6b0987c529c3d5.56056880/
+        run time: 5.753261089325
+        exit status: 0
+        
+        The command unexpectedly produced STDERR output. If you expect a non-zero exit status or STDERR output, use `When I try [...]`. Else, this may be a bug in your code or test. (RuntimeException)
+
+016 Scenario: Ensure cached partial upgrades aren't used in full upgrade # vendor/wp-cli/core-command/features/core-update.feature:203
+      When I run `wp core download --version=6.5.2 --force`              # vendor/wp-cli/core-command/features/core-update.feature:245
+        $ wp core download --version=6.5.2 --force
+        Downloading WordPress 6.5.2 (en_US)...
+        md5 hash verified: b511bdde9b5be94626fb56f7272c2ce1
+        Cleaning up files...
+        File removed: wp-admin/images/about-header-privacy.svg
+        File removed: wp-admin/images/about-header-credits.svg
+        File removed: wp-admin/images/about-header-freedoms.svg
+        3 files cleaned up.
+        Success: WordPress downloaded.
+        
+        Warning: Could not retrieve WordPress core checksums; skipping checksum-based cleanup. Files listed in $_old_files were still cleaned up.
+        cwd: /tmp/wp-cli-test-run-core-update.feature.203-6b0987cb5cc6b8.66846265/
+        run time: 2.7232091426849
+        exit status: 0
+        
+        The command unexpectedly produced STDERR output. If you expect a non-zero exit status or STDERR output, use `When I try [...]`. Else, this may be a bug in your code or test. (RuntimeException)
+
+017 Scenario: Make sure files are cleaned up with mixed case # vendor/wp-cli/core-command/features/core-update.feature:321
+      When I run `wp core update --version=5.8 --force`      # vendor/wp-cli/core-command/features/core-update.feature:328
+        $ wp core update --version=5.8 --force
+        Updating to version 5.8 (en_US)...
+        Using cached file '/tmp/wp-cli-home/.wp-cli/cache/core/wordpress-5.8-en_US.zip'...
+        Unpacking the update...
+        Cleaning up files...
+        No old files were removed.
+        Success: WordPress updated successfully.
+        
+        Warning: Could not retrieve WordPress core checksums; skipping checksum-based cleanup. Files listed in $_old_files were still cleaned up.
+        cwd: /tmp/wp-cli-test-run-core-update.feature.321-6b0987cf97e802.84278737/
+        run time: 2.8605110645294
+        exit status: 0
+        
+        The command unexpectedly produced STDERR output. If you expect a non-zero exit status or STDERR output, use `When I try [...]`. Else, this may be a bug in your code or test. (RuntimeException)
+
+018 Example: | trunk   |                          # vendor/wp-cli/core-command/features/core-update.feature:382
+      When I run `wp core update --version=trunk` # vendor/wp-cli/core-command/features/core-update.feature:369
+        $ wp core update --version=trunk
+        Updating to version nightly (en_US)...
+        Downloading update from https://wordpress.org/nightly-builds/wordpress-latest.zip...
+        Unpacking the update...
+        Cleaning up files...
+        No old files were removed.
+        Success: WordPress updated successfully.
+        
+        Warning: Could not retrieve WordPress core checksums; skipping checksum-based cleanup. Files listed in $_old_files were still cleaned up.
+        cwd: /tmp/wp-cli-test-run-core-update.feature.382-6b0987d3f25204.85087742/
+        run time: 5.5336589813232
+        exit status: 0
+        
+        The command unexpectedly produced STDERR output. If you expect a non-zero exit status or STDERR output, use `When I try [...]`. Else, this may be a bug in your code or test. (RuntimeException)
+
+019 Example: | nightly |                            # vendor/wp-cli/core-command/features/core-update.feature:383
+      When I run `wp core update --version=nightly` # vendor/wp-cli/core-command/features/core-update.feature:369
+        $ wp core update --version=nightly
+        Updating to version nightly (en_US)...
+        Downloading update from https://wordpress.org/nightly-builds/wordpress-latest.zip...
+        Unpacking the update...
+        Cleaning up files...
+        No old files were removed.
+        Success: WordPress updated successfully.
+        
+        Warning: Could not retrieve WordPress core checksums; skipping checksum-based cleanup. Files listed in $_old_files were still cleaned up.
+        cwd: /tmp/wp-cli-test-run-core-update.feature.383-6b0987d9efc169.88387406/
+        run time: 5.5174739360809
+        exit status: 0
+        
+        The command unexpectedly produced STDERR output. If you expect a non-zero exit status or STDERR output, use `When I try [...]`. Else, this may be a bug in your code or test. (RuntimeException)
+
+020 Scenario: Allow installing major version with trailing zero # vendor/wp-cli/core-command/features/core-update.feature:411
+      When I run `wp core update --version=6.2.0 --force`       # vendor/wp-cli/core-command/features/core-update.feature:414
+        $ wp core update --version=6.2.0 --force
+        Updating to version 6.2.0 (en_US)...
+        Using cached file '/tmp/wp-cli-home/.wp-cli/cache/core/wordpress-6.2-en_US.zip'...
+        Unpacking the update...
+        Cleaning up files...
+        No old files were removed.
+        Success: WordPress updated successfully.
+        
+        Warning: Could not retrieve WordPress core checksums; skipping checksum-based cleanup. Files listed in $_old_files were still cleaned up.
+        cwd: /tmp/wp-cli-test-run-core-update.feature.411-6b0987ec2475f4.74479265/
+        run time: 3.0066781044006
+        exit status: 0
+        
+        The command unexpectedly produced STDERR output. If you expect a non-zero exit status or STDERR output, use `When I try [...]`. Else, this may be a bug in your code or test. (RuntimeException)
+
+021 Scenario: Old files from $_old_files are cleaned up when upgrading # vendor/wp-cli/core-command/features/core-update.feature:456
+      When I run `wp core download --version=6.8 --force`              # vendor/wp-cli/core-command/features/core-update.feature:459
+        $ wp core download --version=6.8 --force
+        Downloading WordPress 6.8 (en_US)...
+        Using cached file '/tmp/wp-cli-home/.wp-cli/cache/core/wordpress-6.8-en_US.zip'...
+        Cleaning up files...
+        File removed: wp-admin/images/about-header-privacy.svg
+        File removed: wp-admin/images/about-header-credits.svg
+        File removed: wp-admin/images/about-header-freedoms.svg
+        File removed: wp-includes/js/dist/undo-manager.js
+        File removed: wp-includes/js/dist/undo-manager.min.js
+        5 files cleaned up.
+        Success: WordPress downloaded.
+        
+        Warning: Could not retrieve WordPress core checksums; skipping checksum-based cleanup. Files listed in $_old_files were still cleaned up.
+        cwd: /tmp/wp-cli-test-run-core-update.feature.456-6b0987f7f02202.04393633/
+        run time: 0.81393098831177
+        exit status: 0
+        
+        The command unexpectedly produced STDERR output. If you expect a non-zero exit status or STDERR output, use `When I try [...]`. Else, this may be a bug in your code or test. (RuntimeException)
+
+022 Scenario: Old files cleanup works when checksums unavailable # vendor/wp-cli/core-command/features/core-update.feature:498
+      When I run `wp core download --version=6.8 --force`        # vendor/wp-cli/core-command/features/core-update.feature:501
+        $ wp core download --version=6.8 --force
+        Downloading WordPress 6.8 (en_US)...
+        Using cached file '/tmp/wp-cli-home/.wp-cli/cache/core/wordpress-6.8-en_US.zip'...
+        Cleaning up files...
+        File removed: wp-admin/images/about-header-privacy.svg
+        File removed: wp-admin/images/about-header-credits.svg
+        File removed: wp-admin/images/about-header-freedoms.svg
+        File removed: wp-includes/js/dist/undo-manager.js
+        File removed: wp-includes/js/dist/undo-manager.min.js
+        5 files cleaned up.
+        Success: WordPress downloaded.
+        
+        Warning: Could not retrieve WordPress core checksums; skipping checksum-based cleanup. Files listed in $_old_files were still cleaned up.
+        cwd: /tmp/wp-cli-test-run-core-update.feature.498-6b0987f9437460.68007032/
+        run time: 0.81644606590271
+        exit status: 0
+        
+        The command unexpectedly produced STDERR output. If you expect a non-zero exit status or STDERR output, use `When I try [...]`. Else, this may be a bug in your code or test. (RuntimeException)
+
+023 Scenario: Attempting to downgrade without --force shows helpful message # vendor/wp-cli/core-command/features/core-update.feature:606
+      When I run `wp core update --version=6.0 --force`                     # vendor/wp-cli/core-command/features/core-update.feature:631
+        $ wp core update --version=6.0 --force
+        Updating to version 6.0 (en_US)...
+        Using cached file '/tmp/wp-cli-home/.wp-cli/cache/core/wordpress-6.0-en_US.zip'...
+        Unpacking the update...
+        Cleaning up files...
+        No old files were removed.
+        Success: WordPress updated successfully.
+        
+        Warning: Could not retrieve WordPress core checksums; skipping checksum-based cleanup. Files listed in $_old_files were still cleaned up.
+        cwd: /tmp/wp-cli-test-run-core-update.feature.606-6b09880af09ea4.32691886/
+        run time: 2.9426491260529
+        exit status: 0
+        
+        The command unexpectedly produced STDERR output. If you expect a non-zero exit status or STDERR output, use `When I try [...]`. Else, this may be a bug in your code or test. (RuntimeException)
+
+024 Scenario: Verify core version                          # vendor/wp-cli/core-command/features/core-version.feature:3
+      And I run `wp core download --version=4.4.2 --force` # vendor/wp-cli/core-command/features/core-version.feature:5
+        $ wp core download --version=4.4.2 --force
+        Downloading WordPress 4.4.2 (en_US)...
+        Using cached file '/tmp/wp-cli-home/.wp-cli/cache/core/wordpress-4.4.2-en_US.zip'...
+        Cleaning up files...
+        File removed: wp-includes/js/tinymce/wp-tinymce.js
+        File removed: wp-admin/options-privacy.php
+        File removed: wp-admin/css/media-rtl.min.css
+        File removed: wp-admin/css/media.min.css
+        File removed: wp-admin/css/farbtastic-rtl.min.css
+        File removed: wp-includes/js/plupload/plupload.js
+        6 files cleaned up.
+        Success: WordPress downloaded.
+        
+        Warning: Could not retrieve WordPress core checksums; skipping checksum-based cleanup. Files listed in $_old_files were still cleaned up.
+        cwd: /tmp/wp-cli-test-run-core-version.feature.3-6b0988103b3330.98465768/
+        run time: 0.50119495391846
+        exit status: 0
+        
+        The command unexpectedly produced STDERR output. If you expect a non-zero exit status or STDERR output, use `When I try [...]`. Else, this may be a bug in your code or test. (RuntimeException)
+
+025 Scenario: Custom wp-content directory # vendor/wp-cli/core-command/features/core.feature:274
+      When I run `wp plugin get akismet`  # vendor/wp-cli/core-command/features/core.feature:278
+        $ wp plugin get akismet
+        
+        Error: The 'akismet' plugin could not be found.
+        cwd: /tmp/wp-cli-test-run-core.feature.274-6b09882458edc4.14313327/
+        run time: 1.0472030639648
+        exit status: 1
+        
+        The command unexpectedly exited with status 1. If you expect a non-zero exit status, use `When I try [...]`. Else, this may be a bug in your code or test. (RuntimeException)
+
+105 scenarios (80 passed, 25 failed)
+995 steps (745 passed, 25 failed, 225 skipped)
+3m47.56s (15.53Mb)
+Not running 1 of 105 scenarios:
+  Not part of this configuration:
+    @less-than-php-7.3, as PHP 8.5.13 is used: vendor/wp-cli/core-command/features/core-update.feature:281
+...F--------...F---------------------..F--------------...F-----...F--- 70
+--...F-------------------...F----------------------...F--------------- 140
+-..F--------..F------..F------..F------..F---------...F-------.F-----. 210
+...F---------..F------------------------.F--.F--.F-.F--------------.F- 280
+--------.........F--.F----..F-
+
+--- Failed steps:
+
+001 Scenario: Check if database update is needed on a single site # vendor/wp-cli/core-command/features/core-check-update-db.feature:5
+      And I run `wp core download --version=5.4 --force`          # vendor/wp-cli/core-command/features/core-check-update-db.feature:21
+        $ wp core download --version=5.4 --force
+        Downloading WordPress 5.4 (en_US)...
+        Using cached file '/tmp/wp-cli-home/.wp-cli/cache/core/wordpress-5.4-en_US.zip'...
+        Cleaning up files...
+        No old files were removed.
+        Success: WordPress downloaded.
+        
+        Warning: Could not retrieve WordPress core checksums; skipping checksum-based cleanup. Files listed in $_old_files were still cleaned up.
+        cwd: /tmp/wp-cli-test-run-core-check-update-db.feature.5-6b09882dab95a6.48593843/
+        run time: 0.65281796455383
+        exit status: 0
+        
+        The command unexpectedly produced STDERR output. If you expect a non-zero exit status or STDERR output, use `When I try [...]`. Else, this may be a bug in your code or test. (RuntimeException)
+
+002 Scenario: Check if database update is needed across network # vendor/wp-cli/core-command/features/core-check-update-db.feature:53
+      And I run `wp core download --version=6.6 --force`        # vendor/wp-cli/core-command/features/core-check-update-db.feature:69
+        $ wp core download --version=6.6 --force
+        Downloading WordPress 6.6 (en_US)...
+        Using cached file '/tmp/wp-cli-home/.wp-cli/cache/core/wordpress-6.6-en_US.zip'...
+        Cleaning up files...
+        File removed: wp-admin/images/about-header-privacy.svg
+        File removed: wp-admin/images/about-header-credits.svg
+        File removed: wp-admin/images/about-header-freedoms.svg
+        3 files cleaned up.
+        Success: WordPress downloaded.
+        
+        Warning: Could not retrieve WordPress core checksums; skipping checksum-based cleanup. Files listed in $_old_files were still cleaned up.
+        cwd: /tmp/wp-cli-test-run-core-check-update-db.feature.53-6b098830bdff47.65731802/
+        run time: 0.79356694221497
+        exit status: 0
+        
+        The command unexpectedly produced STDERR output. If you expect a non-zero exit status or STDERR output, use `When I try [...]`. Else, this may be a bug in your code or test. (RuntimeException)
+
+003 Scenario: Check for update via Version Check API      # vendor/wp-cli/core-command/features/core-check-update.feature:5
+      When I run `wp core download --version=5.8 --force` # vendor/wp-cli/core-command/features/core-check-update.feature:12
+        $ wp core download --version=5.8 --force
+        Downloading WordPress 5.8 (en_US)...
+        Using cached file '/tmp/wp-cli-home/.wp-cli/cache/core/wordpress-5.8-en_US.zip'...
+        Cleaning up files...
+        No old files were removed.
+        Success: WordPress downloaded.
+        
+        Warning: Could not retrieve WordPress core checksums; skipping checksum-based cleanup. Files listed in $_old_files were still cleaned up.
+        cwd: /tmp/wp-cli-test-run-core-check-update.feature.5-6b09883361cbe6.33835947/
+        run time: 0.71766400337219
+        exit status: 0
+        
+        The command unexpectedly produced STDERR output. If you expect a non-zero exit status or STDERR output, use `When I try [...]`. Else, this may be a bug in your code or test. (RuntimeException)
+
+004 Scenario: Update db on a single site                 # vendor/wp-cli/core-command/features/core-update-db.feature:5
+      And I run `wp core download --version=5.4 --force` # vendor/wp-cli/core-command/features/core-update-db.feature:21
+        $ wp core download --version=5.4 --force
+        Downloading WordPress 5.4 (en_US)...
+        Using cached file '/tmp/wp-cli-home/.wp-cli/cache/core/wordpress-5.4-en_US.zip'...
+        Cleaning up files...
+        No old files were removed.
+        Success: WordPress downloaded.
+        
+        Warning: Could not retrieve WordPress core checksums; skipping checksum-based cleanup. Files listed in $_old_files were still cleaned up.
+        cwd: /tmp/wp-cli-test-run-core-update-db.feature.5-6b0988359bfac3.70990627/
+        run time: 0.64407515525818
+        exit status: 0
+        
+        The command unexpectedly produced STDERR output. If you expect a non-zero exit status or STDERR output, use `When I try [...]`. Else, this may be a bug in your code or test. (RuntimeException)
+
+005 Scenario: Dry run update db on a single site         # vendor/wp-cli/core-command/features/core-update-db.feature:38
+      And I run `wp core download --version=5.4 --force` # vendor/wp-cli/core-command/features/core-update-db.feature:54
+        $ wp core download --version=5.4 --force
+        Downloading WordPress 5.4 (en_US)...
+        Using cached file '/tmp/wp-cli-home/.wp-cli/cache/core/wordpress-5.4-en_US.zip'...
+        Cleaning up files...
+        No old files were removed.
+        Success: WordPress downloaded.
+        
+        Warning: Could not retrieve WordPress core checksums; skipping checksum-based cleanup. Files listed in $_old_files were still cleaned up.
+        cwd: /tmp/wp-cli-test-run-core-update-db.feature.38-6b098837c21748.76447147/
+        run time: 0.63359308242798
+        exit status: 0
+        
+        The command unexpectedly produced STDERR output. If you expect a non-zero exit status or STDERR output, use `When I try [...]`. Else, this may be a bug in your code or test. (RuntimeException)
+
+006 Scenario: Update db across network                   # vendor/wp-cli/core-command/features/core-update-db.feature:72
+      And I run `wp core download --version=5.4 --force` # vendor/wp-cli/core-command/features/core-update-db.feature:88
+        $ wp core download --version=5.4 --force
+        Downloading WordPress 5.4 (en_US)...
+        Using cached file '/tmp/wp-cli-home/.wp-cli/cache/core/wordpress-5.4-en_US.zip'...
+        Cleaning up files...
+        No old files were removed.
+        Success: WordPress downloaded.
+        
+        Warning: Could not retrieve WordPress core checksums; skipping checksum-based cleanup. Files listed in $_old_files were still cleaned up.
+        cwd: /tmp/wp-cli-test-run-core-update-db.feature.72-6b098839e6d1b8.71957880/
+        run time: 0.63475894927979
+        exit status: 0
+        
+        The command unexpectedly produced STDERR output. If you expect a non-zero exit status or STDERR output, use `When I try [...]`. Else, this may be a bug in your code or test. (RuntimeException)
+
+007 Scenario: Update db across network, dry run          # vendor/wp-cli/core-command/features/core-update-db.feature:120
+      And I run `wp core download --version=5.4 --force` # vendor/wp-cli/core-command/features/core-update-db.feature:136
+        $ wp core download --version=5.4 --force
+        Downloading WordPress 5.4 (en_US)...
+        Using cached file '/tmp/wp-cli-home/.wp-cli/cache/core/wordpress-5.4-en_US.zip'...
+        Cleaning up files...
+        No old files were removed.
+        Success: WordPress downloaded.
+        
+        Warning: Could not retrieve WordPress core checksums; skipping checksum-based cleanup. Files listed in $_old_files were still cleaned up.
+        cwd: /tmp/wp-cli-test-run-core-update-db.feature.120-6b09883c62a9b0.52089467/
+        run time: 0.63483691215515
+        exit status: 0
+        
+        The command unexpectedly produced STDERR output. If you expect a non-zero exit status or STDERR output, use `When I try [...]`. Else, this may be a bug in your code or test. (RuntimeException)
+
+008 Scenario: Update db only updates sites from the current network in multinetwork setup # vendor/wp-cli/core-command/features/core-update-db.feature:180
+      And I run `wp core download --version=5.4 --force`                                  # vendor/wp-cli/core-command/features/core-update-db.feature:196
+        $ wp core download --version=5.4 --force
+        Downloading WordPress 5.4 (en_US)...
+        Using cached file '/tmp/wp-cli-home/.wp-cli/cache/core/wordpress-5.4-en_US.zip'...
+        Cleaning up files...
+        No old files were removed.
+        Success: WordPress downloaded.
+        
+        Warning: Could not retrieve WordPress core checksums; skipping checksum-based cleanup. Files listed in $_old_files were still cleaned up.
+        cwd: /tmp/wp-cli-test-run-core-update-db.feature.180-6b09883ed261f7.41895672/
+        run time: 0.63719797134399
+        exit status: 0
+        
+        The command unexpectedly produced STDERR output. If you expect a non-zero exit status or STDERR output, use `When I try [...]`. Else, this may be a bug in your code or test. (RuntimeException)
+
+009 Scenario: Update from a ZIP file                      # vendor/wp-cli/core-command/features/core-update.feature:5
+      When I run `wp core download --version=6.2 --force` # vendor/wp-cli/core-command/features/core-update.feature:12
+        $ wp core download --version=6.2 --force
+        Downloading WordPress 6.2 (en_US)...
+        Using cached file '/tmp/wp-cli-home/.wp-cli/cache/core/wordpress-6.2-en_US.zip'...
+        Cleaning up files...
+        No old files were removed.
+        Success: WordPress downloaded.
+        
+        Warning: Could not retrieve WordPress core checksums; skipping checksum-based cleanup. Files listed in $_old_files were still cleaned up.
+        cwd: /tmp/wp-cli-test-run-core-update.feature.5-6b0988414fcd84.73271981/
+        run time: 0.77455997467041
+        exit status: 0
+        
+        The command unexpectedly produced STDERR output. If you expect a non-zero exit status or STDERR output, use `When I try [...]`. Else, this may be a bug in your code or test. (RuntimeException)
+
+010 Scenario: Output in JSON format                       # vendor/wp-cli/core-command/features/core-update.feature:39
+      When I run `wp core download --version=6.6 --force` # vendor/wp-cli/core-command/features/core-update.feature:46
+        $ wp core download --version=6.6 --force
+        Downloading WordPress 6.6 (en_US)...
+        Using cached file '/tmp/wp-cli-home/.wp-cli/cache/core/wordpress-6.6-en_US.zip'...
+        Cleaning up files...
+        File removed: wp-admin/images/about-header-privacy.svg
+        File removed: wp-admin/images/about-header-credits.svg
+        File removed: wp-admin/images/about-header-freedoms.svg
+        3 files cleaned up.
+        Success: WordPress downloaded.
+        
+        Warning: Could not retrieve WordPress core checksums; skipping checksum-based cleanup. Files listed in $_old_files were still cleaned up.
+        cwd: /tmp/wp-cli-test-run-core-update.feature.39-6b09884397ea61.15322240/
+        run time: 0.79108214378357
+        exit status: 0
+        
+        The command unexpectedly produced STDERR output. If you expect a non-zero exit status or STDERR output, use `When I try [...]`. Else, this may be a bug in your code or test. (RuntimeException)
+
+011 Scenario: Output in CSV format                        # vendor/wp-cli/core-command/features/core-update.feature:63
+      When I run `wp core download --version=6.6 --force` # vendor/wp-cli/core-command/features/core-update.feature:70
+        $ wp core download --version=6.6 --force
+        Downloading WordPress 6.6 (en_US)...
+        Using cached file '/tmp/wp-cli-home/.wp-cli/cache/core/wordpress-6.6-en_US.zip'...
+        Cleaning up files...
+        File removed: wp-admin/images/about-header-privacy.svg
+        File removed: wp-admin/images/about-header-credits.svg
+        File removed: wp-admin/images/about-header-freedoms.svg
+        3 files cleaned up.
+        Success: WordPress downloaded.
+        
+        Warning: Could not retrieve WordPress core checksums; skipping checksum-based cleanup. Files listed in $_old_files were still cleaned up.
+        cwd: /tmp/wp-cli-test-run-core-update.feature.63-6b098845e1d2e9.20663970/
+        run time: 0.78338694572449
+        exit status: 0
+        
+        The command unexpectedly produced STDERR output. If you expect a non-zero exit status or STDERR output, use `When I try [...]`. Else, this may be a bug in your code or test. (RuntimeException)
+
+012 Scenario: Output in table format                      # vendor/wp-cli/core-command/features/core-update.feature:88
+      When I run `wp core download --version=6.6 --force` # vendor/wp-cli/core-command/features/core-update.feature:95
+        $ wp core download --version=6.6 --force
+        Downloading WordPress 6.6 (en_US)...
+        Using cached file '/tmp/wp-cli-home/.wp-cli/cache/core/wordpress-6.6-en_US.zip'...
+        Cleaning up files...
+        File removed: wp-admin/images/about-header-privacy.svg
+        File removed: wp-admin/images/about-header-credits.svg
+        File removed: wp-admin/images/about-header-freedoms.svg
+        3 files cleaned up.
+        Success: WordPress downloaded.
+        
+        Warning: Could not retrieve WordPress core checksums; skipping checksum-based cleanup. Files listed in $_old_files were still cleaned up.
+        cwd: /tmp/wp-cli-test-run-core-update.feature.88-6b098848381ee9.14674896/
+        run time: 0.78860402107239
+        exit status: 0
+        
+        The command unexpectedly produced STDERR output. If you expect a non-zero exit status or STDERR output, use `When I try [...]`. Else, this may be a bug in your code or test. (RuntimeException)
+
+013 Scenario: Update to the latest minor release (PHP 7.2 compatible with WP >= 4.9) # vendor/wp-cli/core-command/features/core-update.feature:112
+      When I run `wp core download --version=6.2.5 --force`                          # vendor/wp-cli/core-command/features/core-update.feature:119
+        $ wp core download --version=6.2.5 --force
+        Downloading WordPress 6.2.5 (en_US)...
+        Using cached file '/tmp/wp-cli-home/.wp-cli/cache/core/wordpress-6.2.5-en_US.zip'...
+        Cleaning up files...
+        No old files were removed.
+        Success: WordPress downloaded.
+        
+        Warning: Could not retrieve WordPress core checksums; skipping checksum-based cleanup. Files listed in $_old_files were still cleaned up.
+        cwd: /tmp/wp-cli-test-run-core-update.feature.112-6b09884a824035.57784614/
+        run time: 0.77770805358887
+        exit status: 0
+        
+        The command unexpectedly produced STDERR output. If you expect a non-zero exit status or STDERR output, use `When I try [...]`. Else, this may be a bug in your code or test. (RuntimeException)
+
+014 Scenario: Core update from cache                      # vendor/wp-cli/core-command/features/core-update.feature:151
+      When I run `wp core update --version=6.2.5 --force` # vendor/wp-cli/core-command/features/core-update.feature:159
+        $ wp core update --version=6.2.5 --force
+        Updating to version 6.2.5 (en_US)...
+        Downloading update from https://wordpress.org/wordpress-6.2.5.zip...
+        Unpacking the update...
+        Cleaning up files...
+        No old files were removed.
+        Success: WordPress updated successfully.
+        
+        Warning: Could not retrieve WordPress core checksums; skipping checksum-based cleanup. Files listed in $_old_files were still cleaned up.
+        cwd: /tmp/wp-cli-test-run-core-update.feature.151-6b09884cc9ad12.50340433/
+        run time: 4.5948460102081
+        exit status: 0
+        
+        The command unexpectedly produced STDERR output. If you expect a non-zero exit status or STDERR output, use `When I try [...]`. Else, this may be a bug in your code or test. (RuntimeException)
+
+015 Scenario: Don't run update when up-to-date # vendor/wp-cli/core-command/features/core-update.feature:183
+      And I run `wp core update`               # vendor/wp-cli/core-command/features/core-update.feature:185
+        $ wp core update
+        Updating to version 7.3-alpha-65805 (en_US)...
+        Downloading update from https://wordpress.org/nightly-builds/wordpress-latest.zip...
+        Unpacking the update...
+        Cleaning up files...
+        No old files were removed.
+        Success: WordPress updated successfully.
+        
+        Warning: Could not retrieve WordPress core checksums; skipping checksum-based cleanup. Files listed in $_old_files were still cleaned up.
+        cwd: /tmp/wp-cli-test-run-core-update.feature.183-6b098852e60363.15691725/
+        run time: 5.7671520709991
+        exit status: 0
+        
+        The command unexpectedly produced STDERR output. If you expect a non-zero exit status or STDERR output, use `When I try [...]`. Else, this may be a bug in your code or test. (RuntimeException)
+
+016 Scenario: Ensure cached partial upgrades aren't used in full upgrade # vendor/wp-cli/core-command/features/core-update.feature:203
+      When I run `wp core download --version=6.5.2 --force`              # vendor/wp-cli/core-command/features/core-update.feature:245
+        $ wp core download --version=6.5.2 --force
+        Downloading WordPress 6.5.2 (en_US)...
+        md5 hash verified: b511bdde9b5be94626fb56f7272c2ce1
+        Cleaning up files...
+        File removed: wp-admin/images/about-header-privacy.svg
+        File removed: wp-admin/images/about-header-credits.svg
+        File removed: wp-admin/images/about-header-freedoms.svg
+        3 files cleaned up.
+        Success: WordPress downloaded.
+        
+        Warning: Could not retrieve WordPress core checksums; skipping checksum-based cleanup. Files listed in $_old_files were still cleaned up.
+        cwd: /tmp/wp-cli-test-run-core-update.feature.203-6b09885928f564.04321977/
+        run time: 2.7293920516968
+        exit status: 0
+        
+        The command unexpectedly produced STDERR output. If you expect a non-zero exit status or STDERR output, use `When I try [...]`. Else, this may be a bug in your code or test. (RuntimeException)
+
+017 Scenario: Make sure files are cleaned up with mixed case # vendor/wp-cli/core-command/features/core-update.feature:321
+      When I run `wp core update --version=5.8 --force`      # vendor/wp-cli/core-command/features/core-update.feature:328
+        $ wp core update --version=5.8 --force
+        Updating to version 5.8 (en_US)...
+        Using cached file '/tmp/wp-cli-home/.wp-cli/cache/core/wordpress-5.8-en_US.zip'...
+        Unpacking the update...
+        Cleaning up files...
+        No old files were removed.
+        Success: WordPress updated successfully.
+        
+        Warning: Could not retrieve WordPress core checksums; skipping checksum-based cleanup. Files listed in $_old_files were still cleaned up.
+        cwd: /tmp/wp-cli-test-run-core-update.feature.321-6b09885d635554.50146264/
+        run time: 2.8605468273163
+        exit status: 0
+        
+        The command unexpectedly produced STDERR output. If you expect a non-zero exit status or STDERR output, use `When I try [...]`. Else, this may be a bug in your code or test. (RuntimeException)
+
+018 Example: | trunk   |                          # vendor/wp-cli/core-command/features/core-update.feature:382
+      When I run `wp core update --version=trunk` # vendor/wp-cli/core-command/features/core-update.feature:369
+        $ wp core update --version=trunk
+        Updating to version nightly (en_US)...
+        Downloading update from https://wordpress.org/nightly-builds/wordpress-latest.zip...
+        Unpacking the update...
+        Cleaning up files...
+        No old files were removed.
+        Success: WordPress updated successfully.
+        
+        Warning: Could not retrieve WordPress core checksums; skipping checksum-based cleanup. Files listed in $_old_files were still cleaned up.
+        cwd: /tmp/wp-cli-test-run-core-update.feature.382-6b098861bca067.17389181/
+        run time: 5.5133140087128
+        exit status: 0
+        
+        The command unexpectedly produced STDERR output. If you expect a non-zero exit status or STDERR output, use `When I try [...]`. Else, this may be a bug in your code or test. (RuntimeException)
+
+019 Example: | nightly |                            # vendor/wp-cli/core-command/features/core-update.feature:383
+      When I run `wp core update --version=nightly` # vendor/wp-cli/core-command/features/core-update.feature:369
+        $ wp core update --version=nightly
+        Updating to version nightly (en_US)...
+        Downloading update from https://wordpress.org/nightly-builds/wordpress-latest.zip...
+        Unpacking the update...
+        Cleaning up files...
+        No old files were removed.
+        Success: WordPress updated successfully.
+        
+        Warning: Could not retrieve WordPress core checksums; skipping checksum-based cleanup. Files listed in $_old_files were still cleaned up.
+        cwd: /tmp/wp-cli-test-run-core-update.feature.383-6b098867b652c4.47944013/
+        run time: 5.5155310630798
+        exit status: 0
+        
+        The command unexpectedly produced STDERR output. If you expect a non-zero exit status or STDERR output, use `When I try [...]`. Else, this may be a bug in your code or test. (RuntimeException)
+
+020 Scenario: Allow installing major version with trailing zero # vendor/wp-cli/core-command/features/core-update.feature:411
+      When I run `wp core update --version=6.2.0 --force`       # vendor/wp-cli/core-command/features/core-update.feature:414
+        $ wp core update --version=6.2.0 --force
+        Updating to version 6.2.0 (en_US)...
+        Using cached file '/tmp/wp-cli-home/.wp-cli/cache/core/wordpress-6.2-en_US.zip'...
+        Unpacking the update...
+        Cleaning up files...
+        No old files were removed.
+        Success: WordPress updated successfully.
+        
+        Warning: Could not retrieve WordPress core checksums; skipping checksum-based cleanup. Files listed in $_old_files were still cleaned up.
+        cwd: /tmp/wp-cli-test-run-core-update.feature.411-6b09886daf3c93.69105106/
+        run time: 2.9834198951721
+        exit status: 0
+        
+        The command unexpectedly produced STDERR output. If you expect a non-zero exit status or STDERR output, use `When I try [...]`. Else, this may be a bug in your code or test. (RuntimeException)
+
+021 Scenario: Old files from $_old_files are cleaned up when upgrading # vendor/wp-cli/core-command/features/core-update.feature:456
+      When I run `wp core download --version=6.8 --force`              # vendor/wp-cli/core-command/features/core-update.feature:459
+        $ wp core download --version=6.8 --force
+        Downloading WordPress 6.8 (en_US)...
+        Using cached file '/tmp/wp-cli-home/.wp-cli/cache/core/wordpress-6.8-en_US.zip'...
+        Cleaning up files...
+        File removed: wp-admin/images/about-header-privacy.svg
+        File removed: wp-admin/images/about-header-credits.svg
+        File removed: wp-admin/images/about-header-freedoms.svg
+        File removed: wp-includes/js/dist/undo-manager.js
+        File removed: wp-includes/js/dist/undo-manager.min.js
+        5 files cleaned up.
+        Success: WordPress downloaded.
+        
+        Warning: Could not retrieve WordPress core checksums; skipping checksum-based cleanup. Files listed in $_old_files were still cleaned up.
+        cwd: /tmp/wp-cli-test-run-core-update.feature.456-6b098871277ee5.64137527/
+        run time: 0.80785703659058
+        exit status: 0
+        
+        The command unexpectedly produced STDERR output. If you expect a non-zero exit status or STDERR output, use `When I try [...]`. Else, this may be a bug in your code or test. (RuntimeException)
+
+022 Scenario: Old files cleanup works when checksums unavailable # vendor/wp-cli/core-command/features/core-update.feature:498
+      When I run `wp core download --version=6.8 --force`        # vendor/wp-cli/core-command/features/core-update.feature:501
+        $ wp core download --version=6.8 --force
+        Downloading WordPress 6.8 (en_US)...
+        Using cached file '/tmp/wp-cli-home/.wp-cli/cache/core/wordpress-6.8-en_US.zip'...
+        Cleaning up files...
+        File removed: wp-admin/images/about-header-privacy.svg
+        File removed: wp-admin/images/about-header-credits.svg
+        File removed: wp-admin/images/about-header-freedoms.svg
+        File removed: wp-includes/js/dist/undo-manager.js
+        File removed: wp-includes/js/dist/undo-manager.min.js
+        5 files cleaned up.
+        Success: WordPress downloaded.
+        
+        Warning: Could not retrieve WordPress core checksums; skipping checksum-based cleanup. Files listed in $_old_files were still cleaned up.
+        cwd: /tmp/wp-cli-test-run-core-update.feature.498-6b09887268ca24.44850482/
+        run time: 0.8130509853363
+        exit status: 0
+        
+        The command unexpectedly produced STDERR output. If you expect a non-zero exit status or STDERR output, use `When I try [...]`. Else, this may be a bug in your code or test. (RuntimeException)
+
+023 Scenario: Attempting to downgrade without --force shows helpful message # vendor/wp-cli/core-command/features/core-update.feature:606
+      When I run `wp core update --version=6.0 --force`                     # vendor/wp-cli/core-command/features/core-update.feature:631
+        $ wp core update --version=6.0 --force
+        Updating to version 6.0 (en_US)...
+        Using cached file '/tmp/wp-cli-home/.wp-cli/cache/core/wordpress-6.0-en_US.zip'...
+        Unpacking the update...
+        Cleaning up files...
+        No old files were removed.
+        Success: WordPress updated successfully.
+        
+        Warning: Could not retrieve WordPress core checksums; skipping checksum-based cleanup. Files listed in $_old_files were still cleaned up.
+        cwd: /tmp/wp-cli-test-run-core-update.feature.606-6b098873abecd9.85708276/
+        run time: 2.949334859848
+        exit status: 0
+        
+        The command unexpectedly produced STDERR output. If you expect a non-zero exit status or STDERR output, use `When I try [...]`. Else, this may be a bug in your code or test. (RuntimeException)
+
+024 Scenario: Verify core version                          # vendor/wp-cli/core-command/features/core-version.feature:3
+      And I run `wp core download --version=4.4.2 --force` # vendor/wp-cli/core-command/features/core-version.feature:5
+        $ wp core download --version=4.4.2 --force
+        Downloading WordPress 4.4.2 (en_US)...
+        Using cached file '/tmp/wp-cli-home/.wp-cli/cache/core/wordpress-4.4.2-en_US.zip'...
+        Cleaning up files...
+        File removed: wp-includes/js/tinymce/wp-tinymce.js
+        File removed: wp-admin/options-privacy.php
+        File removed: wp-admin/css/media-rtl.min.css
+        File removed: wp-admin/css/media.min.css
+        File removed: wp-admin/css/farbtastic-rtl.min.css
+        File removed: wp-includes/js/plupload/plupload.js
+        6 files cleaned up.
+        Success: WordPress downloaded.
+        
+        Warning: Could not retrieve WordPress core checksums; skipping checksum-based cleanup. Files listed in $_old_files were still cleaned up.
+        cwd: /tmp/wp-cli-test-run-core-version.feature.3-6b0988776d2f02.00105522/
+        run time: 0.50130796432495
+        exit status: 0
+        
+        The command unexpectedly produced STDERR output. If you expect a non-zero exit status or STDERR output, use `When I try [...]`. Else, this may be a bug in your code or test. (RuntimeException)
+
+025 Scenario: Custom wp-content directory # vendor/wp-cli/core-command/features/core.feature:274
+      When I run `wp plugin get akismet`  # vendor/wp-cli/core-command/features/core.feature:278
+        $ wp plugin get akismet
+        
+        Error: The 'akismet' plugin could not be found.
+        cwd: /tmp/wp-cli-test-run-core.feature.274-6b09887863f2a0.53866119/
+        run time: 1.0425188541412
+        exit status: 1
+        
+        The command unexpectedly exited with status 1. If you expect a non-zero exit status, use `When I try [...]`. Else, this may be a bug in your code or test. (RuntimeException)
+
+25 scenarios (25 failed)
+310 steps (60 passed, 25 failed, 225 skipped)
+1m16.32s (14.39Mb)
+Script run-test-suite handling the test event returned with error code 1
+Packages with failed tests: :wp-cli/core-command
+##[error]Process completed with exit code 1.
+
+################ Step: Compare the results against the baseline ################
+##[group]Run python3 -I - "${BUILD_REPORTS}" "${BASELINE_REPORTS}" <<'PY'
+python3 -I - "${BUILD_REPORTS}" "${BASELINE_REPORTS}" <<'PY'
+import glob, os, sys
+import xml.etree.ElementTree as ET
+
+FAILED = ('failed', 'undefined')
+
+def load(path, into):
+    root = ET.parse(path).getroot()
+    for case in root.iter('testcase'):
+        key = case.get('file') + ':' + case.get('line')
+        failed = case.get('status') in FAILED or case.find('failure') is not None
+        into[(key, case.get('name') or '')] = {'suite': root.get('name'), 'name': case.get('name'), 'key': key, 'failed': failed}
+
+def read_run(directory):
+    scenarios, flaky, rerun = {}, set(), {}
+    for path in sorted(glob.glob(os.path.join(directory, '*.xml'))):
+        load(path, scenarios)
+    for path in sorted(glob.glob(os.path.join(directory, 'rerun', '*.xml'))):
+        load(path, rerun)
+    # The rerun has the final say: failing and then passing is flaky, not failing.
+    for key, scenario in rerun.items():
+        if key in scenarios and scenarios[key]['failed'] and not scenario['failed']:
+            flaky.add(key)
+        scenarios[key] = scenario
+    return scenarios, flaky
+
+def failing(scenarios):
+    return {key for key, scenario in scenarios.items() if scenario['failed']}
+
+candidate, flaky = read_run(sys.argv[1])
+baseline, _ = read_run(sys.argv[2])
+
+if not candidate:
+    print('::error::The run against the build being tested produced no results.')
+    sys.exit(1)
+
+broken = sorted(failing(candidate) - failing(baseline))
+known = sorted(failing(candidate) & failing(baseline))
+
+lines = []
+if broken:
+    lines += ['### %d scenario(s) fail only with this build' % len(broken), '', '| Scenario | Location |', '| --- | --- |']
+    lines += ['| %s | `%s` |' % (candidate[key]['name'], candidate[key]['key']) for key in broken]
+    for key in broken:
+        print('::error title=Fails only with this build::%s (%s)' % (candidate[key]['name'], candidate[key]['key']))
+else:
+    lines.append('### No new failures')
+if known:
+    lines += ['', '%d scenario(s) also fail against the baseline build, so this build did not cause them:' % len(known), '']
+    lines += ['- %s (`%s`)' % (candidate[key]['name'], candidate[key]['key']) for key in known]
+if flaky:
+    lines += ['', '%d scenario(s) failed and then passed on the rerun, and were treated as flaky.' % len(flaky)]
+
+summary = '\n'.join(lines) + '\n'
+print(summary)
+if os.environ.get('GITHUB_STEP_SUMMARY'):
+    with open(os.environ['GITHUB_STEP_SUMMARY'], 'a') as handle:
+        handle.write(summary)
+
+sys.exit(1 if broken else 0)
+PY
+shell: /usr/bin/bash -e {0}
+env:
+  DEFAULT_PACKAGES: wp-cli-bundle,ability-command,ai-command,config-command,core-command,cron-command,db-command,entity-command,export-command,extension-command,import-command,media-command,rewrite-command,role-command,search-replace-command,site-health-command
+  DEFAULT_PHP_VERSION: 8.5
+  WP_CLI_TEST_DBROOTUSER: root
+  WP_CLI_TEST_DBROOTPASS: root
+  WP_CLI_TEST_DBNAME: wp_cli_test
+  WP_CLI_TEST_DBUSER: wp_cli_test
+  WP_CLI_TEST_DBPASS: password1
+  WP_CLI_TEST_DBHOST: 127.0.0.1:3306
+  COMPOSER_PROCESS_TIMEOUT: 0
+  COMPOSER_NO_INTERACTION: 1
+  COMPOSER_NO_AUDIT: 1
+  BUILD_REPORTS: /home/runner/work/_temp/junit/build
+  BASELINE_REPORTS: /home/runner/work/_temp/junit/baseline
+##[endgroup]
+### No new failures
+
+25 scenario(s) also fail against the baseline build, so this build did not cause them:
+
+- Check if database update is needed on a single site (`vendor/wp-cli/core-command/features/core-check-update-db.feature:38`)
+- Check if database update is needed across network (`vendor/wp-cli/core-command/features/core-check-update-db.feature:99`)
+- Check for update via Version Check API (`vendor/wp-cli/core-command/features/core-check-update.feature:38`)
+- Update db across network (`vendor/wp-cli/core-command/features/core-update-db.feature:113`)
+- Update db across network, dry run (`vendor/wp-cli/core-command/features/core-update-db.feature:173`)
+- Update db only updates sites from the current network in multinetwork setup (`vendor/wp-cli/core-command/features/core-update-db.feature:229`)
+- Update db on a single site (`vendor/wp-cli/core-command/features/core-update-db.feature:31`)
+- Dry run update db on a single site (`vendor/wp-cli/core-command/features/core-update-db.feature:65`)
+- Output in table format (`vendor/wp-cli/core-command/features/core-update.feature:106`)
+- Update to the latest minor release (PHP 7.2 compatible with WP >= 4.9) (`vendor/wp-cli/core-command/features/core-update.feature:144`)
+- Core update from cache (`vendor/wp-cli/core-command/features/core-update.feature:177`)
+- Don't run update when up-to-date (`vendor/wp-cli/core-command/features/core-update.feature:198`)
+- Ensure cached partial upgrades aren't used in full upgrade (`vendor/wp-cli/core-command/features/core-update.feature:271`)
+- Update from a ZIP file (`vendor/wp-cli/core-command/features/core-update.feature:33`)
+- Make sure files are cleaned up with mixed case (`vendor/wp-cli/core-command/features/core-update.feature:363`)
+- Use `--version=(nightly|trunk)` to update to the latest nightly version #1 (`vendor/wp-cli/core-command/features/core-update.feature:375`)
+- Use `--version=(nightly|trunk)` to update to the latest nightly version #2 (`vendor/wp-cli/core-command/features/core-update.feature:375`)
+- Allow installing major version with trailing zero (`vendor/wp-cli/core-command/features/core-update.feature:415`)
+- Old files from $_old_files are cleaned up when upgrading (`vendor/wp-cli/core-command/features/core-update.feature:495`)
+- Old files cleanup works when checksums unavailable (`vendor/wp-cli/core-command/features/core-update.feature:538`)
+- Output in JSON format (`vendor/wp-cli/core-command/features/core-update.feature:57`)
+- Attempting to downgrade without --force shows helpful message (`vendor/wp-cli/core-command/features/core-update.feature:636`)
+- Output in CSV format (`vendor/wp-cli/core-command/features/core-update.feature:81`)
+- Verify core version (`vendor/wp-cli/core-command/features/core-version.feature:14`)
+- Custom wp-content directory (`vendor/wp-cli/core-command/features/core.feature:279`)
+
